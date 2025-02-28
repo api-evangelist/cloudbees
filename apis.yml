@@ -41,3 +41,13 @@ maintainers:
   - FN: Kin Lane
     email: info@apievangelist.com
 specificationVersion: '0.19'
+common:
+  - name: CloudBees Support
+    description: 'null'
+    url: >-
+      https://support.cloudbees.com/hc/en-us?_gl=1*1odovk2*_gcl_au*MTA2MzY4MTM2Ny4xNzQwNzA2NzM3
+    type: Support
+  - name: CloudBees Docs
+    description: 'null'
+    url: https://docs.cloudbees.com/plugins/ci
+    type: Plugins

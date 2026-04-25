@@ -1,0 +1,129 @@
+extends:
+  - spectral:oas
+
+# Spectral linting rules tuned for the CloudBees API surface.
+# Validates conventions across CloudBees CI (Jenkins-derived), CloudBees
+# CD/RO, and CloudBees Feature Management (Rollout) — JSON responses,
+# token-based auth, and resource-oriented paths.
+rules:
+  cloudbees-info-contact:
+    description: API contact information must be present.
+    severity: error
+    given: "$.info"
+    then:
+      field: contact
+      function: truthy
+
+  cloudbees-info-license:
+    description: API license must be declared.
+    severity: warn
+    given: "$.info"
+    then:
+      field: license
+      function: truthy
+
+  cloudbees-server-https:
+    description: All server URLs must use HTTPS.
+    severity: error
+    given: "$.servers[*].url"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^https://"
+
+  cloudbees-feature-mgmt-base:
+    description: CloudBees Feature Management server URLs must point at x-api.rollout.io.
+    severity: warn
+    given: "$.servers[?(@.url && @.url.indexOf('rollout.io') > -1)].url"
+    then:
+      function: pattern
+      functionOptions:
+        match: "/public-api(/|$)"
+
+  cloudbees-cd-versioned:
+    description: CloudBees CD/RO server URLs must include /rest/v1.0.
+    severity: warn
+    given: "$.servers[?(@.url && @.url.indexOf('cloudbees') > -1 && @.url.indexOf('cd') > -1)].url"
+    then:
+      function: pattern
+      functionOptions:
+        match: "/rest/v1\\.0(/|$)"
+
+  cloudbees-bearer-or-basic:
+    description: A bearer or basic security scheme must be declared.
+    severity: error
+    given: "$.components.securitySchemes"
+    then:
+      function: truthy
+
+  cloudbees-operation-tags:
+    description: Every operation must declare at least one tag.
+    severity: warn
+    given: "$.paths[*][get,post,put,patch,delete]"
+    then:
+      field: tags
+      function: schema
+      functionOptions:
+        schema:
+          type: array
+          minItems: 1
+
+  cloudbees-operation-summary:
+    description: Every operation must include a short summary.
+    severity: warn
+    given: "$.paths[*][get,post,put,patch,delete]"
+    then:
+      field: summary
+      function: truthy
+
+  cloudbees-operation-id:
+    description: Every operation must declare a unique operationId.
+    severity: error
+    given: "$.paths[*][get,post,put,patch,delete]"
+    then:
+      field: operationId
+      function: truthy
+
+  cloudbees-error-responses:
+    description: Mutating operations should declare 4xx error responses.
+    severity: warn
+    given: "$.paths[*][post,put,patch,delete].responses"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          anyOf:
+            - required: ["400"]
+            - required: ["401"]
+            - required: ["403"]
+            - required: ["404"]
+            - required: ["422"]
+
+  cloudbees-rate-limit-555:
+    description: Feature Management endpoints should document the 555 rate-limit response.
+    severity: info
+    given: "$.paths[?(@property.match(/applications|environments|flags|experiments/))][*].responses"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          anyOf:
+            - required: ["555"]
+            - required: ["429"]
+
+  cloudbees-pagination:
+    description: List endpoints should support page/limit pagination params.
+    severity: info
+    given: "$.paths[?(@property.match(/applications$|environments$|flags$|experiments$|audit$/))].get.parameters[*].name"
+    then:
+      function: enumeration
+      functionOptions:
+        values:
+          - page
+          - limit
+          - offset
+          - per_page
+          - cursor
+          - sort

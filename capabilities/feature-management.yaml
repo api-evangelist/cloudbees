@@ -1,0 +1,186 @@
+# Naftiko capabilities profile for CloudBees Feature Management.
+# Maps verbs against the CloudBees Feature Management REST API
+# (formerly Rollout) for applications, environments, feature flags,
+# target groups, experiments, audit log, and users.
+provider: cloudbees
+name: CloudBees Feature Management
+description: >-
+  Capabilities cover managing applications and environments, defining and
+  toggling feature flags, configuring target groups and experiments, and
+  reading audit history. Authentication is via bearer token; the API
+  enforces one request per second per IP.
+capabilities:
+  - id: cloudbees.fm.applications.list
+    name: List applications
+    description: Return all applications visible to the calling token.
+    api: cloudbees:feature-management
+    outputs:
+      - items
+
+  - id: cloudbees.fm.environments.list
+    name: List environments
+    description: Return all environments under a specific application.
+    api: cloudbees:feature-management
+    inputs:
+      - application_id
+    outputs:
+      - items
+
+  - id: cloudbees.fm.environments.create
+    name: Create environment
+    description: Add a new environment to an application, optionally returning the SDK key.
+    api: cloudbees:feature-management
+    inputs:
+      - application_id
+      - name
+      - description
+    outputs:
+      - environment_key
+      - status
+
+  - id: cloudbees.fm.environments.update
+    name: Update environment
+    description: Modify an existing environment's properties.
+    api: cloudbees:feature-management
+    inputs:
+      - application_id
+      - environment_key
+      - name
+      - description
+    outputs:
+      - status
+
+  - id: cloudbees.fm.environments.delete
+    name: Delete environment
+    description: Remove an environment from an application.
+    api: cloudbees:feature-management
+    inputs:
+      - application_id
+      - environment_key
+    outputs:
+      - status
+
+  - id: cloudbees.fm.flags.list
+    name: List feature flags
+    description: Return all feature flags under an application.
+    api: cloudbees:feature-management
+    inputs:
+      - application_id
+      - environment_key
+    outputs:
+      - items
+
+  - id: cloudbees.fm.flags.create
+    name: Create feature flag
+    description: Define a new feature flag with type and default value.
+    api: cloudbees:feature-management
+    inputs:
+      - application_id
+      - name
+      - type
+      - default_value
+      - is_permanent
+    outputs:
+      - id
+      - status
+
+  - id: cloudbees.fm.flags.update
+    name: Update feature flag value
+    description: Update a flag's value for a given environment.
+    api: cloudbees:feature-management
+    inputs:
+      - application_id
+      - environment_key
+      - flag_id
+      - value
+      - target_groups
+    outputs:
+      - status
+
+  - id: cloudbees.fm.target-groups.list
+    name: List target groups
+    description: Return target groups for an application.
+    api: cloudbees:feature-management
+    inputs:
+      - application_id
+    outputs:
+      - items
+
+  - id: cloudbees.fm.experiments.list
+    name: List experiments
+    description: Return active experiments for an application.
+    api: cloudbees:feature-management
+    inputs:
+      - application_id
+    outputs:
+      - items
+
+  - id: cloudbees.fm.audit.list
+    name: List audit events
+    description: Return audit log entries for an application.
+    api: cloudbees:feature-management
+    inputs:
+      - application_id
+      - from_date
+      - to_date
+    outputs:
+      - items
+
+  - id: cloudbees.ci.builds.trigger
+    name: Trigger Jenkins build (CloudBees CI)
+    description: Trigger a job on a CloudBees CI controller via the Jenkins remote API.
+    api: cloudbees:ci
+    inputs:
+      - controller_url
+      - job_name
+      - parameters
+      - token
+    outputs:
+      - queue_id
+
+  - id: cloudbees.ci.builds.status
+    name: Get Jenkins build status
+    description: Retrieve build status, duration and console URL.
+    api: cloudbees:ci
+    inputs:
+      - controller_url
+      - job_name
+      - build_number
+    outputs:
+      - result
+      - duration
+      - url
+
+  - id: cloudbees.cd.pipelines.run
+    name: Run CD/RO pipeline
+    description: Launch a CloudBees CD/RO pipeline run for a project.
+    api: cloudbees:cd-ro
+    inputs:
+      - project_name
+      - pipeline_name
+      - parameters
+    outputs:
+      - flow_runtime_id
+      - status
+
+  - id: cloudbees.cd.releases.run
+    name: Run CD/RO release
+    description: Start a release in CloudBees CD/RO.
+    api: cloudbees:cd-ro
+    inputs:
+      - project_name
+      - release_name
+    outputs:
+      - flow_runtime_id
+      - status
+
+  - id: cloudbees.cd.deployments.status
+    name: Get deployment status
+    description: Retrieve deployment progress for an application instance.
+    api: cloudbees:cd-ro
+    inputs:
+      - project_name
+      - deployment_id
+    outputs:
+      - status
+      - environment

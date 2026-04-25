@@ -1,0 +1,166 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "cloudbees": "https://api.cloudbees.com/ns/",
+    "rollout": "https://x-api.rollout.io/public-api/",
+    "jenkins": "https://www.jenkins.io/doc/book/using/remote-access-api/",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+
+    "Application": {
+      "@id": "rollout:Application",
+      "@context": {
+        "id": "rollout:id",
+        "name": "schema:name",
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Environment": {
+      "@id": "rollout:Environment",
+      "@context": {
+        "name": "schema:name",
+        "key": "rollout:environment_key",
+        "description": "schema:description"
+      }
+    },
+
+    "FeatureFlag": {
+      "@id": "rollout:FeatureFlag",
+      "@context": {
+        "id": "rollout:id",
+        "name": "schema:name",
+        "type": "rollout:flag_type",
+        "defaultValue": "rollout:default_value",
+        "isPermanent": "rollout:is_permanent",
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "TargetGroup": {
+      "@id": "rollout:TargetGroup",
+      "@context": {
+        "id": "rollout:id",
+        "name": "schema:name",
+        "conditions": {
+          "@id": "rollout:conditions",
+          "@container": "@list"
+        }
+      }
+    },
+
+    "Experiment": {
+      "@id": "rollout:Experiment",
+      "@context": {
+        "id": "rollout:id",
+        "name": "schema:name",
+        "flagId": "rollout:flag_id",
+        "audience": "rollout:audience",
+        "variants": {
+          "@id": "rollout:variants",
+          "@container": "@list"
+        }
+      }
+    },
+
+    "AuditEvent": {
+      "@id": "rollout:AuditEvent",
+      "@context": {
+        "id": "rollout:id",
+        "actor": "schema:agent",
+        "action": "schema:action",
+        "subject": "rollout:subject",
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Pipeline": {
+      "@id": "cloudbees:Pipeline",
+      "@context": {
+        "id": "cloudbees:id",
+        "name": "schema:name",
+        "projectName": "cloudbees:project_name",
+        "stages": {
+          "@id": "cloudbees:stages",
+          "@container": "@list"
+        }
+      }
+    },
+
+    "Release": {
+      "@id": "cloudbees:Release",
+      "@context": {
+        "id": "cloudbees:id",
+        "name": "schema:name",
+        "projectName": "cloudbees:project_name",
+        "status": "cloudbees:status",
+        "plannedStartDate": {
+          "@id": "schema:scheduledTime",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Deployment": {
+      "@id": "cloudbees:Deployment",
+      "@context": {
+        "id": "cloudbees:id",
+        "applicationName": "cloudbees:application_name",
+        "environmentName": "cloudbees:environment_name",
+        "status": "cloudbees:status",
+        "startedAt": {
+          "@id": "schema:startTime",
+          "@type": "xsd:dateTime"
+        },
+        "endedAt": {
+          "@id": "schema:endTime",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Build": {
+      "@id": "jenkins:Build",
+      "@context": {
+        "number": "jenkins:number",
+        "url": {
+          "@id": "schema:url",
+          "@type": "@id"
+        },
+        "result": "jenkins:result",
+        "duration": "jenkins:duration",
+        "timestamp": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "actions": {
+          "@id": "jenkins:actions",
+          "@container": "@set"
+        }
+      }
+    },
+
+    "Job": {
+      "@id": "jenkins:Job",
+      "@context": {
+        "name": "schema:name",
+        "url": {
+          "@id": "schema:url",
+          "@type": "@id"
+        },
+        "color": "jenkins:color",
+        "lastBuild": "jenkins:last_build"
+      }
+    }
+  }
+}

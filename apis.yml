@@ -150,6 +150,11 @@ common:
     url: rules/cloudbees-rules.yml
   - type: Naftiko Capabilities
     url: capabilities/feature-management.yaml
+  - type: Integrations
+    url: https://www.cloudbees.com/partners
+integrations:
+  - name: View all regional partners
+  - name: View all technology partners
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

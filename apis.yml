@@ -8,7 +8,7 @@ access: 3rd-Party
 position: Consumer
 specificationVersion: '0.19'
 image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-x-type: company
+kind: company
 tags:
   - CI/CD
   - Continuous Delivery
@@ -43,7 +43,7 @@ apis:
       - url: https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
         type: Documentation
       - url: https://docs.cloudbees.com/docs/release-notes/latest/cloudbees-ci/
-        type: Release Notes
+        type: ReleaseNotes
     description: >-
       CloudBees CI is a hardened, enterprise distribution of Jenkins. The
       REST API is the Jenkins remote access API exposed at /api on every
@@ -140,11 +140,11 @@ common:
     url: https://docs.cloudbees.com/
   - type: Support
     url: https://support.cloudbees.com/
-  - type: Privacy Policy
+  - type: PrivacyPolicy
     url: https://www.cloudbees.com/privacy
   - type: Plugins
     url: https://docs.cloudbees.com/plugins/ci
-  - type: JSON-LD
+  - type: JSONLD
     url: json-ld/cloudbees-context.jsonld
   - type: Spectral
     url: rules/cloudbees-rules.yml

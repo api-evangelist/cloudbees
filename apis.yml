@@ -134,6 +134,10 @@ apis:
       running releases, deploying applications, and pulling artifacts from
       Jenkins build outputs into CD/RO release flows.
 common:
+  - type: GitHubOrganization
+    url: https://github.com/cloudbees
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/cloudbees
   - type: Website
     url: https://www.cloudbees.com/
   - type: Documentation

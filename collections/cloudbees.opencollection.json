@@ -1,0 +1,346 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CloudBees CI REST API (Jenkins-compatible)",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Get controller (top-level) metadata",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://example.cloudbees.com/api/json",
+        "params": [
+          {
+            "name": "tree",
+            "value": "",
+            "type": "query",
+            "description": "Tree filter for selecting and trimming response fields.\nExample: `jobs[name,url,color]`.\n"
+          },
+          {
+            "name": "depth",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "pretty",
+            "value": "",
+            "type": "query"
+          }
+        ]
+      },
+      "docs": "Get controller (top-level) metadata"
+    },
+    {
+      "info": {
+        "name": "Get controller metadata as XML",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://example.cloudbees.com/api/xml",
+        "params": [
+          {
+            "name": "xpath",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "tree",
+            "value": "",
+            "type": "query",
+            "description": "Tree filter for selecting and trimming response fields.\nExample: `jobs[name,url,color]`.\n"
+          },
+          {
+            "name": "depth",
+            "value": "",
+            "type": "query"
+          }
+        ]
+      },
+      "docs": "Get controller metadata as XML"
+    },
+    {
+      "info": {
+        "name": "Get controller metadata as Python literal",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://example.cloudbees.com/api/python",
+        "params": [
+          {
+            "name": "tree",
+            "value": "",
+            "type": "query",
+            "description": "Tree filter for selecting and trimming response fields.\nExample: `jobs[name,url,color]`.\n"
+          },
+          {
+            "name": "depth",
+            "value": "",
+            "type": "query"
+          }
+        ]
+      },
+      "docs": "Get controller metadata as Python literal"
+    },
+    {
+      "info": {
+        "name": "Get job metadata",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://example.cloudbees.com/job/:name/api/json",
+        "params": [
+          {
+            "name": "name",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "tree",
+            "value": "",
+            "type": "query",
+            "description": "Tree filter for selecting and trimming response fields.\nExample: `jobs[name,url,color]`.\n"
+          },
+          {
+            "name": "depth",
+            "value": "",
+            "type": "query"
+          }
+        ]
+      },
+      "docs": "Get job metadata"
+    },
+    {
+      "info": {
+        "name": "Trigger a build (no parameters)",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://example.cloudbees.com/job/:name/build",
+        "params": [
+          {
+            "name": "name",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "token",
+            "value": "",
+            "type": "query"
+          }
+        ]
+      },
+      "docs": "Trigger a build (no parameters)"
+    },
+    {
+      "info": {
+        "name": "Trigger a parameterized build",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://example.cloudbees.com/job/:name/buildWithParameters",
+        "params": [
+          {
+            "name": "name",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "token",
+            "value": "",
+            "type": "query"
+          }
+        ],
+        "body": {
+          "type": "form-urlencoded",
+          "data": []
+        }
+      },
+      "docs": "Trigger a parameterized build"
+    },
+    {
+      "info": {
+        "name": "Get a specific build",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://example.cloudbees.com/job/:name/:number/api/json",
+        "params": [
+          {
+            "name": "name",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "number",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "tree",
+            "value": "",
+            "type": "query",
+            "description": "Tree filter for selecting and trimming response fields.\nExample: `jobs[name,url,color]`.\n"
+          }
+        ]
+      },
+      "docs": "Get a specific build"
+    },
+    {
+      "info": {
+        "name": "Get last successful build of a job",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://example.cloudbees.com/job/:name/lastSuccessfulBuild/api/json",
+        "params": [
+          {
+            "name": "name",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "tree",
+            "value": "",
+            "type": "query",
+            "description": "Tree filter for selecting and trimming response fields.\nExample: `jobs[name,url,color]`.\n"
+          }
+        ]
+      },
+      "docs": "Get last successful build of a job"
+    },
+    {
+      "info": {
+        "name": "Get build queue",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://example.cloudbees.com/queue/api/json",
+        "params": [
+          {
+            "name": "tree",
+            "value": "",
+            "type": "query",
+            "description": "Tree filter for selecting and trimming response fields.\nExample: `jobs[name,url,color]`.\n"
+          }
+        ]
+      },
+      "docs": "Get build queue"
+    },
+    {
+      "info": {
+        "name": "List nodes/agents",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://example.cloudbees.com/computer/api/json",
+        "params": [
+          {
+            "name": "tree",
+            "value": "",
+            "type": "query",
+            "description": "Tree filter for selecting and trimming response fields.\nExample: `jobs[name,url,color]`.\n"
+          },
+          {
+            "name": "depth",
+            "value": "",
+            "type": "query"
+          }
+        ]
+      },
+      "docs": "List nodes/agents"
+    },
+    {
+      "info": {
+        "name": "Create a new job (item)",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://example.cloudbees.com/createItem",
+        "params": [
+          {
+            "name": "name",
+            "value": "",
+            "type": "query"
+          }
+        ]
+      },
+      "docs": "Create a new job (item)"
+    },
+    {
+      "info": {
+        "name": "Get job configuration XML",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://example.cloudbees.com/job/:name/config.xml",
+        "params": [
+          {
+            "name": "name",
+            "value": "",
+            "type": "path"
+          }
+        ]
+      },
+      "docs": "Get job configuration XML"
+    },
+    {
+      "info": {
+        "name": "Update job configuration XML",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://example.cloudbees.com/job/:name/config.xml",
+        "params": [
+          {
+            "name": "name",
+            "value": "",
+            "type": "path"
+          }
+        ]
+      },
+      "docs": "Update job configuration XML"
+    },
+    {
+      "info": {
+        "name": "Delete job",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://example.cloudbees.com/job/:name/doDelete",
+        "params": [
+          {
+            "name": "name",
+            "value": "",
+            "type": "path"
+          }
+        ]
+      },
+      "docs": "Delete job"
+    }
+  ],
+  "bundled": true
+}

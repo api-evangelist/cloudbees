@@ -7,7 +7,7 @@ type: Index
 access: 3rd-Party
 position: Consumer
 specificationVersion: '0.19'
-image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 kind: company
 tags:
   - CI/CD
@@ -33,7 +33,7 @@ apis:
       - Continuous Integration
       - Jenkins
       - Pipelines
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     baseURL: https://example.cloudbees.com
     humanURL: https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
     properties:
@@ -53,7 +53,7 @@ apis:
       - DevOps
       - Pipelines
       - Release Orchestration
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     baseURL: https://example-cd.cloudbees.com/rest/v1.0
     humanURL: https://docs.cloudbees.com/docs/cloudbees-cd/latest/api/
     properties:
@@ -72,7 +72,7 @@ apis:
       - Experimentation
       - Feature Flags
       - Feature Management
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     baseURL: https://x-api.rollout.io/public-api
     humanURL: https://docs.cloudbees.com/docs/cloudbees-feature-management-rest-api/latest/introduction
     properties:
@@ -93,7 +93,7 @@ apis:
       - DevOps
       - Platform
       - Software Delivery
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://docs.cloudbees.com/
     properties:
       - url: https://docs.cloudbees.com/
@@ -109,7 +109,7 @@ apis:
       - Continuous Delivery
       - Jenkins
       - Plugin
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://www.jenkins.io/doc/pipeline/steps/electricflow/
     properties:
       - url: https://www.jenkins.io/doc/pipeline/steps/electricflow/

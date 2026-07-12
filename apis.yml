@@ -121,6 +121,14 @@ apis:
       triggering pipelines, running releases, deploying applications, and pulling artifacts from Jenkins build outputs
       into CD/RO release flows.
 common:
+  - type: TrustCenter
+    url: security/cloudbees-trust-center.yml
+  - type: VulnerabilityDisclosure
+    url: security/cloudbees-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/cloudbees-domain-security.yml
+  - type: Authentication
+    url: authentication/cloudbees-authentication.yml
   - type: GitHubOrganization
     url: https://github.com/cloudbees
   - type: LinkedIn
@@ -141,6 +149,8 @@ common:
     url: rules/cloudbees-rules.yml
   - type: Integrations
     url: https://www.cloudbees.com/partners
+  - url: https://www.cloudbees.com/blog/rss.xml
+    type: Blog
 integrations:
   - name: View all regional partners
   - name: View all technology partners

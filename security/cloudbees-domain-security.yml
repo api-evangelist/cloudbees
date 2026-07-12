@@ -1,0 +1,31 @@
+generated: '2026-07-11'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: www.cloudbees.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep 22 03:44:47 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: docs.cloudbees.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep 24 07:28:40 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: example.cloudbees.com
+  https: false
+domains:
+- domain: cloudbees.com
+  dnssec: false
+  caa:
+  - 0 issue "godaddy.com"
+  - 0 issue "letsencrypt.org"
+  - 0 issue "pki.goog"
+  - 0 issue "rapidssl.com"
+  - 0 issuewild "amazon.com"
+  - 0 issuewild "comodoca.com"
+  spf: true
+  dmarc: true
+  dmarc_policy: reject

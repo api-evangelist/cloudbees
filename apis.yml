@@ -121,6 +121,8 @@ apis:
       triggering pipelines, running releases, deploying applications, and pulling artifacts from Jenkins build outputs
       into CD/RO release flows.
 common:
+  - type: AgenticAccess
+    url: agentic-access/cloudbees-agentic-access.yml
   - type: TrustCenter
     url: security/cloudbees-trust-center.yml
   - type: VulnerabilityDisclosure

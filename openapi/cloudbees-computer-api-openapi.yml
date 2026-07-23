@@ -1,0 +1,73 @@
+openapi: 3.1.0
+info:
+  title: CloudBees CI REST API (Jenkins-compatible) Computer API
+  description: 'CloudBees CI exposes the Jenkins remote-access REST API for inspecting and
+
+    controlling jobs, builds, queues, and computers. Append `/api/json`,
+
+    `/api/xml`, or `/api/python` to any URL on the controller to retrieve
+
+    machine-readable metadata. Use the `tree` query parameter to limit the
+
+    payload (recommended for performance). Authenticate with an API token via
+
+    HTTP Basic Auth.
+
+    '
+  version: 1.0.0
+servers:
+- url: https://example.cloudbees.com
+  description: CloudBees CI controller (replace with your JENKINS_URL)
+security:
+- basicAuth: []
+tags:
+- name: Computer
+paths:
+  /computer/api/json:
+    get:
+      summary: List nodes/agents
+      parameters:
+      - $ref: '#/components/parameters/Tree'
+      - $ref: '#/components/parameters/Depth'
+      responses:
+        '200':
+          description: Computers (nodes) info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Computer'
+      tags:
+      - Computer
+components:
+  schemas:
+    Computer:
+      type: object
+      properties:
+        _class:
+          type: string
+        computer:
+          type: array
+          items:
+            type: object
+  parameters:
+    Tree:
+      name: tree
+      in: query
+      description: 'Tree filter for selecting and trimming response fields.
+
+        Example: `jobs[name,url,color]`.
+
+        '
+      schema:
+        type: string
+    Depth:
+      name: depth
+      in: query
+      schema:
+        type: integer
+        default: 0
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: Jenkins username + API token

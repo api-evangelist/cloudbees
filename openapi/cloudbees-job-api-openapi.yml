@@ -1,0 +1,244 @@
+openapi: 3.1.0
+info:
+  title: CloudBees CI REST API (Jenkins-compatible) Computer Job API
+  description: 'CloudBees CI exposes the Jenkins remote-access REST API for inspecting and
+
+    controlling jobs, builds, queues, and computers. Append `/api/json`,
+
+    `/api/xml`, or `/api/python` to any URL on the controller to retrieve
+
+    machine-readable metadata. Use the `tree` query parameter to limit the
+
+    payload (recommended for performance). Authenticate with an API token via
+
+    HTTP Basic Auth.
+
+    '
+  version: 1.0.0
+servers:
+- url: https://example.cloudbees.com
+  description: CloudBees CI controller (replace with your JENKINS_URL)
+security:
+- basicAuth: []
+tags:
+- name: Job
+paths:
+  /job/{name}/api/json:
+    get:
+      summary: Get job metadata
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/Tree'
+      - $ref: '#/components/parameters/Depth'
+      responses:
+        '200':
+          description: Job metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+      tags:
+      - Job
+  /job/{name}/build:
+    post:
+      summary: Trigger a build (no parameters)
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: token
+        in: query
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Build queued
+        '400':
+          description: Bad request (job requires parameters)
+      tags:
+      - Job
+  /job/{name}/buildWithParameters:
+    post:
+      summary: Trigger a parameterized build
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: token
+        in: query
+        schema:
+          type: string
+      requestBody:
+        required: false
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              additionalProperties:
+                type: string
+      responses:
+        '201':
+          description: Build queued
+      tags:
+      - Job
+  /job/{name}/{number}/api/json:
+    get:
+      summary: Get a specific build
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: number
+        in: path
+        required: true
+        schema:
+          type: integer
+      - $ref: '#/components/parameters/Tree'
+      responses:
+        '200':
+          description: Build metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Build'
+      tags:
+      - Job
+  /job/{name}/lastSuccessfulBuild/api/json:
+    get:
+      summary: Get last successful build of a job
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/Tree'
+      responses:
+        '200':
+          description: Build metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Build'
+      tags:
+      - Job
+  /job/{name}/config.xml:
+    parameters:
+    - name: name
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Get job configuration XML
+      responses:
+        '200':
+          description: config.xml
+          content:
+            application/xml:
+              schema:
+                type: string
+      tags:
+      - Job
+    post:
+      summary: Update job configuration XML
+      requestBody:
+        required: true
+        content:
+          application/xml:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: Updated
+      tags:
+      - Job
+  /job/{name}/doDelete:
+    post:
+      summary: Delete job
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Deleted
+      tags:
+      - Job
+components:
+  schemas:
+    Job:
+      type: object
+      properties:
+        _class:
+          type: string
+        name:
+          type: string
+        url:
+          type: string
+        builds:
+          type: array
+          items:
+            $ref: '#/components/schemas/BuildSummary'
+        lastBuild:
+          $ref: '#/components/schemas/BuildSummary'
+        lastSuccessfulBuild:
+          $ref: '#/components/schemas/BuildSummary'
+        buildable:
+          type: boolean
+    Build:
+      type: object
+      properties:
+        _class:
+          type: string
+        number:
+          type: integer
+        result:
+          type: string
+        duration:
+          type: integer
+        timestamp:
+          type: integer
+        url:
+          type: string
+    BuildSummary:
+      type: object
+      properties:
+        number:
+          type: integer
+        url:
+          type: string
+  parameters:
+    Depth:
+      name: depth
+      in: query
+      schema:
+        type: integer
+        default: 0
+    Tree:
+      name: tree
+      in: query
+      description: 'Tree filter for selecting and trimming response fields.
+
+        Example: `jobs[name,url,color]`.
+
+        '
+      schema:
+        type: string
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: Jenkins username + API token

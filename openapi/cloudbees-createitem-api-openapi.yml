@@ -1,0 +1,54 @@
+openapi: 3.1.0
+info:
+  title: CloudBees CI REST API (Jenkins-compatible) Computer CreateItem API
+  description: 'CloudBees CI exposes the Jenkins remote-access REST API for inspecting and
+
+    controlling jobs, builds, queues, and computers. Append `/api/json`,
+
+    `/api/xml`, or `/api/python` to any URL on the controller to retrieve
+
+    machine-readable metadata. Use the `tree` query parameter to limit the
+
+    payload (recommended for performance). Authenticate with an API token via
+
+    HTTP Basic Auth.
+
+    '
+  version: 1.0.0
+servers:
+- url: https://example.cloudbees.com
+  description: CloudBees CI controller (replace with your JENKINS_URL)
+security:
+- basicAuth: []
+tags:
+- name: CreateItem
+paths:
+  /createItem:
+    post:
+      summary: Create a new job (item)
+      parameters:
+      - name: name
+        in: query
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/xml:
+            schema:
+              type: string
+              description: config.xml document
+      responses:
+        '200':
+          description: Item created
+        '400':
+          description: Invalid configuration
+      tags:
+      - CreateItem
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: Jenkins username + API token

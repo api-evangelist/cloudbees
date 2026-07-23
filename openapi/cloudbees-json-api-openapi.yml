@@ -1,0 +1,100 @@
+openapi: 3.1.0
+info:
+  title: CloudBees CI REST API (Jenkins-compatible) Computer Json API
+  description: 'CloudBees CI exposes the Jenkins remote-access REST API for inspecting and
+
+    controlling jobs, builds, queues, and computers. Append `/api/json`,
+
+    `/api/xml`, or `/api/python` to any URL on the controller to retrieve
+
+    machine-readable metadata. Use the `tree` query parameter to limit the
+
+    payload (recommended for performance). Authenticate with an API token via
+
+    HTTP Basic Auth.
+
+    '
+  version: 1.0.0
+servers:
+- url: https://example.cloudbees.com
+  description: CloudBees CI controller (replace with your JENKINS_URL)
+security:
+- basicAuth: []
+tags:
+- name: Json
+paths:
+  /api/json:
+    get:
+      summary: Get controller (top-level) metadata
+      parameters:
+      - $ref: '#/components/parameters/Tree'
+      - $ref: '#/components/parameters/Depth'
+      - $ref: '#/components/parameters/Pretty'
+      responses:
+        '200':
+          description: Controller metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Jenkins'
+      tags:
+      - Json
+components:
+  schemas:
+    Jenkins:
+      type: object
+      properties:
+        _class:
+          type: string
+        mode:
+          type: string
+        nodeName:
+          type: string
+        numExecutors:
+          type: integer
+        jobs:
+          type: array
+          items:
+            $ref: '#/components/schemas/JobSummary'
+        views:
+          type: array
+          items:
+            type: object
+    JobSummary:
+      type: object
+      properties:
+        _class:
+          type: string
+        name:
+          type: string
+        url:
+          type: string
+        color:
+          type: string
+  parameters:
+    Pretty:
+      name: pretty
+      in: query
+      schema:
+        type: boolean
+    Depth:
+      name: depth
+      in: query
+      schema:
+        type: integer
+        default: 0
+    Tree:
+      name: tree
+      in: query
+      description: 'Tree filter for selecting and trimming response fields.
+
+        Example: `jobs[name,url,color]`.
+
+        '
+      schema:
+        type: string
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: Jenkins username + API token

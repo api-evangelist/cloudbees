@@ -1,0 +1,26 @@
+{
+  "provider": "cloudbees",
+  "sources": [
+    "cloudbees-computer-api-openapi.yml",
+    "cloudbees-createitem-api-openapi.yml",
+    "cloudbees-job-api-openapi.yml",
+    "cloudbees-json-api-openapi.yml",
+    "cloudbees-python-api-openapi.yml",
+    "cloudbees-queue-api-openapi.yml",
+    "cloudbees-xml-api-openapi.yml"
+  ],
+  "outputs": [
+    "cloudbees-computer-api-openapi.yml",
+    "cloudbees-createitem-api-openapi.yml",
+    "cloudbees-job-api-openapi.yml",
+    "cloudbees-json-api-openapi.yml",
+    "cloudbees-python-api-openapi.yml",
+    "cloudbees-queue-api-openapi.yml",
+    "cloudbees-xml-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

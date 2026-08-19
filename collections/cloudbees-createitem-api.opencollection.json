@@ -1,0 +1,43 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CloudBees CI REST API (Jenkins-compatible) Computer CreateItem API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "CreateItem",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a new job (item)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://example.cloudbees.com/createItem",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Create a new job (item)"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,152 @@
+{
+  "item": [
+    {
+      "id": "9ef305dd-0361-4128-8f65-d17c9229b207",
+      "name": "Json",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "34d2b368-c088-448c-aae4-0028c6c2d846",
+          "name": "Get controller (top-level) metadata",
+          "request": {
+            "name": "Get controller (top-level) metadata",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "json"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "tree",
+                  "value": "<string>",
+                  "description": "Tree filter for selecting and trimming response fields.\nExample: `jobs[name,url,color]`.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "depth",
+                  "value": "0"
+                },
+                {
+                  "disabled": false,
+                  "key": "pretty",
+                  "value": "<boolean>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9c98dc2e-8472-4375-af5b-a17d8e648b68",
+              "name": "Controller metadata",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tree",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "depth",
+                      "value": "0"
+                    },
+                    {
+                      "key": "pretty",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_class\": \"string\",\n  \"mode\": \"string\",\n  \"nodeName\": \"string\",\n  \"numExecutors\": 8034,\n  \"jobs\": [\n    {\n      \"_class\": \"string\",\n      \"name\": \"string\",\n      \"url\": \"string\",\n      \"color\": \"string\"\n    },\n    {\n      \"_class\": \"string\",\n      \"name\": \"string\",\n      \"url\": \"string\",\n      \"color\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://example.cloudbees.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "52c6d738-e0d2-4b6a-bf1e-220211b62e64",
+    "name": "CloudBees CI REST API (Jenkins-compatible) Computer Json API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "CloudBees CI exposes the Jenkins remote-access REST API for inspecting and\ncontrolling jobs, builds, queues, and computers. Append `/api/json`,\n`/api/xml`, or `/api/python` to any URL on the controller to retrieve\nmachine-readable metadata. Use the `tree` query parameter to limit the\npayload (recommended for performance). Authenticate with an API token via\nHTTP Basic Auth.\n",
+      "type": "text/plain"
+    }
+  }
+}

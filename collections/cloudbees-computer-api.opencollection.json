@@ -1,0 +1,49 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CloudBees CI REST API (Jenkins-compatible) Computer API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Computer",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List nodes/agents",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://example.cloudbees.com/computer/api/json",
+            "params": [
+              {
+                "name": "tree",
+                "value": "",
+                "type": "query",
+                "description": "Tree filter for selecting and trimming response fields.\nExample: `jobs[name,url,color]`.\n"
+              },
+              {
+                "name": "depth",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List nodes/agents"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

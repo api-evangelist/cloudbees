@@ -1,0 +1,54 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CloudBees CI REST API (Jenkins-compatible) Computer Xml API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Xml",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get controller metadata as XML",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://example.cloudbees.com/api/xml",
+            "params": [
+              {
+                "name": "xpath",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "tree",
+                "value": "",
+                "type": "query",
+                "description": "Tree filter for selecting and trimming response fields.\nExample: `jobs[name,url,color]`.\n"
+              },
+              {
+                "name": "depth",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get controller metadata as XML"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

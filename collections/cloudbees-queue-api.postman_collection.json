@@ -1,0 +1,136 @@
+{
+  "item": [
+    {
+      "id": "17c63b3e-443d-451f-a706-6d34e05ea52b",
+      "name": "Queue",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "14f453dc-20c7-47ce-8a15-a69f63da217a",
+          "name": "Get build queue",
+          "request": {
+            "name": "Get build queue",
+            "description": {},
+            "url": {
+              "path": [
+                "queue",
+                "api",
+                "json"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "tree",
+                  "value": "<string>",
+                  "description": "Tree filter for selecting and trimming response fields.\nExample: `jobs[name,url,color]`.\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c3482488-fc51-430c-8493-5549779db8a3",
+              "name": "Queue contents",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "queue",
+                    "api",
+                    "json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tree",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_class\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://example.cloudbees.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "417ccf61-cbdd-4e75-9287-d2ddec430630",
+    "name": "CloudBees CI REST API (Jenkins-compatible) Computer Queue API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "CloudBees CI exposes the Jenkins remote-access REST API for inspecting and\ncontrolling jobs, builds, queues, and computers. Append `/api/json`,\n`/api/xml`, or `/api/python` to any URL on the controller to retrieve\nmachine-readable metadata. Use the `tree` query parameter to limit the\npayload (recommended for performance). Authenticate with an API token via\nHTTP Basic Auth.\n",
+      "type": "text/plain"
+    }
+  }
+}

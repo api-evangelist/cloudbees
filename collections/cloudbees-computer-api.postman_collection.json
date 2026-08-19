@@ -1,0 +1,145 @@
+{
+  "item": [
+    {
+      "id": "b92048d6-ce82-4e23-999c-7fb15d038bdf",
+      "name": "Computer",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ba5bf508-ede4-4f10-b03f-a390dac70f94",
+          "name": "List nodes/agents",
+          "request": {
+            "name": "List nodes/agents",
+            "description": {},
+            "url": {
+              "path": [
+                "computer",
+                "api",
+                "json"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "tree",
+                  "value": "<string>",
+                  "description": "Tree filter for selecting and trimming response fields.\nExample: `jobs[name,url,color]`.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "depth",
+                  "value": "0"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ab894124-779e-4316-980f-74b080caaad1",
+              "name": "Computers (nodes) info",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "computer",
+                    "api",
+                    "json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tree",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "depth",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_class\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://example.cloudbees.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "08097f9f-122a-4de6-a982-011042f1f296",
+    "name": "CloudBees CI REST API (Jenkins-compatible) Computer API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "CloudBees CI exposes the Jenkins remote-access REST API for inspecting and\ncontrolling jobs, builds, queues, and computers. Append `/api/json`,\n`/api/xml`, or `/api/python` to any URL on the controller to retrieve\nmachine-readable metadata. Use the `tree` query parameter to limit the\npayload (recommended for performance). Authenticate with an API token via\nHTTP Basic Auth.\n",
+      "type": "text/plain"
+    }
+  }
+}

@@ -5,10 +5,10 @@
       "source": "https://www.cloudbees.com/blog/rss.xml",
       "feed_url": "https://www.cloudbees.com/blog/rss.xml",
       "title": "",
-      "saved": 0,
+      "saved": 4,
       "method": "feed"
     }
   ],
-  "fetched": "2026-08-15T12:22:01Z",
-  "post_count": 58
+  "fetched": "2026-08-22T20:20:02Z",
+  "post_count": 96
 }

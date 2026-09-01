@@ -225,7 +225,7 @@ apis:
     https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
   baseURL: https://example.cloudbees.com
   tags:
-  - Xml
+  - XML
   tags_raw:
   - Xml
   properties:

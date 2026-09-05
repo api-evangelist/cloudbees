@@ -1,0 +1,207 @@
+generated: '2026-09-05'
+method: searched
+source: >-
+  https://docs.cloudbees.com/docs/cloudbees-unify/latest/feature-management/how-to-guides/install-server-side-sdks
+  plus registry metadata endpoints (registry.npmjs.org, pypi.org, repo1.maven.org, api.nuget.org,
+  repo.packagist.org, proxy.golang.org)
+note: >-
+  CloudBees' first-party client libraries are the CloudBees Feature Management (formerly Rollout) SDKs,
+  published under the historical `rox-*` / `io.rollout.rox` names, and the CloudBees OpenFeature providers
+  published from the cloudbees-oss GitHub organization. The rox-* npm packages are published from
+  github.com/rollout/roxjs and the CloudBees docs link them directly as the supported install path, which
+  is why they are marked official despite the Rollout name — Rollout was acquired by CloudBees and became
+  CloudBees Feature Management. No first-party SDK exists for the CloudBees Unify Public REST API itself;
+  callers use plain HTTP with a bearer token.
+packages:
+  - language: javascript
+    registry: npm
+    name: rox-node
+    url: https://www.npmjs.com/package/rox-node
+    install: npm install rox-node --save
+    official: true
+    product: CloudBees Feature Management
+    version: 6.0.16
+    published: '2026-07-23'
+    repository: https://github.com/rollout/roxjs
+  - language: javascript
+    registry: npm
+    name: rox-browser
+    url: https://www.npmjs.com/package/rox-browser
+    install: npm install rox-browser --save
+    official: true
+    product: CloudBees Feature Management (browser)
+    version: 6.0.16
+    published: '2026-07-23'
+    repository: https://github.com/rollout/roxjs
+  - language: javascript
+    registry: npm
+    name: rox-react-native
+    url: https://www.npmjs.com/package/rox-react-native
+    install: npm install rox-react-native --save
+    official: true
+    product: CloudBees Feature Management (React Native)
+    version: 6.0.16
+    published: '2026-07-23'
+    repository: https://github.com/rollout/roxjs
+  - language: javascript
+    registry: npm
+    name: rox-serverless
+    url: https://www.npmjs.com/package/rox-serverless
+    install: npm install rox-serverless --save
+    official: true
+    product: CloudBees Feature Management (serverless)
+    version: 6.0.16
+    published: '2026-07-23'
+    repository: https://github.com/rollout/roxjs
+  - language: java
+    registry: maven
+    name: io.rollout.rox:rox-java-server
+    url: https://repo1.maven.org/maven2/io/rollout/rox/rox-java-server/
+    install: "implementation 'io.rollout.rox:rox-java-server:6.0.0'"
+    official: true
+    product: CloudBees Feature Management
+    version: 6.0.0
+    published: '2024-08-02'
+    note: >-
+      Latest release on Maven Central is 6.0.0 (lastUpdated 2024-08-02) — the Java server SDK has not
+      shipped a release in over two years while the JavaScript SDKs released in 2026-07. Recorded as a
+      currency signal, not a judgement.
+  - language: python
+    registry: pypi
+    name: rox
+    url: https://pypi.org/project/rox/
+    install: pip install rox
+    official: true
+    product: CloudBees Feature Management
+    version: 6.0.1
+    published: '2025-07-23'
+  - language: go
+    registry: pkg.go.dev
+    name: github.com/rollout/rox-go/v6
+    url: https://pkg.go.dev/github.com/rollout/rox-go/v6
+    install: go get -u github.com/rollout/rox-go/v6/server
+    official: true
+    product: CloudBees Feature Management
+    version: v6.0.2
+    published: '2025-08-19'
+  - language: php
+    registry: packagist
+    name: rollout/rox
+    url: https://packagist.org/packages/rollout/rox
+    install: composer require rollout/rox
+    official: true
+    product: CloudBees Feature Management
+    version: 6.0.5
+    published: '2026-08-31'
+    repository: https://github.com/rollout/rox-php
+  - language: dotnet
+    registry: nuget
+    name: rox-server
+    url: https://www.nuget.org/packages/rox-server
+    install: dotnet add package rox-server
+    official: true
+    product: CloudBees Feature Management
+    version: 6.0.2
+    published: '2025-12-15'
+  - language: dotnet
+    registry: nuget
+    name: rox-core
+    url: https://www.nuget.org/packages/rox-core
+    install: dotnet add package rox-core
+    official: true
+    product: CloudBees Feature Management (core)
+    version: 6.0.2
+    published: '2025-12-15'
+  - language: cpp
+    registry: source
+    name: rox-cpp-sdk
+    url: https://github.com/cloudbees/rox-cpp-sdk
+    install: git clone https://github.com/cloudbees/rox-cpp-sdk.git && cmake .. && make
+    official: true
+    product: CloudBees Feature Management (C/C++)
+    version: null
+    published: null
+    note: >-
+      Distributed as source only — built with CMake from the GitHub repository. No package-registry
+      metadata endpoint exists to read a version from, so version/published are recorded as null
+      (checked, nothing to record) rather than omitted.
+  - language: java
+    registry: maven
+    name: com.cloudbees.openfeature:cloudbees-openfeature-provider
+    url: https://repo1.maven.org/maven2/com/cloudbees/openfeature/cloudbees-openfeature-provider/
+    install: "implementation 'com.cloudbees.openfeature:cloudbees-openfeature-provider:1.0.1'"
+    official: true
+    product: CloudBees OpenFeature provider
+    standard: openfeature
+    version: 1.0.1
+    published: '2025-01-17'
+  - language: go
+    registry: pkg.go.dev
+    name: github.com/cloudbees-oss/cloudbees-openfeature-provider-go
+    url: https://pkg.go.dev/github.com/cloudbees-oss/cloudbees-openfeature-provider-go
+    install: go get github.com/cloudbees-oss/cloudbees-openfeature-provider-go
+    official: true
+    product: CloudBees OpenFeature provider
+    standard: openfeature
+    version: v1.8.1
+    published: '2025-01-16'
+  - language: python
+    registry: pypi
+    name: cloudbees-openfeature-provider-python
+    url: https://pypi.org/project/cloudbees-openfeature-provider-python/
+    install: pip install cloudbees-openfeature-provider-python
+    official: true
+    product: CloudBees OpenFeature provider
+    standard: openfeature
+    version: 0.1.7
+    published: '2025-04-30'
+  - language: dotnet
+    registry: nuget
+    name: CloudBees.OpenFeature.Provider
+    url: https://www.nuget.org/packages/CloudBees.OpenFeature.Provider
+    install: dotnet add package CloudBees.OpenFeature.Provider
+    official: true
+    product: CloudBees OpenFeature provider
+    standard: openfeature
+    version: 2.0.1
+    published: '2025-05-07'
+  - language: php
+    registry: packagist
+    name: open-feature/cloudbees-provider
+    url: https://packagist.org/packages/open-feature/cloudbees-provider
+    install: composer require open-feature/cloudbees-provider
+    official: true
+    product: CloudBees OpenFeature provider
+    standard: openfeature
+    version: 1.1.0
+    published: '2025-01-24'
+    repository: https://github.com/open-feature-php/cloudbees-provider
+  - language: javascript
+    registry: npm
+    name: cloudbees-openfeature-provider-node
+    url: https://www.npmjs.com/package/cloudbees-openfeature-provider-node
+    install: npm install cloudbees-openfeature-provider-node
+    official: true
+    product: CloudBees OpenFeature provider
+    standard: openfeature
+    version: 1.0.1
+    published: '2025-01-23'
+  - language: javascript
+    registry: npm
+    name: cloudbees-openfeature-provider-browser
+    url: https://www.npmjs.com/package/cloudbees-openfeature-provider-browser
+    install: npm install cloudbees-openfeature-provider-browser
+    official: true
+    product: CloudBees OpenFeature provider (browser)
+    standard: openfeature
+    version: 1.1.0
+    published: '2026-03-12'
+not_official:
+  - name: rox
+    registry: rubygems
+    reason: >-
+      RubyGems `rox` (v0.1.0, 2011) is an Open-Xchange HTTP API client by an unrelated author, not the
+      CloudBees Feature Management Ruby SDK. Recorded so a later pass does not re-find and mis-attribute it.
+  - name: "@pipedream/cloudbees"
+    registry: npm
+    reason: Third-party Pipedream connector, not published by CloudBees.

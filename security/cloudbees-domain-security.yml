@@ -1,31 +1,98 @@
-generated: '2026-07-11'
+generated: '2026-09-05'
 method: probed
-source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts, extended by hand on 2026-09-05 with the cloudbees.io
+  / rollout.io hosts the automated probe did not reach (api, apidocs, mcp and id subdomains, plus the Feature Management
+  edge)
 hosts:
 - host: www.cloudbees.com
   https: true
   tls_version: TLSv1.3
-  cert_expires: Sep 22 03:44:47 2026 GMT
+  cert_expires: Nov 15 21:06:49 2026 GMT
   hsts: true
   hsts_max_age: 31536000
 - host: docs.cloudbees.com
   https: true
   tls_version: TLSv1.3
-  cert_expires: Sep 24 07:28:40 2026 GMT
+  cert_expires: Nov 18 16:52:49 2026 GMT
   hsts: true
   hsts_max_age: 31536000
 - host: example.cloudbees.com
   https: false
+  note: Placeholder host from the CloudBees CI (Jenkins-compatible) specification — CloudBees CI controllers are
+    customer-operated, so there is no CloudBees-run host to probe here.
+- host: api.cloudbees.io
+  https: true
+  tls_version: TLSv1.2
+  cert_expires: Feb 23 23:59:59 2027 GMT
+  hsts: true
+  hsts_max_age: 63072000
+  note: CloudBees Unify Public API. Unauthenticated GET returns HTTP 401 application/json.
+- host: apidocs.cloudbees.io
+  https: true
+  tls_version: TLSv1.2
+  cert_expires: Feb 23 23:59:59 2027 GMT
+  hsts: true
+  hsts_max_age: 63072000
+  note: CloudBees Unify Public API reference; serves the two first-party OpenAPI documents.
+- host: mcp.cloudbees.io
+  https: true
+  tls_version: TLSv1.2
+  cert_expires: Oct 27 23:59:59 2026 GMT
+  hsts: false
+  hsts_max_age: null
+  note: CloudBees Unify MCP Server. No HSTS header observed on this host.
+- host: id.cloudbees.io
+  https: true
+  tls_version: TLSv1.2
+  cert_expires: Feb 23 23:59:59 2027 GMT
+  hsts: false
+  hsts_max_age: null
+  note: Keycloak authorization server named by the MCP protected-resource document. No HSTS header observed.
+- host: cloudbees.io
+  https: true
+  tls_version: TLSv1.2
+  cert_expires: Feb 23 23:59:59 2027 GMT
+  hsts: true
+  hsts_max_age: 31536000
+  note: CloudBees Unify web application (single-page app; answers 200 for every path).
+- host: x-api.rollout.io
+  https: true
+  tls_version: TLSv1.2
+  cert_expires: Feb  1 23:59:59 2027 GMT
+  hsts: true
+  hsts_max_age: 15552000
+  note: CloudBees Feature Management REST API edge.
 domains:
 - domain: cloudbees.com
   dnssec: false
   caa:
-  - 0 issue "godaddy.com"
   - 0 issue "letsencrypt.org"
   - 0 issue "pki.goog"
   - 0 issue "rapidssl.com"
   - 0 issuewild "amazon.com"
   - 0 issuewild "comodoca.com"
+  - 0 issuewild "digicert.com"
   spf: true
   dmarc: true
   dmarc_policy: reject
+- domain: cloudbees.io
+  dnssec: false
+  caa:
+  - 0 issue "amazon.com"
+  - 0 issue "digicert.com"
+  - 0 issue "sectigo.com"
+  - 0 issuewild "amazon.com"
+  - 0 issuewild "digicert.com"
+  - 0 issuewild "sectigo.com"
+  spf: false
+  dmarc: true
+  dmarc_policy: reject
+  note: No SPF TXT record published on the apex; DMARC is p=reject.
+- domain: rollout.io
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: none
+  note: CloudBees Feature Management legacy domain (Rollout). DMARC policy is p=none — monitoring only, not enforcing
+    — where cloudbees.com and cloudbees.io both enforce p=reject.

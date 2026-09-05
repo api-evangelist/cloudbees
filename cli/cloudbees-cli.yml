@@ -1,0 +1,64 @@
+generated: '2026-09-05'
+method: searched
+source: >-
+  https://docs.cloudbees.com/docs/cloudbees-cd-api-ectool/latest/,
+  https://docs.cloudbees.com/docs/cloudbees-ci-api/latest/api-authentication
+note: >-
+  CloudBees ships no first-party CLI for the CloudBees Unify Public API — callers use plain HTTP with a
+  bearer token, or the MCP server. The CLIs below are the first-party command surfaces for the older
+  product lines, and both ship with the product rather than through a public package registry.
+clis:
+  - name: ectool
+    product: CloudBees CD/RO
+    official: true
+    docs: https://docs.cloudbees.com/docs/cloudbees-cd-api-ectool/latest/
+    description: >-
+      The command line interface providing operational control over a CloudBees CD/RO server. Every
+      ectool subcommand maps to a CD/RO REST resource.
+    distribution: bundled with the CloudBees CD/RO server and agent installations
+    install: null
+    install_note: >-
+      Not published to a package registry; installed as part of the CloudBees CD/RO server/agent installer.
+    authentication:
+      - "ectool --server <host> login '<user>' '<password>' — establishes a session id"
+      - session id or API token passed as a sessionid header on subsequent REST calls
+    command_groups:
+      - name: projects and applications
+        examples: [getProjects]
+      - name: procedures and jobs
+        examples: [runProcedure, modifyStep]
+      - name: users and groups
+        examples: [addUsersToGroup]
+      - name: snapshots
+        examples: [createSnapshot]
+      - name: resources and agents
+      - name: properties and artifacts
+      - name: server configuration
+        examples: [getServerStatus]
+    key_flows:
+      - "ectool --server bldg1server login 'Ellen Ernst' 'ee123'"
+      - ectool getProjects
+      - ectool runProcedure proj1 --procedureName proc1
+      - ectool --help modifyStep
+    related_apis:
+      - CloudBees CD/RO REST API (https://<cd-server>/rest/v1.0/)
+      - CloudBees CD/RO Perl, Groovy and DSL APIs
+  - name: jenkins-cli
+    product: CloudBees CI
+    official: false
+    first_party_upstream: Jenkins project
+    docs: https://docs.cloudbees.com/docs/cloudbees-ci-api/latest/api-authentication
+    description: >-
+      CloudBees CI documents the Jenkins CLI alongside its REST API and states that a CloudBees CI API
+      token works interchangeably across both. Recorded because it is the documented command surface for
+      CloudBees CI, but marked official:false because the binary is upstream Jenkins, not a CloudBees build.
+    authentication: "-auth <username>:<token>"
+not_found:
+  - what: a CloudBees Unify CLI
+    checked:
+      - https://docs.cloudbees.com/docs/cloudbees-unify/latest/
+      - npm registry search for "cloudbees"
+    result: >-
+      No first-party CLI for the Unify platform. The only CLIs the Unify documentation names are third-party
+      AI clients (Claude Code CLI, Gemini CLI, Amazon Q CLI) being configured to reach the CloudBees MCP
+      server — those are MCP clients, not a CloudBees CLI.

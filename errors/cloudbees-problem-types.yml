@@ -1,0 +1,69 @@
+generated: '2026-09-05'
+method: derived
+source: openapi/cloudbees-unify-openapi.yml, openapi/cloudbees-unify-beta-openapi.yml
+format: google-rpc-status
+rfc9457: false
+envelope:
+  media_type: application/json
+  schema: google.rpc.Status
+  fields:
+    - name: code
+      type: integer
+      description: Canonical gRPC status code (google.rpc.Code), not the HTTP status.
+    - name: message
+      type: string
+      description: Developer-facing message, in English.
+    - name: details
+      type: array
+      items: google.protobuf.Any
+      description: Typed detail payloads; the concrete types are not enumerated in the specification.
+coverage:
+  operations_total: 65
+  operations_with_2xx: 65
+  operations_with_enumerated_4xx: 0
+  distinct_status_responses_declared:
+    - '200'
+    - default
+  note: >-
+    Every operation in both harvested Unify specifications declares exactly one success response (200 OK)
+    and one `default` response ("Default error response") bound to google.rpc.Status. No operation enumerates
+    a specific 4xx or 5xx. This is the standard grpc-gateway/protoc-gen-openapi output shape, and it means
+    the contract does not tell a client which failures are reachable, which are retryable, or which are the
+    caller's fault — the single biggest agent-readiness gap in an otherwise well-formed contract.
+problems:
+  - status: default
+    code: null
+    type: google.rpc.Status
+    title: Default error response
+    detail: >-
+      The only error shape the contract declares. Applies to all 65 operations in
+      openapi/cloudbees-unify-openapi.yml and openapi/cloudbees-unify-beta-openapi.yml.
+    source_operation: all
+observed:
+  - status: 401
+    host: https://api.cloudbees.io
+    body: '{"error":"you are not authorized to perform this action"}'
+    note: >-
+      Observed on an unauthenticated GET. The live 401 envelope is a bare {"error": string} object, which
+      does NOT match the google.rpc.Status shape the specification declares. A client that parses errors
+      strictly against the contract will fail to read the most common error it will ever receive.
+    probed: '2026-09-05'
+  - status: 401
+    host: https://mcp.cloudbees.io
+    body: 'no bearer token'
+    content_type: text/plain
+    headers:
+      www-authenticate: >-
+        Bearer resource_metadata="https://mcp.cloudbees.io/.well-known/oauth-protected-resource",
+        scope="mcp:unify:connect"
+    note: RFC 9728-compliant challenge on the MCP endpoint — correct and machine-actionable.
+    probed: '2026-09-05'
+  - status: 555
+    host: https://x-api.rollout.io/public-api
+    surface: CloudBees Feature Management REST API
+    documented: true
+    meaning: Rate limit exceeded (1 request per second per IP)
+    source: https://docs.cloudbees.com/docs/cloudbees-feature-management-rest-api/latest/introduction
+    note: >-
+      Not a registered HTTP status code. Documented by CloudBees but invisible to a generic client's
+      status-class handling, which will treat it as an unknown 5xx and may retry straight back into the limit.

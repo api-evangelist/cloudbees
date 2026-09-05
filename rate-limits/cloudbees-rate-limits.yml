@@ -3,114 +3,64 @@ specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
 provider: CloudBees
 providerId: cloudbees
+generated: '2026-09-05'
+method: searched
+source: https://docs.cloudbees.com/docs/cloudbees-feature-management-rest-api/latest/introduction
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
+modified: '2026-09-05'
+limit_count: 1
 tags:
   - CI/CD
-  - Continuous Delivery
-  - Continuous Integration
-  - DevOps
-  - Feature Flags
   - Feature Management
-  - Jenkins
-  - Release Orchestration
-  - Software Delivery
   - Rate Limiting
-  - Quotas
   - Throttling
-description: Machine-readable rate limit definitions for the CloudBees API surface. Captures per-tier
-  quotas, burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to
-  be replaced with published provider limits.
-headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
-responseCodes:
-  throttled: 429
-  quotaExceeded: 429
-  serviceUnavailable: 503
+description: >-
+  CloudBees publishes exactly one API rate limit, and it is on the CloudBees Feature Management REST API.
+  The CloudBees Unify Public API (api.cloudbees.io) documents no limits at all, and neither harvested Unify
+  specification declares a 429 response on any operation.
 limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - CloudBees CI REST API
-      - CloudBees CD/RO REST API
-      - CloudBees Feature Management REST API
-      - CloudBees Unify Platform API
-      - CloudBees CD/RO Jenkins Plugin Steps
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - CloudBees CI REST API
-      - CloudBees CD/RO REST API
-      - CloudBees Feature Management REST API
-      - CloudBees Unify Platform API
-      - CloudBees CD/RO Jenkins Plugin Steps
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - CloudBees CI REST API
-      - CloudBees CD/RO REST API
-      - CloudBees Feature Management REST API
-      - CloudBees Unify Platform API
-      - CloudBees CD/RO Jenkins Plugin Steps
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - CloudBees CI REST API
-      - CloudBees CD/RO REST API
-      - CloudBees Feature Management REST API
-      - CloudBees Unify Platform API
-      - CloudBees CD/RO Jenkins Plugin Steps
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - CloudBees CI REST API
-      - CloudBees CD/RO REST API
-      - CloudBees Feature Management REST API
-      - CloudBees Unify Platform API
-      - CloudBees CD/RO Jenkins Plugin Steps
-policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+  - name: CloudBees Feature Management REST API — per-IP throttle
+    api: CloudBees Feature Management REST API
+    scope: per-ip
+    metric: requests_per_second
+    limit: 1
+    burst: null
+    timeFrame: second
+    status_on_exhaustion: 555
+    headers: []
+    documented: true
+    source: https://docs.cloudbees.com/docs/cloudbees-feature-management-rest-api/latest/introduction
+    note: >-
+      "The API is rate limited to one request per second" based on the requester's IP address; requests over
+      the limit receive HTTP 555. 555 is not a registered HTTP status code, so a generic client will classify
+      it as an unknown 5xx — an agent must special-case it or it will retry straight back into the limit.
+      No X-RateLimit-*, RateLimit-* or Retry-After headers are documented, so a caller cannot see how much
+      budget remains or when to retry; the only safe strategy is to stay under one request per second.
+undocumented:
+  - api: CloudBees Unify Public API
+    host: https://api.cloudbees.io
+    finding: >-
+      No rate limits published. openapi/cloudbees-unify-openapi.yml and
+      openapi/cloudbees-unify-beta-openapi.yml declare only 200 and a default error response on all 65
+      operations — no 429, no rate-limit headers, no quota. Recorded as an honest gap, not as "no limits
+      exist": an undocumented limit is still a limit a caller will hit.
+    checked: '2026-09-05'
+  - api: CloudBees CI REST API
+    finding: >-
+      Self-hosted / customer-operated controllers. Throughput is a function of the customer's own
+      installation, so there is no vendor-published limit to record.
+  - api: CloudBees CD/RO REST API
+    finding: Self-hosted / customer-operated servers; no vendor-published limit.
+response_headers:
+  published: false
+  note: >-
+    CloudBees publishes no rate-limit response headers on any surface. This is the runtime signal an agent
+    actually needs, and none is available.
+note: >-
+  This file previously carried five scaffolded per-tier limits (10/100/1000 rpm across Free, Professional and
+  Enterprise) plus X-RateLimit-* headers, written by the 2026-05-04 bulk sweep and marked method:generated.
+  None of that was published by CloudBees; it has been replaced by the one real limit and an explicit record
+  of what is undocumented.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

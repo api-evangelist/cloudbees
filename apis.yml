@@ -27,7 +27,7 @@ accessModel:
   generated: '2026-09-03'
   method: derived
 created: '2025-01-08'
-modified: '2026-04-23'
+modified: '2026-09-05'
 type: Index
 access: 3rd-Party
 position: Consuming
@@ -125,15 +125,39 @@ apis:
   - Platform
   - Software Delivery
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cloudbees.com/
+  humanURL: https://docs.cloudbees.com/docs/cloudbees-unify/latest/api-references/
+  baseURL: https://api.cloudbees.io
   properties:
-  - url: https://docs.cloudbees.com/
+  - url: openapi/cloudbees-unify-openapi.yml
+    type: OpenAPI
+    name: CloudBees Unify API (Current)
+  - url: openapi/cloudbees-unify-beta-openapi.yml
+    type: OpenAPI
+    name: CloudBees Unify API (Beta)
+  - url: overlays/cloudbees-unify-overlay.yaml
+    type: Overlay
+  - url: overlays/cloudbees-unify-beta-overlay.yaml
+    type: Overlay
+  - url: mcp/cloudbees-tool-crosswalk.yml
+    type: ToolCrosswalk
+  - url: data-model/cloudbees-data-model.yml
+    type: DataModel
+  - url: https://apidocs.cloudbees.io/
+    type: APIReference
+  - url: https://docs.cloudbees.com/docs/cloudbees-unify/latest/api-references/
     type: Documentation
+  - url: https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
+    type: Authentication
   description: >-
     CloudBees Unify is the modern, opinionated software delivery platform that unifies CI, CD, feature
-    management, analytics, and security into a single workflow. The platform exposes APIs for managing
-    organizations, components, workflows, environments, feature flags, and analytics; authentication is
-    via personal access tokens and the surface is the recommended target for new integrations.
+    management, analytics, and security into a single workflow. The CloudBees Unify Public API is served
+    from https://api.cloudbees.io and is published as two first-party OpenAPI 3.0.3 documents at
+    apidocs.cloudbees.io: the "Current" specification (v1/v2/v3, 40 operations across organizations, teams,
+    users, components, environments, feature flags, flag configurations, target groups, custom properties
+    and flag lifecycle) and the "Beta" specification (v4, 25 operations across users, teams, team
+    memberships, components and delivery runs with their artifacts, test results, security results,
+    evidences and deployments). Both authenticate with a bearer personal access token. CloudBees directs new
+    integrations at the v4 beta; the current endpoints remain supported but no longer receive new features.
 - aid: cloudbees:jenkins-plugin
   name: CloudBees CD/RO Jenkins Plugin Steps
   tags:
@@ -254,7 +278,7 @@ common:
   - type: Support
     url: https://support.cloudbees.com/
   - type: PrivacyPolicy
-    url: https://www.cloudbees.com/privacy
+    url: https://www.cloudbees.com/legal/privacy-policy
   - type: Plugins
     url: https://docs.cloudbees.com/plugins/ci
   - type: JSONLD
@@ -265,9 +289,79 @@ common:
     url: https://www.cloudbees.com/partners
   - url: https://www.cloudbees.com/blog/rss.xml
     type: Blog
+  - type: MCPServer
+    url: mcp/cloudbees-mcp.yml
+    name: CloudBees Unify MCP Server
+  - type: ToolCrosswalk
+    url: mcp/cloudbees-tool-crosswalk.yml
+  - type: LLMsTxt
+    url: llms/cloudbees-llms.txt
+  - type: WellKnown
+    url: well-known/cloudbees-well-known.yml
+  - type: SecurityTxt
+    url: well-known/cloudbees-security.txt
+  - type: Packages
+    url: packages/cloudbees-packages.yml
+  - type: SDKs
+    url: packages/cloudbees-packages.yml
+  - type: Security
+    url: https://www.cloudbees.com/legal/security-policy
+  - type: Compliance
+    url: https://www.cloudbees.com/company/trust-center
+  - type: Conformance
+    url: conformance/cloudbees-conformance.yml
+  - type: ErrorCatalog
+    url: errors/cloudbees-problem-types.yml
+  - type: Lifecycle
+    url: lifecycle/cloudbees-lifecycle.yml
+  - type: StatusPage
+    url: https://status.cloudbees.io/
+  - type: Deprecation
+    url: https://docs.cloudbees.com/docs/cloudbees-common/latest/maintenance-lifecycle
+  - type: Conventions
+    url: conventions/cloudbees-conventions.yml
+  - type: ChangeLog
+    url: changelog/cloudbees-changelog.yml
+  - type: ChangeLog
+    url: https://docs.cloudbees.com/docs/cloudbees-unify-changelog/latest/
+    name: CloudBees Unify changelog
+  - type: CLI
+    url: cli/cloudbees-cli.yml
+  - type: Webhooks
+    url: asyncapi/cloudbees-webhooks.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: DataModel
+    url: data-model/cloudbees-data-model.yml
+  - type: OAuthScopes
+    url: scopes/cloudbees-scopes.yml
+  - type: Plans
+    url: plans/cloudbees-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/cloudbees-rate-limits.yml
+  - type: FinOps
+    url: finops/cloudbees-finops.yml
+  - type: DeveloperPortal
+    url: https://docs.cloudbees.com/docs/cloudbees-unify/latest/
+  - type: APIReference
+    url: https://apidocs.cloudbees.io/
+  - type: GettingStarted
+    url: https://docs.cloudbees.com/docs/cloudbees-unify/latest/getting-started/
+  - type: Pricing
+    url: https://www.cloudbees.com/pricing
+  - type: TermsOfService
+    url: https://www.cloudbees.com/company/terms-of-service
+  - type: Postman
+    url: https://www.postman.com/cloudbees/cloudbees-feature-management
+    name: CloudBees Feature Management public workspace
 integrations:
   - name: View all regional partners
   - name: View all technology partners
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-09-05'
+  status: enriched
+  artifacts_added: 28
+  pass: local-v3

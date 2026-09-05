@@ -1,0 +1,2876 @@
+openapi: 3.0.3
+info:
+  title: CloudBees Unify API (Current)
+  version: 1.0.0
+  description: |-
+    API documentation for CloudBees Unify's current, stable endpoints. This specification covers the endpoints customers rely on today while next-generation v4 equivalents are in development. These endpoints are stable and supported, but no longer receive new features.
+
+    ### Unify core
+
+    #### Components
+    List components within an organization, and optionally filter by component type, such as applications or services with an associated repository.
+
+    #### Environments
+    Discover and manage environments within your organization. Use environments to maintain an up-to-date inventory for feature flag targeting, deployment scripts, and monitoring workflows.
+
+    #### Organizations
+    Define the structural and governance boundaries within a CloudBees Unify tenant. Organizations model business units or departments, support parent-child hierarchies, and inherit configuration—properties, integrations, and environments—from parent organizations. Every tenant has one root organization; all others exist beneath it.
+
+    #### Teams
+    List teams within an organization. Teams group users to manage access and permissions across resources in CloudBees Unify.
+
+    #### Users
+    Invite or remove users, and define custom attributes for feature flag targeting based on application-specific criteria such as account tier, region, or subscription status.
+
+    ### Feature management
+
+    #### Flags
+    Control runtime feature visibility and behavior to enable gradual rollouts, A/B testing, progressive delivery, and safe deployments without redeployment.
+
+    #### Flag configurations
+    Set flag state (enabled or disabled) and targeting rules for a specific environment to determine which users or segments receive each variation.
+
+    #### Flag custom properties
+    Create, read, update, and delete custom properties used in targeting conditions and target groups.
+
+    #### Target groups
+    Define reusable sets of targeting conditions for feature flags. Specify rules once (such as matching users by role, region, or custom property) and apply them across multiple flags. Changes to a target group propagate automatically to every flag that references it.
+
+    #### Flag lifecycle
+    Track how often each flag variation is served in an environment. Use impression data to monitor adoption, validate rollouts, and see which variations your application evaluates.
+
+    For new integrations, prefer the [CloudBees Unify API (Beta)](https://calculi-corp.github.io/api/#v4-public) where available.
+paths:
+  /v1/applications/{organizationId}/environments/{environmentId}/flags-status:
+    get:
+      tags:
+        - Flag lifecycle
+      operationId: FmImpressionsApi_GetFlagsStatus2
+      parameters:
+        - name: organizationId
+          in: path
+          description: Unique identifier of the application that contains the environment.
+          required: true
+          schema:
+            type: string
+        - name: environmentId
+          in: path
+          description: Unique identifier of the environment whose flag statuses are to be returned.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.fmimpressions.GetFlagsStatusResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Get flag statuses
+      description: Returns the current status of all feature flags within the specified environment.
+  /v1/applications/{organizationId}/environments/{environmentId}/impressions:
+    post:
+      tags:
+        - Flag lifecycle
+      operationId: FmImpressionsApi_GetImpressions2
+      parameters:
+        - name: organizationId
+          in: path
+          description: Unique identifier of the application that contains the environment.
+          required: true
+          schema:
+            type: string
+        - name: environmentId
+          in: path
+          description: Unique identifier of the environment whose flag impressions are to be returned.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.fmimpressions.ImpressionParams'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.fmimpressions.GetImpressionsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Get flag impressions
+      description: Returns aggregated impression data for one or more feature flags within the specified environment. Use the mode and time range parameters to control the aggregation granularity and the time window of results.
+  /v1/organizations:
+    get:
+      tags:
+        - Organizations
+      operationId: listOrganizations
+      parameters:
+        - name: userId
+          in: query
+          description: When provided, returns only organizations that the specified user is a member of.
+          schema:
+            type: string
+        - name: nested
+          in: query
+          description: When true, returns sub-organizations nested under their parent organizations. Defaults to false.
+          schema:
+            type: boolean
+        - name: tenant
+          in: query
+          description: When true, returns only top-level tenant organizations. Defaults to false.
+          schema:
+            type: boolean
+        - name: domainName
+          in: query
+          description: When provided, returns only organizations whose domain name exactly matches this value.
+          schema:
+            type: string
+        - name: includeDeleted
+          in: query
+          description: When true, includes deleted organizations in the results. Defaults to false.
+          schema:
+            type: boolean
+        - name: pagination.page
+          in: query
+          description: page (optional) indicates which page is being requested or returned (0 or 1) returns the 1st page of results
+          schema:
+            type: integer
+            format: int32
+        - name: pagination.pageLength
+          in: query
+          description: |-
+            page_length (optional) specifies the number of items per page being requested.  If the request is asking for more than an api limit
+             allows, the response will indicate the new page_length that should be used for future calls.
+          schema:
+            type: integer
+            format: int32
+        - name: pagination.sort.fieldName
+          in: query
+          description: |-
+            field_name specifies the field to use for sorting a list of results.  See documentation for
+             specific API endpoints to determine appropriate field names.
+          schema:
+            type: string
+        - name: pagination.sort.order
+          in: query
+          description: order specifies how to sort the results
+          schema:
+            enum:
+              - ASCENDING
+              - DESCENDING
+            type: string
+        - name: pagination.lastPage
+          in: query
+          description: 'RESPONSE ONLY: last_page is true {response} if there are no more results to be returned'
+          schema:
+            type: boolean
+        - name: include
+          in: query
+          description: Comma-separated list of related resources to include in the response, for example `teams` or `roles`.
+          schema:
+            type: string
+        - name: name
+          in: query
+          description: Partial name to filter results. Returns organizations whose domain name or display name contains this value.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.auth.GetOrganizationsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List organizations
+      description: Returns a list of organizations accessible to the authenticated user.
+  /v1/organizations/name:
+    get:
+      tags:
+        - Organizations
+      operationId: getOrganizationByName
+      parameters:
+        - name: name
+          in: query
+          description: Domain name of the organization to look up. Must be an exact match. Required.
+          schema:
+            type: string
+        - name: nested
+          in: query
+          description: When true, includes and nests all child organizations under the returned organization. Defaults to false.
+          schema:
+            type: boolean
+        - name: userId
+          in: query
+          description: When provided, returns the organization only if the specified user has permission to access it.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.auth.GetOrganizationByNameResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Get organization by name
+      description: Returns the top-level organization whose name exactly matches the provided value.
+  /v1/organizations/{orgId}/services:
+    get:
+      tags:
+        - Components
+      description: Returns a list of applications and components within the specified organization.
+      operationId: ServiceEndpoint_ListServices2
+      parameters:
+        - name: orgId
+          in: path
+          description: Unique identifier of the organization whose applications and components are to be listed.
+          required: true
+          schema:
+            type: string
+        - name: typeFilter
+          in: query
+          description: Filters the results by type. Defaults to SERVICE_WITH_REPO_FILTER when omitted, which returns only components with an associated repository.
+          schema:
+            enum:
+              - SERVICE_WITH_REPO_FILTER
+              - APPLICATION_FILTER
+              - COMPONENT_FILTER
+              - NO_FILTER
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.service.ListServicesResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List applications and components
+  /v1/organizations/{organizationId}/teams:
+    get:
+      tags:
+        - Teams
+      operationId: TeamsService_GetTeams
+      parameters:
+        - name: organizationId
+          in: path
+          description: Unique identifier of the organization whose teams are to be listed. Required.
+          required: true
+          schema:
+            type: string
+        - name: userId
+          in: query
+          description: Filters results to teams that include the specified user as a member. Omit to return all teams in the organization.
+          schema:
+            type: string
+        - name: pagination.page
+          in: query
+          description: page (optional) indicates which page is being requested or returned (0 or 1) returns the 1st page of results
+          schema:
+            type: integer
+            format: int32
+        - name: pagination.pageLength
+          in: query
+          description: |-
+            page_length (optional) specifies the number of items per page being requested.  If the request is asking for more than an api limit
+             allows, the response will indicate the new page_length that should be used for future calls.
+          schema:
+            type: integer
+            format: int32
+        - name: pagination.sort.fieldName
+          in: query
+          description: |-
+            field_name specifies the field to use for sorting a list of results.  See documentation for
+             specific API endpoints to determine appropriate field names.
+          schema:
+            type: string
+        - name: pagination.sort.order
+          in: query
+          description: order specifies how to sort the results
+          schema:
+            enum:
+              - ASCENDING
+              - DESCENDING
+            type: string
+        - name: pagination.lastPage
+          in: query
+          description: 'RESPONSE ONLY: last_page is true {response} if there are no more results to be returned'
+          schema:
+            type: boolean
+        - name: include
+          in: query
+          description: Optional comma-separated list of related resources to include in each team response, for example `users` or `roles`.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.auth.GetTeamsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List teams in an organization
+      description: Returns a list of teams within the specified organization. Use the `userId` query parameter to filter results to teams that include a specific user as a member.
+  /v2/applications/{applicationId}/custom-properties:
+    get:
+      tags:
+        - Flag custom properties
+      operationId: CustomPropertyApi_ListCustomProperties
+      parameters:
+        - name: applicationId
+          in: path
+          description: Unique identifier of the application whose custom properties are to be listed.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.CustomProperty.ListCustomPropertiesResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List custom properties
+      description: Returns all custom properties defined within the specified application.
+    post:
+      tags:
+        - Flag custom properties
+      operationId: CustomPropertyApi_AddCustomProperty
+      parameters:
+        - name: applicationId
+          in: path
+          description: Unique identifier of the application in which to create the custom property.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.CustomProperty.CustomProperty'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.CustomProperty.AddCustomPropertyResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Create a custom property
+      description: Creates a new custom property within the specified application. Custom properties define additional attributes that can be used in feature flag targeting rules.
+  /v2/applications/{applicationId}/custom-properties/by-name/{name}:
+    get:
+      tags:
+        - Flag custom properties
+      operationId: CustomPropertyApi_GetCustomPropertyByName
+      parameters:
+        - name: applicationId
+          in: path
+          description: Unique identifier of the application that owns the custom property.
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          description: Name of the custom property to retrieve.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.CustomProperty.GetCustomPropertyResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Get a custom property by name
+      description: Returns a single custom property matching the specified name within the application. Use this endpoint when you have the property name but not its ID.
+  /v2/applications/{applicationId}/custom-properties/{id}:
+    get:
+      tags:
+        - Flag custom properties
+      operationId: CustomPropertyApi_GetCustomProperty
+      parameters:
+        - name: applicationId
+          in: path
+          description: Unique identifier of the application that owns the custom property.
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Unique identifier of the custom property to retrieve.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.CustomProperty.GetCustomPropertyResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Get a custom property
+      description: Returns a single custom property by its unique identifier within the specified application.
+    put:
+      tags:
+        - Flag custom properties
+      operationId: CustomPropertyApi_UpdateCustomProperty
+      parameters:
+        - name: applicationId
+          in: path
+          description: Unique identifier of the application that owns the custom property.
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Unique identifier of the custom property to update.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.CustomProperty.CustomProperty'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.CustomProperty.UpdateCustomPropertyResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Update a custom property
+      description: Replaces all fields of the specified custom property with the provided values. All fields in the request body are required; omitted fields are set to their default values.
+    delete:
+      tags:
+        - Flag custom properties
+      operationId: CustomPropertyApi_DeleteCustomProperty
+      parameters:
+        - name: applicationId
+          in: path
+          description: Unique identifier of the application that owns the custom property.
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Unique identifier of the custom property to delete.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content: {}
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Delete a custom property
+      description: Permanently deletes the specified custom property. This action cannot be undone. Ensure the property is not referenced by any feature flag targeting rules before deleting.
+  /v2/applications/{applicationId}/custom-properties/{id}/flag-usage-per-environment:
+    get:
+      tags:
+        - Flag custom properties
+      operationId: CustomPropertyApi_GetCustomPropertyFlagUsagePerEnvironment
+      parameters:
+        - name: applicationId
+          in: path
+          description: Unique identifier of the application that owns the custom property.
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Unique identifier of the custom property to retrieve.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.CustomProperty.GetCustomPropertyFlagsUsagePerEnvironmentResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Get flag usage per environment
+      description: Returns a list of environments and the feature flags that reference this custom property in each environment. Use this to understand where a custom property is actively used before modifying or deleting it.
+  /v2/applications/{applicationId}/custom-properties/{id}/target-group-usage:
+    get:
+      tags:
+        - Flag custom properties
+      operationId: CustomPropertyApi_GetCustomPropertyTargetGroupUsage
+      parameters:
+        - name: applicationId
+          in: path
+          description: Unique identifier of the application that owns the custom property.
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Unique identifier of the custom property to retrieve.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.CustomProperty.GetCustomPropertyTargetGroupUsageResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Get target group usage
+      description: Returns the target groups that reference this custom property in their targeting rules. Use this to understand the impact of changes to a custom property before modifying or deleting it.
+  /v2/applications/{applicationId}/environments/{environmentId}/configuration:
+    get:
+      tags:
+        - Flag configurations
+      operationId: FlagConfigurationApi_ListFlagConfigurations
+      parameters:
+        - name: applicationId
+          in: path
+          description: Unique identifier of the application whose flag configurations are to be listed.
+          required: true
+          schema:
+            type: string
+        - name: environmentId
+          in: path
+          description: Unique identifier of the environment for which to list flag configurations.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.flag.ListFlagConfigurationsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List flag configurations for an environment
+      description: Returns the configurations of all feature flags within the specified environment of an application.
+  /v2/applications/{applicationId}/flags:
+    get:
+      tags:
+        - Flags
+      operationId: FlagApi_ListFlags
+      parameters:
+        - name: applicationId
+          in: path
+          description: Unique identifier of the application whose feature flags are to be listed.
+          required: true
+          schema:
+            type: string
+        - name: configStateEnvs
+          in: query
+          description: List of environment IDs for which to include the enabled/disabled state of each flag. When omitted, no configuration state is returned.
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.flag.ListFlagsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List feature flags
+      description: Returns all feature flags for the specified application. Use the configStateEnvs query parameter to include the enabled/disabled state of each flag per environment.
+    post:
+      tags:
+        - Flags
+      operationId: FlagApi_AddFlag
+      parameters:
+        - name: applicationId
+          in: path
+          description: Unique identifier of the application in which to create the feature flag.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.flag.Flag'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.flag.AddFlagResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Create a feature flag
+      description: Creates a new feature flag within the specified application.
+  /v2/applications/{applicationId}/flags/by-name/{name}:
+    get:
+      tags:
+        - Flags
+      operationId: FlagApi_GetFlagByName
+      parameters:
+        - name: applicationId
+          in: path
+          description: Unique identifier of the application that owns the feature flag.
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          description: Unique name of the feature flag to retrieve.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.flag.GetFlagResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Get a feature flag by name
+      description: Returns a single feature flag by its unique name within the specified application.
+  /v2/applications/{applicationId}/flags/labels:
+    get:
+      tags:
+        - Flags
+      operationId: FlagApi_ListLabels
+      parameters:
+        - name: applicationId
+          in: path
+          description: Unique identifier of the application whose flag labels are to be listed.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.flag.ListLabelsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List flag labels
+      description: Returns all labels associated with feature flags in the specified application.
+  /v2/applications/{applicationId}/flags/{flagId}/configuration/environments/{environmentId}:
+    get:
+      tags:
+        - Flag configurations
+      operationId: FlagConfigurationApi_GetFlagConfiguration
+      parameters:
+        - name: applicationId
+          in: path
+          description: Unique identifier of the application that owns the feature flag.
+          required: true
+          schema:
+            type: string
+        - name: flagId
+          in: path
+          description: Unique identifier of the feature flag whose configuration is to be retrieved.
+          required: true
+          schema:
+            type: string
+        - name: environmentId
+          in: path
+          description: Unique identifier of the environment for which to retrieve the flag configuration.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.flag.GetFlagConfigurationResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Get flag configuration for an environment
+      description: Returns the configuration of a feature flag for the specified environment within an application.
+    put:
+      tags:
+        - Flag configurations
+      operationId: FlagConfigurationApi_UpdateFlagConfiguration
+      parameters:
+        - name: applicationId
+          in: path
+          description: Unique identifier of the application that owns the feature flag.
+          required: true
+          schema:
+            type: string
+        - name: flagId
+          in: path
+          description: Unique identifier of the feature flag to update.
+          required: true
+          schema:
+            type: string
+        - name: environmentId
+          in: path
+          description: Unique identifier of the environment for which to update the flag configuration.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.flag.FlagConfiguration'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content: {}
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Update flag configuration for an environment
+      description: Replaces the full configuration of a feature flag for the specified environment within an application.
+    patch:
+      tags:
+        - Flag configurations
+      operationId: FlagConfigurationApi_PatchFlagConfiguration
+      parameters:
+        - name: applicationId
+          in: path
+          description: Unique identifier of the application that owns the feature flag.
+          required: true
+          schema:
+            type: string
+        - name: flagId
+          in: path
+          description: Unique identifier of the feature flag to update.
+          required: true
+          schema:
+            type: string
+        - name: environmentId
+          in: path
+          description: Unique identifier of the environment for which to update the flag configuration.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.flag.FlagConfigurationOptional'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content: {}
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Partially update flag configuration for an environment
+      description: Updates one or more fields of a feature flag configuration for the specified environment. Only fields included in the request body are updated.
+  /v2/applications/{applicationId}/flags/{flagId}/configuration/environments/{environmentId}/configstate:
+    post:
+      tags:
+        - Flag configurations
+      operationId: FlagConfigurationApi_UpdateFlagConfigurationConfigState
+      parameters:
+        - name: applicationId
+          in: path
+          description: Unique identifier of the application that owns the feature flag.
+          required: true
+          schema:
+            type: string
+        - name: flagId
+          in: path
+          description: Unique identifier of the feature flag whose enabled state is to be updated.
+          required: true
+          schema:
+            type: string
+        - name: environmentId
+          in: path
+          description: Unique identifier of the environment for which to update the flag's enabled state.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.flag.FlagConfigState'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content: {}
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Update flag enabled state for an environment
+      description: Enables or disables a feature flag for the specified environment within an application.
+  /v2/applications/{applicationId}/flags/{flagId}/environment/{environmentId}/clone:
+    post:
+      tags:
+        - Flag configurations
+      operationId: FlagConfigurationApi_CloneFlagConfiguration
+      parameters:
+        - name: applicationId
+          in: path
+          description: Unique identifier of the application that owns the feature flag.
+          required: true
+          schema:
+            type: string
+        - name: flagId
+          in: path
+          description: Unique identifier of the feature flag whose configuration is to be cloned.
+          required: true
+          schema:
+            type: string
+        - name: environmentId
+          in: path
+          description: Unique identifier of the source environment whose configuration will be copied.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        '200':
+          description: OK
+          content: {}
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Clone flag configuration to other environments
+      description: Copies the feature flag configuration from a source environment to one or more target environments.
+  /v2/applications/{applicationId}/flags/{id}:
+    get:
+      tags:
+        - Flags
+      operationId: FlagApi_GetFlag
+      parameters:
+        - name: applicationId
+          in: path
+          description: Unique identifier of the application that owns the feature flag.
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Unique identifier of the feature flag to retrieve.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.flag.GetFlagResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Get a feature flag
+      description: Returns a single feature flag by its unique identifier within the specified application.
+    put:
+      tags:
+        - Flags
+      operationId: FlagApi_UpdateFlag
+      parameters:
+        - name: applicationId
+          in: path
+          description: Unique identifier of the application that owns the feature flag.
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Unique identifier of the feature flag to update.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.flag.Flag'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.flag.UpdateFlagResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Update a feature flag
+      description: Replaces the configuration of an existing feature flag within the specified application. All fields in the request body replace the current values.
+    delete:
+      tags:
+        - Flags
+      operationId: FlagApi_DeleteFlag
+      parameters:
+        - name: applicationId
+          in: path
+          description: Unique identifier of the application that owns the feature flag.
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Unique identifier of the feature flag to delete.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content: {}
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Delete a feature flag
+      description: Permanently deletes a feature flag and all its configurations from the specified application.
+  /v2/applications/{applicationId}/flags/{id}/configuration-state:
+    get:
+      tags:
+        - Flags
+      description: Returns the enabled or disabled state of a feature flag for each environment in the application.
+      operationId: FlagApi_GetFlagConfigurationState
+      parameters:
+        - name: applicationId
+          in: path
+          description: Unique identifier of the application that owns the feature flag.
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Unique identifier of the feature flag whose configuration state is to be retrieved.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.flag.GetFlagConfigurationStateResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Get flag configuration state per environment
+  /v2/applications/{applicationId}/flags/{id}/flag-usage-per-environment:
+    get:
+      tags:
+        - Flags
+      operationId: FlagApi_GetFlagFlagUsagePerEnvironment
+      parameters:
+        - name: applicationId
+          in: path
+          description: Unique identifier of the application that owns the feature flag.
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Unique identifier of the feature flag to retrieve.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.flag.GetFlagFlagsUsagePerEnvironmentResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Get flag target group usage per environment
+      description: Returns the target groups referenced by a feature flag, grouped by environment.
+  /v2/applications/{applicationId}/target-groups:
+    get:
+      tags:
+        - Target groups
+      operationId: TargetGroupApi_ListTargetGroups
+      parameters:
+        - name: applicationId
+          in: path
+          description: Unique identifier of the application whose target groups are to be listed.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.TargetGroup.ListTargetGroupsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List target groups
+      description: Returns all target groups within the specified application.
+    post:
+      tags:
+        - Target groups
+      operationId: TargetGroupApi_AddTargetGroup
+      parameters:
+        - name: applicationId
+          in: path
+          description: Unique identifier of the application in which to create the target group.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.TargetGroup.TargetGroup'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.TargetGroup.AddTargetGroupResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Create a target group
+      description: Creates a new target group within the specified application. Target groups define conditions used to target feature flags at specific users or contexts.
+  /v2/applications/{applicationId}/target-groups/by-name/{name}:
+    get:
+      tags:
+        - Target groups
+      operationId: TargetGroupApi_GetTargetGroupByName
+      parameters:
+        - name: applicationId
+          in: path
+          description: Unique identifier of the application that owns the target group.
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          description: Name of the target group to retrieve.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.TargetGroup.GetTargetGroupResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Get a target group by name
+      description: Returns the target group matching the specified name within the application.
+  /v2/applications/{applicationId}/target-groups/with-flags-usage:
+    get:
+      tags:
+        - Target groups
+      operationId: TargetGroupApi_ListTargetGroupsWithFlagsUsage
+      parameters:
+        - name: applicationId
+          in: path
+          description: Unique identifier of the application whose target groups are to be listed.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.TargetGroup.ListTargetGroupsWithFlagsUsageResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List target groups with flag usage
+      description: Returns all target groups within the specified application, each including the feature flags that reference it.
+  /v2/applications/{applicationId}/target-groups/{id}:
+    get:
+      tags:
+        - Target groups
+      operationId: TargetGroupApi_GetTargetGroup
+      parameters:
+        - name: applicationId
+          in: path
+          description: Unique identifier of the application that owns the target group.
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Unique identifier of the target group to retrieve.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.TargetGroup.GetTargetGroupResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Get a target group
+      description: Returns the target group matching the specified identifier within the application.
+    put:
+      tags:
+        - Target groups
+      operationId: TargetGroupApi_UpdateTargetGroup
+      parameters:
+        - name: applicationId
+          in: path
+          description: Unique identifier of the application that owns the target group.
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Unique identifier of the target group to update.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.TargetGroup.TargetGroup'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.TargetGroup.UpdateTargetGroupResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Update a target group
+      description: Replaces the configuration of the specified target group within the application. All fields in the request body replace the current values.
+    delete:
+      tags:
+        - Target groups
+      operationId: TargetGroupApi_DeleteTargetGroup
+      parameters:
+        - name: applicationId
+          in: path
+          description: Unique identifier of the application that owns the target group.
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Unique identifier of the target group to delete.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content: {}
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Delete a target group
+      description: Permanently deletes the specified target group from the application. This action cannot be undone.
+  /v2/applications/{applicationId}/target-groups/{id}/flag-usage-per-environment:
+    get:
+      tags:
+        - Target groups
+      operationId: TargetGroupApi_GetTargetGroupFlagUsagePerEnvironment
+      parameters:
+        - name: applicationId
+          in: path
+          description: Unique identifier of the application that owns the target group.
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Unique identifier of the target group to retrieve.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.TargetGroup.GetTargetGroupFlagsUsagePerEnvironmentResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List flag usage per environment for a target group
+      description: Returns the feature flags that reference the specified target group, grouped by environment.
+  /v2/organizations/{orgId}/environments:
+    get:
+      tags:
+        - Environments
+      operationId: ReportServiceHandler_GetEnvironmentsv2
+      parameters:
+        - name: orgId
+          in: path
+          description: Unique identifier of the organization whose environments are to be listed.
+          required: true
+          schema:
+            type: string
+        - name: subOrgId
+          in: query
+          description: sub_org_id should not be used, use suborg ids as org_id in the query
+          schema:
+            type: string
+        - name: name
+          in: query
+          description: Optional filter to narrow results to environments matching the specified name.
+          schema:
+            type: string
+        - name: timeZone
+          in: query
+          description: IANA timezone name for the response (for example, "America/New_York"). Defaults to UTC if omitted.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.vsm.report.EnvironmentResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List environments
+      description: Returns a list of environments within the specified organization. Use the name query parameter to filter results by environment name.
+  /v3/organizations/{organizationId}/invite:
+    post:
+      tags:
+        - Users
+      operationId: InvitesService_CreateInviteV3
+      parameters:
+        - name: organizationId
+          in: path
+          description: Unique identifier of the organization to which users are being invited. Required.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.auth.CreateInvitesRequestV3'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.auth.CreateInvitesV3Response'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Create invites for users to join an organization
+      description: Creates invitations for one or more users to join the specified organization and its selected teams. Each invited user receives an email with a link to accept the invitation. Invitations expire after 5 days by default.
+  /v3/organizations/{organizationId}/user/{userId}:
+    delete:
+      tags:
+        - Users
+      operationId: MembershipsService_RemoveUsersFromTeamV3
+      parameters:
+        - name: organizationId
+          in: path
+          description: Unique identifier of the organization from which the user is removed. Required.
+          required: true
+          schema:
+            type: string
+        - name: userId
+          in: path
+          description: Unique identifier of the user to remove from the organization. Required.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content: {}
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Remove a user from an organization
+      description: Removes the specified user from all teams within the organization, revoking their access to all associated resources.
+components:
+  schemas:
+    api.fmimpressions.GetFlagsStatusResponse:
+      required:
+        - flagsStatus
+      type: object
+      properties:
+        flagsStatus:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/api.fmimpressions.FlagStatus'
+          description: Current status of all feature flags in the environment, keyed by flag name.
+    api.fmimpressions.FlagStatus:
+      required:
+        - flagName
+        - status
+      type: object
+      properties:
+        flagName:
+          type: string
+          description: Name of the feature flag.
+        status:
+          type: string
+          description: 'Lifecycle status of the flag. Possible values: active (received impressions with different values over the last seven days), stale (received impressions over the last seven days but all had the same value), inactive (no impressions received within the past seven days), setup (no impressions received yet), permanent (a long-lived flag, impression data is ignored).'
+    google.rpc.Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+          format: int32
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+          description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+      description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+    google.protobuf.Any:
+      type: object
+      properties:
+        '@type':
+          type: string
+          description: The type of the serialized message.
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+    api.fmimpressions.ImpressionParams:
+      required:
+        - flagname
+      type: object
+      properties:
+        mode:
+          enum:
+            - HOURLY
+            - DAILY
+          type: string
+          description: Aggregation granularity for the impression data. HOURLY returns data from the last 24 hours; DAILY returns data from the last 30 days. Defaults to HOURLY if omitted.
+        from:
+          type: string
+          description: Start of the time range for impression data, in UTC. Must not be after the to timestamp. Data is bounded by the backend retention window (24 hours for HOURLY mode, 30 days for DAILY mode). Omit to return data from the earliest available point.
+          format: date-time
+        to:
+          type: string
+          description: End of the time range for impression data, in UTC. Must not be before the from timestamp. Omit to return data up to the current time.
+          format: date-time
+        flagname:
+          type: array
+          items:
+            type: string
+          description: One or more feature flag names to retrieve impression data for. If omitted or empty, returns impressions for all flags in the environment.
+      description: Parameters controlling which feature flags and time window are included in the impressions response.
+    api.fmimpressions.GetImpressionsResponse:
+      required:
+        - analytics
+      type: object
+      properties:
+        analytics:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/api.fmimpressions.SdkKeyImpressions'
+          description: Impression data keyed by flag name. Each entry maps to aggregated impression counts organized by time interval.
+    api.fmimpressions.SdkKeyImpressions:
+      required:
+        - interval
+      type: object
+      properties:
+        interval:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/api.fmimpressions.AllFlagImpressions'
+          description: Impression data keyed by timestamp interval (hourly or daily durations, depending on the requested mode). Each value contains the aggregated impressions for that interval.
+    api.fmimpressions.AllFlagImpressions:
+      type: object
+      properties:
+        impressions:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.fmimpressions.FlagImpression'
+          description: List of impression records for the flag, each representing one time interval.
+    api.fmimpressions.FlagImpression:
+      type: object
+      properties:
+        from:
+          type: string
+          description: Start timestamp of the impression interval.
+          format: date-time
+        aggregatedValues:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.fmimpressions.ValuesAndCounters'
+          description: Aggregated impression counts for each flag variation within this interval.
+    api.fmimpressions.ValuesAndCounters:
+      required:
+        - value
+        - counter
+      type: object
+      properties:
+        value:
+          type: string
+          description: The flag variation value that was served.
+        counter:
+          type: number
+          description: Number of times this variation was served during the interval.
+          format: double
+    api.auth.GetOrganizationsResponse:
+      type: object
+      properties:
+        organizations:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.Organization'
+          description: List of organizations matching the request criteria.
+        pagination:
+          allOf:
+            - $ref: '#/components/schemas/api.Pagination'
+          description: Pagination metadata for retrieving additional pages of results.
+    api.auth.Organization:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the organization.
+        displayName:
+          type: string
+          description: Human-readable display name of the organization.
+        domainName:
+          type: string
+          description: URL-safe domain name of the organization, used in API paths.
+        isDisabled:
+          type: boolean
+          description: When true, the organization is no longer active.
+        childOrganizations:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.Organization'
+          description: Sub-organizations that belong to this organization. Populated only when `nested` is true.
+        parentId:
+          type: string
+          description: Unique identifier of the parent organization. Present only if this is a sub-organization.
+        description:
+          type: string
+          description: Optional description providing additional context about the organization.
+        metadata:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/google.protobuf.Any'
+          description: 'Deprecated: use the properties field instead.'
+        audit:
+          allOf:
+            - $ref: '#/components/schemas/api.Audit'
+          description: Audit metadata for the organization, including creation and last modification timestamps.
+        properties:
+          type: object
+          additionalProperties:
+            type: string
+          description: Key-value pairs of additional metadata associated with the organization.
+        teams:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.Team'
+          description: Teams that belong to this organization.
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.Role'
+          description: Roles defined within this organization.
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.permission.Permission'
+          description: Permissions assigned within this organization.
+        emailDomains:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.EmailDomain'
+          description: Email domains associated with this organization.
+        connections:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.Connection'
+          description: Identity provider connections configured for this organization.
+        isImplicit:
+          readOnly: true
+          type: boolean
+          description: |-
+            Populated when SkipDefaultReadAll is enabled for the tenant.
+             When true, the user can see this organization name for breadcrumb
+             navigation but does not have explicit read access to it. Implicit
+             organizations cannot be selected in the organization selector widget.
+    api.Audit:
+      type: object
+      properties:
+        who:
+          type: string
+          description: UUID of the user that made the change
+        when:
+          type: string
+          description: timestamp of the update
+          format: date-time
+        why:
+          type: string
+          description: reason for the update (optional)
+      description: Audit records the person that updated the data last.
+    api.auth.Team:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the team.
+        name:
+          type: string
+          description: Display name of the team.
+        isDefault:
+          type: boolean
+          description: Indicates whether this is the default team for the organization. Every organization has exactly one default team, which automatically includes all members and cannot be deleted.
+        immutable:
+          type: boolean
+          description: Indicates whether the team is managed by an SSO connection. When true, team membership and configuration cannot be modified manually.
+        organizationId:
+          type: string
+          description: Unique identifier of the organization this team belongs to.
+        userIds:
+          type: array
+          items:
+            type: string
+          description: List of unique identifiers of users who are members of this team.
+        supportEnabled:
+          type: boolean
+          description: Indicates whether this team is synced with Zendesk support.
+        metadata:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/google.protobuf.Any'
+          description: Key-value pairs of additional information stored on the team object.
+        isDeleted:
+          type: boolean
+          description: Indicates whether the team has been soft-deleted.
+        audit:
+          allOf:
+            - $ref: '#/components/schemas/api.Audit'
+          description: Audit metadata including creation and last modification timestamps.
+        description:
+          type: string
+          description: Optional description providing additional details about the team's purpose.
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.User'
+          description: Full user objects for each member of this team, populated when users are included in the response.
+        type:
+          enum:
+            - UNKNOWN
+            - PREDEFINED
+            - USERDEFINED
+          type: string
+          description: The type of team. Valid values are PREDEFINED (system-created, cannot be deleted) or USERDEFINED (user-created, can be deleted).
+        organization:
+          allOf:
+            - $ref: '#/components/schemas/api.auth.Org'
+          description: The organization this team belongs to, populated when organization details are included in the response.
+        invites:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.Invite'
+          description: Pending invitations associated with this team.
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.Role'
+          description: Roles assigned to this team.
+    api.auth.User:
+      type: object
+      properties:
+        id:
+          type: string
+          description: unique id of the user
+        givenname:
+          type: string
+          description: given name is the "first" name
+        familyname:
+          type: string
+          description: family is the sur or "last" name
+        displayname:
+          type: string
+          description: displayname is the preferred name to use in the UI
+        type:
+          enum:
+            - USER_TYPE_UNDEFINED
+            - USER_TYPE_PERSON
+            - USER_TYPE_MACHINE
+          type: string
+          description: indicates the type of the user, could be a human, could be a machine
+        status:
+          enum:
+            - USER_STATUS_UNDEFINED
+            - USER_STATUS_ACTIVE
+            - USER_STATUS_DISABLED
+            - USER_STATUS_DELETED
+          type: string
+          description: indicates the status of the user
+        loginIds:
+          type: array
+          items:
+            type: string
+          description: |-
+            logins are the specific login methods that user uses to authenticate
+             with the system. See Login message.
+        preferences:
+          type: object
+          additionalProperties:
+            type: string
+          description: Key value pair of preferences, things like font, theme, avatar url
+        audit:
+          $ref: '#/components/schemas/api.Audit'
+        logins:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.Login'
+        associatedEmails:
+          type: array
+          items:
+            type: string
+          description: list of emails linked to this user; not used for login
+        email:
+          type: string
+        timezone:
+          type: string
+        mfaEnabled:
+          type: boolean
+        createdat:
+          type: string
+          format: date-time
+        updatedat:
+          type: string
+          format: date-time
+        lastlogindate:
+          type: string
+          format: date-time
+      description: |-
+        User will live in a separate database from the rest of the
+         platform due to PII
+    api.auth.Login:
+      type: object
+      properties:
+        id:
+          type: string
+          description: unique id of the login
+        type:
+          enum:
+            - LOGIN_TYPE_UNDEFINED
+            - LOGIN_TYPE_PASSWORD
+            - LOGIN_TYPE_GOOGLE
+            - LOGIN_TYPE_GITHUB
+            - LOGIN_TYPE_SAML
+            - LOGIN_TYPE_LDAP
+            - LOGIN_TYPE_OAUTH2
+          type: string
+          description: what type is the login, see enum
+        email:
+          type: string
+          description: email address
+        password:
+          type: string
+          description: for password logins, the encrypted password
+        salt:
+          type: string
+          description: for password logins, the salt
+        isVerified:
+          type: boolean
+          description: |-
+            whether the login method has been verified, some login methods are
+             automatically verified
+        userId:
+          type: string
+          description: user this login belongs to
+        audit:
+          $ref: '#/components/schemas/api.Audit'
+      description: How a user logs in to the system
+    api.auth.Org:
+      type: object
+      properties:
+        id:
+          type: string
+          description: |-
+            ID here must match with the resource ID in resources table,
+             since an organization is a type of resource.
+        displayName:
+          type: string
+          description: Organization display name  -  not the same as the resource name
+        domainName:
+          type: string
+          description: |-
+            Organization domain name  -  this must match with the resource name
+             (since resource name could be in the URL, it must be URL-safe, that's why the domain)
+        isDisabled:
+          type: boolean
+          description: if true, the organization is no longer active
+        childOrganizations:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.Org'
+          description: sub-organizations
+        parentId:
+          type: string
+          description: parent id if this is a sub-organization
+        description:
+          type: string
+          description: description field
+        metadata:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/google.protobuf.Any'
+          description: '@Deprecated - use the properties field instead'
+        audit:
+          $ref: '#/components/schemas/api.Audit'
+        properties:
+          type: object
+          additionalProperties:
+            type: string
+          description: key value pair of extra information to store in the organization object
+        teams:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.Team'
+          description: Teams that are part of the organization
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.Role'
+          description: Roles
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.permission.Permission'
+          description: Permissions assigned to the role
+        emailDomains:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.EmailDomain'
+          description: email domains
+        connections:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.Connection'
+          description: connections
+    api.auth.Role:
+      required:
+        - organizationId
+        - name
+        - audit
+      type: object
+      properties:
+        organizationId:
+          type: string
+          description: The organization the role belongs to
+        name:
+          type: string
+          description: Role name
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.permission.Permission'
+          description: Permissions assigned to the role
+        isDeleted:
+          type: boolean
+          description: |-
+            IsDeleted indicates if this record is no longer valid
+             Anyone assigned this role will no longer have the permissions granted by this role
+        audit:
+          allOf:
+            - $ref: '#/components/schemas/api.Audit'
+          description: Audit information for the role
+        description:
+          type: string
+          description: Description of the role (optional)
+        isEditable:
+          type: boolean
+          description: |-
+            Is the role editable. If not, the role can not be modified or deleted.
+             This is useful for system roles that should not be modified Vs "custom" roles that can.
+             Default is false.
+        id:
+          type: string
+          description: Unique identifier for the role
+      description: |-
+        Roles are a collection of permission actions.
+         PermissionActions can not be granted to a user
+         directly, a role must be created.
+    api.auth.permission.Permission:
+      required:
+        - action
+        - type
+      type: object
+      properties:
+        action:
+          enum:
+            - UNDEFINED
+            - CREATE
+            - READ
+            - UPDATE
+            - DELETE
+            - EXECUTE
+            - ACCESS
+          type: string
+          description: The action allowed
+        type:
+          enum:
+            - ORGANIZATION
+            - USER_ENTITY
+            - USER_INVITE
+            - TEAM
+            - MEMBERSHIP
+            - AUTHORIZATION
+            - ROLE
+            - ENDPOINT
+            - PROPERTY
+            - SECRET
+            - RESOURCE
+            - SERVICE
+            - ENVIRONMENT
+            - FLAG
+            - EXTENSION
+            - AUDIT
+            - LOG
+            - ACCOUNT
+            - SUBSCRIPTION
+            - ENTITLEMENT
+            - AUTOMATION
+            - RECENT_ORG_RECORD
+            - DEFAULT_PLAN
+            - VSM
+            - CI_INSIGHTS
+            - ARTIFACT
+            - SECURITY
+            - WORKFLOW_EVENT
+            - APPROVAL
+            - API_TOKEN
+            - SLA_CONFIGURATION
+            - ASSET_SERVICE_MARKETPLACE
+            - RESOURCE_ERROR
+            - TRIAGE_APPROVAL
+            - APPLICATION_RELEASE
+            - TRIAGE_FINDINGS
+            - VIEW_FINDINGS_BY_TRIAGE_STATUS
+            - REVIEW_RA_REQUEST
+            - REVIEW_FP_REQUEST
+            - EXTERNAL_WORKFLOW_EVENTS
+            - TARGET_GROUP
+            - CUSTOM_PROPERTY
+            - APPROVAL_REQUEST
+            - POLICY
+            - EDGE_RUNNER
+            - SMART_TESTS_WORKSPACE
+          type: string
+          description: The type of entity being protected
+      description: Permission message represents a permission that can be granted to a user on an API entity.
+    api.auth.EmailDomain:
+      type: object
+      properties:
+        id:
+          type: string
+        domainName:
+          type: string
+          description: 'Name of the domain (example: cloudbees.com - what comes after the @ in an email address)'
+        organizationId:
+          type: string
+          description: Organization this email-domain record was created for
+        challenge:
+          type: string
+          description: UUID used for verification of this email-domain record
+        isVerified:
+          type: boolean
+          description: Whether the email-domain is already verified or not
+        connectionId:
+          type: string
+          description: Connection id that this email-domain is linked to
+    api.auth.Connection:
+      type: object
+      properties:
+        id:
+          type: string
+        organizationId:
+          type: string
+          description: Organization the connection was created for
+        entityId:
+          type: string
+          description: Entity ID of the SAML IdP
+        signInEndpoint:
+          type: string
+          description: Sign-in endpoint for the SAML IdP
+        signInCertificate:
+          type: string
+          description: Sign-in certificate from the SAML IdP
+        connectionName:
+          type: string
+          description: Display name for the connection
+        isEnabled:
+          type: boolean
+          description: Whether the connection is enabled or not
+        autoprovision:
+          type: boolean
+          description: |-
+            Whether auto-provision is enabled or not
+             (when on, users from the SAML IdP are automatically added to the organization during login)
+        strict:
+          type: boolean
+          description: |-
+            Whether strict is enabled or not
+             (when on, only email's with the connection's linked email-domain can be invited + forces everyone with linked email domains to use SAML login)
+        wantAssertionsSigned:
+          type: boolean
+          description: |-
+            Whether this connection requires the identity provider to digitally sign SAML assertions before they are accepted.
+             This is a standard and commonly supported setting in SAML identity providers. Enabled by default.
+        wantAssertionsEncrypted:
+          type: boolean
+          description: |-
+            Whether this connection requires the identity provider to encrypt SAML assertions before they are accepted.
+             This is preferable but not supported by all major identity providers. Disable if your IdP is Microsoft Entra ID or Google Workspace.
+        validateSignatures:
+          type: boolean
+          description: Whether this connection validates signatures on incoming SAML responses.
+        source:
+          type: string
+          description: 'Adding source attrribute to differentiate whether connection is migrated from UDS or already present in CBP, Ticket : CBP-13455'
+    api.auth.Invite:
+      type: object
+      properties:
+        id:
+          type: string
+          description: unique id of the invite
+        email:
+          type: string
+          description: email invited to the platform
+        teamId:
+          type: string
+          description: team to which this email was invited
+        teamRole:
+          type: string
+          description: role for this email when accepted into the team
+        redirectUrl:
+          type: string
+          description: redirect url post invite acceptance
+        expirationDate:
+          type: string
+          description: expiration date for this invitation
+          format: date-time
+        isAutogenerated:
+          type: boolean
+          description: if this invite was created based on a different invite
+        audit:
+          $ref: '#/components/schemas/api.Audit'
+        invitedBy:
+          type: string
+          description: user ID of the user who created this invite
+      description: Record of the invitation for a new user for an organization
+    api.Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+          description: page (optional) indicates which page is being requested or returned (0 or 1) returns the 1st page of results
+          format: int32
+        pageLength:
+          type: integer
+          description: |-
+            page_length (optional) specifies the number of items per page being requested.  If the request is asking for more than an api limit
+             allows, the response will indicate the new page_length that should be used for future calls.
+          format: int32
+        sort:
+          allOf:
+            - $ref: '#/components/schemas/api.Sort'
+          description: sort (optional) specifies how the results should be sorted {request} or how they are actually sorted {response}.
+        lastPage:
+          type: boolean
+          description: 'RESPONSE ONLY: last_page is true {response} if there are no more results to be returned'
+      description: Pagination is sent as part of a request to specify handling for paginated results, and returned with paginated results=
+    api.Sort:
+      type: object
+      properties:
+        fieldName:
+          type: string
+          description: |-
+            field_name specifies the field to use for sorting a list of results.  See documentation for
+             specific API endpoints to determine appropriate field names.
+        order:
+          enum:
+            - ASCENDING
+            - DESCENDING
+          type: string
+          description: order specifies how to sort the results
+      description: Sort describes which field to sort the results on and the order in which to sort them
+    api.auth.GetOrganizationByNameResponse:
+      type: object
+      properties:
+        organization:
+          allOf:
+            - $ref: '#/components/schemas/api.auth.Organization'
+          description: The organization whose name exactly matched the requested value.
+    api.service.ListServicesResponse:
+      type: object
+      properties:
+        service:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.service.Service'
+          description: List of applications and components belonging to the specified organization.
+    api.service.Service:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the component.
+        name:
+          type: string
+          description: Name of the component.
+        description:
+          type: string
+          description: Description of the component.
+        endpointId:
+          type: string
+          description: Identifier of the SCM endpoint associated with the component's repository.
+        repositoryUrl:
+          type: string
+          description: Clone URL of the SCM repository associated with the component.
+        defaultBranch:
+          type: string
+          description: Default branch of the SCM repository associated with the component.
+        organizationId:
+          type: string
+          description: Unique identifier of the organization or sub-organization the component belongs to.
+        serviceType:
+          enum:
+            - COMPONENT
+            - APPLICATION
+          type: string
+          description: Type of the component. Valid values are COMPONENT for a standalone component and APPLICATION for an application that groups components.
+        linkedComponentIds:
+          type: array
+          items:
+            type: string
+          description: Identifiers of the components linked to this application. Applies only when serviceType is APPLICATION.
+        linkedEnvironmentIds:
+          type: array
+          items:
+            type: string
+          description: Identifiers of the environments linked to this application. Applies only when serviceType is APPLICATION.
+        repositoryHref:
+          type: string
+          description: URL to the repository web UI. If not set, use repositoryUrl.
+        provider:
+          type: string
+          description: SCM integration provider, for example github, bitbucket, bitbucket-datacenter, or gitlab-server.
+        edge:
+          type: boolean
+          description: True if this component's SCM integration is an edge integration (operations run on edge runners).
+        serviceEndpointId:
+          type: string
+          description: |-
+            Identifier of the component's own SCM repository endpoint. Always present,
+             including for components created without an SCM integration. Differs from
+             endpoint_id (field 4), which identifies the SCM integration and is empty
+             for components created without one.
+    api.auth.GetTeamsResponse:
+      type: object
+      properties:
+        teams:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.Team'
+          description: The list of teams in the specified organization.
+        pagination:
+          allOf:
+            - $ref: '#/components/schemas/api.Pagination'
+          description: Pagination metadata for the response, including whether this is the last page of results.
+    api.CustomProperty.ListCustomPropertiesResponse:
+      type: object
+      properties:
+        customProperties:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.CustomProperty.CustomProperty'
+          description: List of all custom properties defined within the application.
+    api.CustomProperty.CustomProperty:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the custom property.
+        name:
+          type: string
+          description: Name of the custom property as it appears in the UI and targeting rules.
+        type:
+          enum:
+            - Boolean
+            - String
+            - Semver
+            - Number
+            - DateTime
+          type: string
+          description: 'Data type of the custom property. Valid values: Boolean, String, Semver, Number, DateTime.'
+        description:
+          type: string
+          description: Human-readable description of the custom property's purpose.
+        resourceId:
+          type: string
+          description: Identifier of the application that owns this custom property.
+        cascUrl:
+          type: string
+          description: URL of the CasC (configuration-as-code) representation of this custom property.
+    api.CustomProperty.AddCustomPropertyResponse:
+      type: object
+      properties:
+        customProperty:
+          allOf:
+            - $ref: '#/components/schemas/api.CustomProperty.CustomProperty'
+          description: The newly created custom property.
+    api.CustomProperty.GetCustomPropertyResponse:
+      type: object
+      properties:
+        customProperty:
+          allOf:
+            - $ref: '#/components/schemas/api.CustomProperty.CustomProperty'
+          description: The requested custom property.
+    api.CustomProperty.UpdateCustomPropertyResponse:
+      type: object
+      properties:
+        customProperty:
+          allOf:
+            - $ref: '#/components/schemas/api.CustomProperty.CustomProperty'
+          description: The updated custom property.
+    api.CustomProperty.GetCustomPropertyFlagsUsagePerEnvironmentResponse:
+      type: object
+      properties:
+        environments:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.TargetGroup.EnvironmentUsage'
+          description: List of environments and the feature flags that reference this custom property in each environment.
+    api.TargetGroup.EnvironmentUsage:
+      type: object
+      properties:
+        environmentId:
+          type: string
+          description: Unique identifier of the environment.
+        flagUsage:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.TargetGroup.FlagUsageInEnvironment'
+          description: Feature flags that reference the target group in this environment.
+    api.TargetGroup.FlagUsageInEnvironment:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the feature flag.
+        name:
+          type: string
+          description: Display name of the feature flag.
+        enabled:
+          type: boolean
+          description: Whether the feature flag is enabled in this environment.
+        resourceId:
+          type: string
+          description: Unique identifier of the application that owns this feature flag.
+    api.CustomProperty.GetCustomPropertyTargetGroupUsageResponse:
+      type: object
+      properties:
+        targetGroupUsage:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.TargetGroup.TargetGroupUsage'
+          description: List of target groups that reference this custom property in their targeting rules.
+    api.TargetGroup.TargetGroupUsage:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the target group.
+        name:
+          type: string
+          description: Display name of the target group.
+        resourceId:
+          type: string
+          description: Unique identifier of the application that owns this target group.
+    api.flag.ListFlagConfigurationsResponse:
+      type: object
+      properties:
+        configurations:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.flag.FlagConfigurationEnvironment'
+          description: The list of feature flag configurations for the specified environment.
+    api.flag.FlagConfigurationEnvironment:
+      type: object
+      properties:
+        flagId:
+          type: string
+          description: Unique identifier of the feature flag this configuration belongs to.
+        flagName:
+          type: string
+          description: Name of the feature flag.
+        description:
+          type: string
+          description: Description of the feature flag.
+        labels:
+          type: array
+          items:
+            type: string
+          description: Labels assigned to the feature flag for organization and filtering.
+        created:
+          type: string
+          description: The date and time when the flag configuration was created.
+          format: date-time
+        updated:
+          type: string
+          description: The date and time when the flag configuration was last updated.
+          format: date-time
+        configuration:
+          allOf:
+            - $ref: '#/components/schemas/api.flag.FlagConfiguration'
+          description: The feature flag configuration data for this environment.
+    api.flag.FlagConfiguration:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: Whether the feature flag is enabled in this environment.
+        defaultValue:
+          allOf:
+            - $ref: '#/components/schemas/google.protobuf.Value'
+          description: The default value returned to users who do not match any targeting condition.
+        conditions:
+          allOf:
+            - $ref: '#/components/schemas/google.protobuf.ListValue'
+          description: The list of targeting conditions that determine which users receive specific flag values.
+        seed:
+          type: string
+          description: Random seed value used in percentage based (split) configurations to avoid statistical bias when selecting the flag value.
+        stickinessProperty:
+          type: string
+          description: Name of the Custom Property that will be used to ensure consistent flag evaluations for percentage based  (split) configurations.
+        variantsEnabled:
+          type: boolean
+          description: Whether multivariate variants are enabled for this flag configuration.
+        resourceId:
+          type: string
+          description: The unique identifier of the resource this configuration belongs to.
+        cascUrl:
+          type: string
+          description: The CloudBees CasC (Configuration as Code) URL associated with this flag configuration.
+        created:
+          type: string
+          description: The date and time when this flag configuration was created.
+          format: date-time
+        updated:
+          type: string
+          description: The date and time when this flag configuration was last updated.
+          format: date-time
+    google.protobuf.Value:
+      description: Represents a dynamically typed value which can be either null, a number, a string, a boolean, a recursive struct value, or a list of values.
+    google.protobuf.ListValue:
+      description: |-
+        `ListValue` is a wrapper around a repeated field of values.
+
+         The JSON representation for `ListValue` is JSON array.
+      type: array
+      items: {}
+    api.flag.ListFlagsResponse:
+      type: object
+      properties:
+        flags:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.flag.Flag'
+          description: The list of feature flags belonging to the specified application.
+    api.flag.Flag:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the feature flag.
+        name:
+          type: string
+          description: The unique name of the feature flag within the application.
+        description:
+          type: string
+          description: A human-readable description of the feature flag's purpose.
+        flagType:
+          enum:
+            - Boolean
+            - String
+            - Number
+          type: string
+          description: The value type of the flag. One of Boolean, String, or Number.
+        variants:
+          type: array
+          items:
+            type: string
+          description: The valid variant values for String or Number flags. Empty for Boolean flags.
+        resourceId:
+          type: string
+          description: The unique identifier of the application that owns this feature flag.
+        labels:
+          type: array
+          items:
+            type: string
+          description: Labels attached to this feature flag for organizational or filtering purposes.
+        isPermanent:
+          type: boolean
+          description: When true, the flag is marked permanent and excluded from stale flag cleanup.
+        cascUrl:
+          type: string
+          description: The CasC (Configuration as Code) URL for this feature flag.
+        created:
+          type: string
+          description: The date and time at which the feature flag was created.
+          format: date-time
+        configStates:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.flag.FlagConfigurationState'
+          description: The enabled or disabled state of this flag per environment. Populated only when environment IDs are requested.
+        updated:
+          type: string
+          description: The date and time at which the feature flag was last updated.
+          format: date-time
+    api.flag.FlagConfigurationState:
+      type: object
+      properties:
+        environmentId:
+          type: string
+          description: The unique identifier of the environment this state applies to.
+        enabled:
+          type: boolean
+          description: Whether the feature flag is enabled in this environment.
+        updated:
+          type: string
+          description: The date and time at which this configuration state was last updated.
+          format: date-time
+    api.flag.AddFlagResponse:
+      type: object
+      properties:
+        flag:
+          allOf:
+            - $ref: '#/components/schemas/api.flag.Flag'
+          description: The feature flag object as it was created, including its assigned identifier.
+    api.flag.GetFlagResponse:
+      type: object
+      properties:
+        flag:
+          allOf:
+            - $ref: '#/components/schemas/api.flag.Flag'
+          description: The feature flag object containing its current configuration and metadata.
+    api.flag.ListLabelsResponse:
+      type: object
+      properties:
+        labels:
+          type: array
+          items:
+            type: string
+          description: The list of label strings associated with feature flags in the application.
+    api.flag.GetFlagConfigurationResponse:
+      type: object
+      properties:
+        configuration:
+          allOf:
+            - $ref: '#/components/schemas/api.flag.FlagConfiguration'
+          description: The feature flag configuration for the specified environment.
+    api.flag.FlagConfigurationOptional:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: Whether the feature flag is enabled in this environment. Omit to leave the current value unchanged.
+        defaultValue:
+          allOf:
+            - $ref: '#/components/schemas/google.protobuf.Value'
+          description: The default value returned to users who do not match any targeting condition. Omit to leave the current value unchanged.
+        conditions:
+          allOf:
+            - $ref: '#/components/schemas/google.protobuf.ListValue'
+          description: The list of targeting conditions that determine which users receive specific flag values. Omit to leave the current value unchanged.
+        stickinessProperty:
+          type: string
+          description: The user attribute used to ensure consistent flag evaluation for the same user. Omit to leave the current value unchanged.
+        variantsEnabled:
+          type: boolean
+          description: Whether multivariate variants are enabled. Omit to leave the current value unchanged.
+    api.flag.FlagConfigState:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: Whether the feature flag is enabled. Set to true to enable the flag, or false to disable it.
+    api.flag.UpdateFlagResponse:
+      type: object
+      properties:
+        flag:
+          allOf:
+            - $ref: '#/components/schemas/api.flag.Flag'
+          description: The feature flag object reflecting its state after the update.
+    api.flag.GetFlagConfigurationStateResponse:
+      type: object
+      properties:
+        configurationStates:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.flag.FlagConfigurationState'
+          description: The enabled/disabled state of the feature flag for each environment in the application.
+    api.flag.GetFlagFlagsUsagePerEnvironmentResponse:
+      type: object
+      properties:
+        environments:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.TargetGroup.EnvironmentUsage'
+          description: The list of environments and the target groups that this feature flag references in each.
+    api.TargetGroup.ListTargetGroupsResponse:
+      type: object
+      properties:
+        targetGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.TargetGroup.TargetGroup'
+          description: List of target groups in the application.
+    api.TargetGroup.TargetGroup:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the target group.
+        name:
+          type: string
+          description: Display name of the target group.
+        description:
+          type: string
+          description: Human-readable description of the target group's purpose.
+        conditions:
+          type: object
+          description: Targeting conditions that define which users or contexts match this group, expressed as a JSON structure.
+        resourceId:
+          type: string
+          description: Unique identifier of the application that owns this target group.
+        cascUrl:
+          type: string
+          description: Configuration as Code (CasC) URL for this target group.
+    api.TargetGroup.AddTargetGroupResponse:
+      type: object
+      properties:
+        targetGroup:
+          allOf:
+            - $ref: '#/components/schemas/api.TargetGroup.TargetGroup'
+          description: The created target group.
+    api.TargetGroup.GetTargetGroupResponse:
+      type: object
+      properties:
+        targetGroup:
+          allOf:
+            - $ref: '#/components/schemas/api.TargetGroup.TargetGroup'
+          description: The requested target group.
+    api.TargetGroup.ListTargetGroupsWithFlagsUsageResponse:
+      type: object
+      properties:
+        targetGroupsWithFlagUsage:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.TargetGroup.TargetGroupWithFlagsUsage'
+          description: List of target groups in the application, each including the feature flags that reference it.
+    api.TargetGroup.TargetGroupWithFlagsUsage:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the target group.
+        name:
+          type: string
+          description: Display name of the target group.
+        flagUsage:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.TargetGroup.FlagIdName'
+          description: Feature flags that reference this target group.
+        updated:
+          type: string
+          description: The date and time at which the target group was last updated.
+          format: date-time
+        resourceId:
+          type: string
+          description: Unique identifier of the application that owns this target group.
+        cascUrl:
+          type: string
+          description: Configuration as Code (CasC) URL for this target group.
+    api.TargetGroup.FlagIdName:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the feature flag.
+        name:
+          type: string
+          description: Display name of the feature flag.
+        resourceId:
+          type: string
+          description: Unique identifier of the application that owns this feature flag.
+    api.TargetGroup.UpdateTargetGroupResponse:
+      type: object
+      properties:
+        targetGroup:
+          allOf:
+            - $ref: '#/components/schemas/api.TargetGroup.TargetGroup'
+          description: The updated target group.
+    api.TargetGroup.GetTargetGroupFlagsUsagePerEnvironmentResponse:
+      type: object
+      properties:
+        environments:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.TargetGroup.EnvironmentUsage'
+          description: List of environments and the feature flags that reference the target group in each.
+    api.vsm.report.EnvironmentResponse:
+      type: object
+      properties:
+        environments:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.vsm.report.Environment'
+          description: List of environments within the organization.
+    api.vsm.report.Environment:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the environment.
+        name:
+          type: string
+          description: Display name of the environment.
+        resourceId:
+          type: string
+          description: Identifier of the resource associated with this environment.
+        isDisabled:
+          type: boolean
+          description: Indicates whether the environment is currently disabled.
+    api.auth.CreateInvitesRequestV3:
+      type: object
+      properties:
+        organizationId:
+          type: string
+          description: Unique identifier of the organization to which users are being invited. Required.
+        teamIds:
+          type: array
+          items:
+            type: string
+          description: List of unique identifiers of the teams within the organization that invited users will be added to.
+        emails:
+          type: array
+          items:
+            type: string
+          description: List of email addresses to invite to the organization. Each address will receive an invitation email.
+        redirectUrl:
+          type: string
+          description: URL to redirect the user to after accepting the invitation. If omitted, users are redirected to the default sign-in page.
+        invitedBy:
+          type: string
+          description: Unique identifier of the user sending the invitations.
+        expirationDate:
+          type: string
+          description: Date and time when the invitations expire. Defaults to 5 days after creation if omitted.
+          format: date-time
+    api.auth.CreateInvitesV3Response:
+      type: object
+      properties:
+        sentInvites:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.InviteV3'
+          description: List of invitations that were created and sent.
+    api.auth.InviteV3:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the invite.
+        orgId:
+          type: string
+          description: Unique identifier of the organization to which the user is invited.
+        email:
+          type: string
+          description: Email address of the invited user.
+        teamId:
+          type: string
+          description: Unique identifier of the team to which the user is invited.
+        teamName:
+          type: string
+          description: Display name of the team to which the user is invited.
+        redirectUrl:
+          type: string
+          description: URL the user is redirected to after accepting the invitation.
+        expirationDate:
+          type: string
+          description: Date and time when the invitation expires.
+          format: date-time
+        audit:
+          allOf:
+            - $ref: '#/components/schemas/api.Audit'
+          description: Audit metadata including creation and last modification timestamps.
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: CloudBees Unify API access token or personal access token
+tags:
+  - name: Components
+    description: List components within an organization, and optionally filter by component type, such as applications or services with an associated repository.
+  - name: Environments
+    description: Discover and manage environments within your organization. Use environments to maintain an up-to-date inventory for feature flag targeting, deployment scripts, and monitoring workflows.
+  - name: Flag configurations
+    description: Set flag state (enabled or disabled) and targeting rules for a specific environment to determine which users or segments receive each variation.
+  - name: Flag custom properties
+    description: Create, read, update, and delete custom properties used in targeting conditions and target groups.
+  - name: Flag lifecycle
+    description: |-
+      Track how often each feature flag variation is served within an environment.
+      Use impression data to monitor flag adoption, validate rollout progress, and analyze which variations are being evaluated by your application.
+      Results can be aggregated by hour or day and filtered to a specific time range and set of flags.
+  - name: Flags
+    description: Control runtime feature visibility and behavior to enable gradual rollouts, A/B testing, progressive delivery, and safe deployments without redeployment.
+  - name: Organizations
+    description: |-
+      Define the structural and governance boundaries within a CloudBees Unify tenant.
+      Organizations model business units or departments, support parent-child hierarchies, and inherit configuration—properties, integrations, and environments—from parent organizations.
+      Every tenant has one root organization; all others exist beneath it.
+  - name: Target groups
+    description: |-
+      Define reusable sets of targeting conditions for feature flags. Specify rules once (such as matching users by role, region, or custom property) and apply them across multiple flags.
+      Changes to a target group propagate automatically to every flag that references it.
+  - name: Teams
+    description: List teams within an organization. Teams group users to manage access and permissions across resources in CloudBees Unify.
+  - name: Users
+    description: Invite or remove users, and define custom attributes for feature flag targeting based on application-specific criteria such as account tier, region, or subscription status.
+x-tagGroups:
+  - name: Unify core
+    tags:
+      - Components
+      - Environments
+      - Organizations
+      - Teams
+      - Users
+  - name: Feature management
+    tags:
+      - Flags
+      - Flag configurations
+      - Flag custom properties
+      - Target groups
+      - Flag lifecycle
+servers:
+  - url: https://api.cloudbees.io
+    description: CloudBees Unify Production API
+security:
+  - BearerAuth: []

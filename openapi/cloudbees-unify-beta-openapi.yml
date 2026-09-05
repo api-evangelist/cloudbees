@@ -1,0 +1,1925 @@
+openapi: 3.0.3
+info:
+  title: CloudBees Unify API (Beta)
+  version: 4.0.0-beta
+  description: |-
+    API documentation for CloudBees Unify.
+
+    This specification covers selected v4 APIs currently in beta. These endpoints are production-ready and supported, but may evolve based on customer feedback during the beta period.
+
+    Currently available resources:
+
+    #### Users
+    List users in a tenant.
+
+    #### Teams
+    List teams, and get a specific team with optional user expansion.
+
+    #### Team memberships
+    List, get, add, and remove team members.
+
+    #### Components
+    Create, list, get, update, and delete components. A component represents a source code repository and can be onboarded with or without an SCM integration.
+
+    #### Runs
+    Create, update, and retrieve CI/CD runs for a component. Attach and list test results, artifacts, security results, evidences, and deployments.
+
+    Additional v4 APIs will become public as they mature.
+paths:
+  /v4/components/{componentId}/runs:
+    post:
+      tags:
+        - Runs
+      description: Creates a run.
+      operationId: createRun
+      parameters:
+        - name: componentId
+          in: path
+          description: component ID that the run belongs to
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.v4.RunForCreate'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.CreateRunResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Create run
+  /v4/components/{componentId}/runs/{run.id}:
+    patch:
+      tags:
+        - Runs
+      description: Updates a run.
+      operationId: updateRun
+      parameters:
+        - name: componentId
+          in: path
+          description: component ID that the run belongs to
+          required: true
+          schema:
+            type: string
+        - name: run.id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.v4.RunForUpdate'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content: {}
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Update run
+  /v4/components/{componentId}/runs/{runId}:
+    get:
+      tags:
+        - Runs
+      description: Gets a run by ID.
+      operationId: getRun
+      parameters:
+        - name: componentId
+          in: path
+          description: component ID that the run belongs to
+          required: true
+          schema:
+            type: string
+        - name: runId
+          in: path
+          description: run ID to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.Run'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Get run
+  /v4/components/{componentId}/runs/{runId}/artifacts:
+    get:
+      tags:
+        - Runs
+      description: List all artifacts associated with a run.
+      operationId: listArtifacts
+      parameters:
+        - name: componentId
+          in: path
+          description: The unique identifier of the component that owns the run.
+          required: true
+          schema:
+            type: string
+        - name: runId
+          in: path
+          description: The unique identifier of the run.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.ListArtifactsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List artifacts
+    post:
+      tags:
+        - Runs
+      description: Attach build artifacts to a run. Returns the ingested artifacts with their assigned IDs.
+      operationId: createArtifacts
+      parameters:
+        - name: componentId
+          in: path
+          description: The unique identifier of the component that owns the run.
+          required: true
+          schema:
+            type: string
+        - name: runId
+          in: path
+          description: The unique identifier of the run to attach artifacts to.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.v4.CreateArtifactsBody'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.CreateArtifactsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Attach artifacts
+  /v4/components/{componentId}/runs/{runId}/deployments:
+    get:
+      tags:
+        - Runs
+      description: List all deployments associated with a run.
+      operationId: listDeployments
+      parameters:
+        - name: componentId
+          in: path
+          description: The unique identifier of the component that owns the run.
+          required: true
+          schema:
+            type: string
+        - name: runId
+          in: path
+          description: The unique identifier of the run.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.ListDeploymentsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List deployments
+    post:
+      tags:
+        - Runs
+      description: Attach deployment artifacts to a run.
+      operationId: createDeploymentArtifacts
+      parameters:
+        - name: componentId
+          in: path
+          description: The unique identifier of the component that owns the run.
+          required: true
+          schema:
+            type: string
+        - name: runId
+          in: path
+          description: The unique identifier of the run to attach deployment artifacts to.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.v4.CreateDeploymentArtifactsBody'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.CreateDeploymentArtifactsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Attach deployments
+  /v4/components/{componentId}/runs/{runId}/evidences:
+    get:
+      tags:
+        - Runs
+      description: List all evidences associated with a run.
+      operationId: listEvidences
+      parameters:
+        - name: componentId
+          in: path
+          description: The unique identifier of the component that owns the run.
+          required: true
+          schema:
+            type: string
+        - name: runId
+          in: path
+          description: The unique identifier of the run.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.ListEvidencesResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List evidences
+    post:
+      tags:
+        - Runs
+      description: Attach evidences to a run.
+      operationId: createEvidences
+      parameters:
+        - name: componentId
+          in: path
+          description: The unique identifier of the component that owns the run.
+          required: true
+          schema:
+            type: string
+        - name: runId
+          in: path
+          description: The unique identifier of the run to attach evidences to.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.v4.CreateEvidencesBody'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.CreateEvidencesResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Attach evidences
+  /v4/components/{componentId}/runs/{runId}/security-results:
+    get:
+      tags:
+        - Runs
+      description: Returns processed security findings for a run.
+      operationId: listSecurityResults
+      parameters:
+        - name: componentId
+          in: path
+          description: The unique identifier of the component that owns the run.
+          required: true
+          schema:
+            type: string
+        - name: runId
+          in: path
+          description: The unique identifier of the run.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.ListSecurityResultsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List security results
+    post:
+      tags:
+        - Runs
+      description: Attach security scan results to a run.
+      operationId: createSecurityResults
+      parameters:
+        - name: componentId
+          in: path
+          description: The unique identifier of the component that owns the run.
+          required: true
+          schema:
+            type: string
+        - name: runId
+          in: path
+          description: The unique identifier of the run to attach security results to.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.v4.CreateSecurityResultsBodyForCreate'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.CreateSecurityResultsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Attach security results
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            # 'report' is populated server-side from the uploaded 'file' part; do not include it in metadata.
+            curl 'https://api.cloudbees.io/v4/components/{componentId}/runs/{runId}/security-results' \
+              --request POST \
+              --header 'Authorization: Bearer YOUR_SECRET_TOKEN' \
+              --header 'Content-Type: multipart/form-data' \
+              --form 'file=@security-result.sarif' \
+              --form 'metadata={
+                "body": {
+                  "securityResults": [
+                    {
+                      "file": "security-result.sarif",
+                      "scanner": "trivy",
+                      "format": "sarif",
+                      "generatedAt": "2026-08-25T14:30:00Z"
+                    }
+                  ]
+                }
+              }'
+          label: curl
+  /v4/components/{componentId}/runs/{runId}/test-results:
+    get:
+      tags:
+        - Runs
+      description: Returns presigned download URLs for all test results files uploaded for a run.
+      operationId: listTestResults
+      parameters:
+        - name: componentId
+          in: path
+          description: The unique identifier of the component that owns the run.
+          required: true
+          schema:
+            type: string
+        - name: runId
+          in: path
+          description: The unique identifier of the run.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.ListTestResultsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List test results
+    post:
+      tags:
+        - Runs
+      description: 'Attach test results to a run. The upload is validated for format only and then processed asynchronously: a 202 response means the file was accepted for processing, not that it has been parsed or is visible yet. A well-formed but unparseable file may still fail during later processing and not appear in results.'
+      operationId: createTestResults
+      parameters:
+        - name: componentId
+          in: path
+          description: The unique identifier of the component that owns the run.
+          required: true
+          schema:
+            type: string
+        - name: runId
+          in: path
+          description: The unique identifier of the run to attach test results to.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json: {}
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.CreateTestResultsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Attach test results
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl 'https://api.cloudbees.io/v4/components/{componentId}/runs/{runId}/test-results' \
+              --request POST \
+              --header 'Authorization: Bearer YOUR_SECRET_TOKEN' \
+              --header 'Content-Type: multipart/form-data' \
+              --form 'file=@testResultFile'
+          label: curl
+  /v4/organizations/{orgId}/components:
+    get:
+      tags:
+        - Components
+      description: Returns the components in an organization. Supports filtering by name, repository URL, or provider, and cursor-based pagination.
+      operationId: listComponents
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization that owns the components.
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: query
+          description: Return only the component with this exact name.
+          schema:
+            type: string
+        - name: repositoryUrl
+          in: query
+          description: Return only the component with this exact repository clone URL.
+          schema:
+            type: string
+        - name: provider
+          in: query
+          description: |-
+            Return only components backed by this SCM provider.
+             One of: "GITHUB", "GITHUB_ENTERPRISE", "GITLAB", "GITLAB_SERVER",
+             "BITBUCKET", "BITBUCKET_DATACENTER".
+          schema:
+            type: string
+        - name: pageSize
+          in: query
+          description: |-
+            Maximum number of components to return in a single page.
+             Default: 100, Maximum: 1000
+          schema:
+            type: integer
+            format: int32
+        - name: pageToken
+          in: query
+          description: |-
+            Cursor for the page to return. Use the `nextPageToken` from the previous
+             response; omit it or pass an empty string to fetch the first page.
+          schema:
+            type: string
+        - name: orderBy
+          in: query
+          description: |-
+            Optional sort specification.
+             Format: "field [asc|desc]" (e.g., "name asc", "updated_at desc").
+             Default sort order is ascending if not specified.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.ListComponentsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List components
+    post:
+      tags:
+        - Components
+      description: Creates a new component and returns it. A component can be created with or without an SCM integration.
+      operationId: createComponent
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization that will own the new component.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.v4.Component'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.Component'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Create component
+  /v4/organizations/{orgId}/components/{id}:
+    get:
+      tags:
+        - Components
+      description: Returns detailed information about a single component.
+      operationId: getComponent
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization that owns the component.
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Unique identifier of the component to return.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.Component'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Get component
+    delete:
+      tags:
+        - Components
+      description: Deletes the specified component.
+      operationId: deleteComponent
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization that owns the component.
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Unique identifier of the component to delete.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.DeleteComponentResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Delete component
+    patch:
+      tags:
+        - Components
+      description: Applies a partial update to a component. Only the fields included in the request are modified.
+      operationId: updateComponent
+      parameters:
+        - name: orgId
+          in: path
+          description: Organization that owns the component.
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Unique identifier of the component to update.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.v4.Component'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.Component'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Update component
+  /v4/teams:
+    get:
+      tags:
+        - Teams
+      description: Returns a list of teams. Supports filtering, pagination, and sorting.
+      operationId: listTeams
+      parameters:
+        - name: tenantId
+          in: query
+          description: Tenant ID (from auth token, scopes results).
+          schema:
+            type: string
+        - name: name
+          in: query
+          description: Optional name to filter by.
+          schema:
+            type: string
+        - name: include
+          in: query
+          description: Related data to include inline in response. Use 'users' to include team member list (max 100 users, use /memberships endpoint for full paginated list).
+          schema:
+            type: array
+            items:
+              type: string
+        - name: orderBy
+          in: query
+          description: |-
+            Optional sort specification.
+             Format: "field [asc|desc]" (e.g., "name asc", "updated_at desc")
+             Default sort order is ascending if not specified.
+          schema:
+            type: string
+        - name: pageSize
+          in: query
+          description: |-
+            Maximum number of items to return per page.
+             Default: 100, Maximum: 1000
+          schema:
+            type: integer
+            format: int32
+        - name: pageToken
+          in: query
+          description: |-
+            Cursor token for retrieving the next page of results.
+             Obtained from next_page_token of the previous response.
+             Omit or use empty string for the first page.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.ListTeamsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List teams
+  /v4/teams/{id}:
+    get:
+      tags:
+        - Teams
+      description: Returns detailed information about a specific team.
+      operationId: getTeam
+      parameters:
+        - name: id
+          in: path
+          description: Team ID (UUID).
+          required: true
+          schema:
+            type: string
+        - name: include
+          in: query
+          description: 'Related data to include in response. Supported values: users.'
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.TeamWithExpansions'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Get team
+  /v4/teams/{teamId}/memberships:
+    get:
+      tags:
+        - Team Memberships
+      description: Returns a list of team memberships. Supports filtering, pagination, and sorting.
+      operationId: listTeamMemberships
+      parameters:
+        - name: teamId
+          in: path
+          description: Team ID to scope the request.
+          required: true
+          schema:
+            type: string
+        - name: pageSize
+          in: query
+          description: |-
+            Maximum number of items to return per page.
+             Default: 100, Maximum: 1000
+          schema:
+            type: integer
+            format: int32
+        - name: pageToken
+          in: query
+          description: |-
+            Cursor token for retrieving the next page of results.
+             Obtained from next_page_token of the previous response.
+             Omit or use empty string for the first page.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.ListTeamMembershipsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List team memberships
+    post:
+      tags:
+        - Team Memberships
+      description: Creates a new team membership and returns the created resource.
+      operationId: createTeamMembership
+      parameters:
+        - name: teamId
+          in: path
+          description: Team ID to scope the request.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.v4.CreateTeamMembershipRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.TeamMember'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Create team membership
+  /v4/teams/{teamId}/memberships/{userId}:
+    get:
+      tags:
+        - Team Memberships
+      description: Returns detailed information about a specific team membership.
+      operationId: getTeamMembership
+      parameters:
+        - name: teamId
+          in: path
+          description: Team ID to scope the request.
+          required: true
+          schema:
+            type: string
+        - name: userId
+          in: path
+          description: User who is a member of the team.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.TeamMember'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Get team membership
+    delete:
+      tags:
+        - Team Memberships
+      description: Deletes the specified team membership.
+      operationId: deleteTeamMembership
+      parameters:
+        - name: teamId
+          in: path
+          description: Team ID to scope the request.
+          required: true
+          schema:
+            type: string
+        - name: userId
+          in: path
+          description: User who is a member of the team.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.DeleteTeamMembershipResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Delete team membership
+  /v4/users:
+    get:
+      tags:
+        - Users
+      description: Retrieves a list of users the authenticated user has access to. Supports filtering, pagination, and sorting.
+      operationId: listUsers
+      parameters:
+        - name: tenantId
+          in: query
+          description: Optional tenant_id to filter by.
+          schema:
+            type: string
+        - name: email
+          in: query
+          description: Optional email to filter by.
+          schema:
+            type: string
+        - name: orderBy
+          in: query
+          description: |-
+            Optional sort specification.
+             Format: "field [asc|desc]" (e.g., "name asc", "updated_at desc")
+             Default sort order is ascending if not specified.
+          schema:
+            type: string
+        - name: pageSize
+          in: query
+          description: |-
+            Maximum number of items to return per page.
+             Default: 100, Maximum: 1000
+          schema:
+            type: integer
+            format: int32
+        - name: pageToken
+          in: query
+          description: |-
+            Cursor token for retrieving the next page of results.
+             Obtained from next_page_token of the previous response.
+             Omit or use empty string for the first page.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.ListUsersResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List users
+components:
+  schemas:
+    api.v4.RunForCreate:
+      required:
+        - scmRef
+        - workflowName
+        - toolType
+        - url
+        - trigger
+        - actorName
+        - status
+        - startedAt
+        - commitSha
+      type: object
+      properties:
+        scmRef:
+          type: string
+          description: 'The SCM ref for this run; can be a branch, a tag, etc. Must use the full git ref format (e.g.: refs/heads/main)'
+        workflowName:
+          type: string
+          description: the name of the workflow that is being executed
+        runNumber:
+          type: integer
+          description: run number, uniquely identifies an execution of a workflow
+          format: int32
+        toolType:
+          type: string
+          description: |-
+            CI/CD tool that produced this run; accepted values: ARGO_CD, CLOUDBEES_CI, HARNESS, JENKINS, UNIFY, CLOUDBEES, GITHUB
+             This field will default to UNKNOWN if the tool doesn't match one of the accepted values
+        runAttempt:
+          type: integer
+          description: run attempt, used in engines like GitHub Actions to distinguish between multiple executions of a workflow
+          format: int32
+        url:
+          type: string
+          description: run URL in the original external system
+        trigger:
+          type: string
+          description: 'what triggered the run; accepted values: PUSH, PULL_REQUEST, WORKFLOW_DISPATCH, SCHEDULE'
+        actorName:
+          type: string
+          description: who triggered the run
+        actorEmail:
+          type: string
+          description: email address of the user who triggered the run
+        status:
+          type: string
+          description: 'run status; accepted values: PENDING, PAUSED, STARTED, FAILED, ERRORED, ABORTED, SUCCEEDED, PENDING_APPROVAL, TIMED_OUT, APPROVED, REJECTED, APPROVAL_TIMED_OUT, SKIPPED, UNSCHEDULED, UNSTABLE'
+        statusMessage:
+          type: string
+          description: run status message (normally specifying the failure cause)
+        startedAt:
+          type: string
+          description: run start timestamp
+          format: date-time
+        endedAt:
+          type: string
+          description: run end timestamp
+          format: date-time
+        changeRequestTitle:
+          type: string
+          description: title of the change request that triggered the run
+        changeRequestTargetBranch:
+          type: string
+          description: target branch of the change request
+        commitSha:
+          type: string
+          description: commit SHA that triggered the run
+        commitMessage:
+          type: string
+          description: commit message of the commit that triggered the run. The value of this field, if present, overrides change_request_title
+        externalParentFlow:
+          type: string
+          description: external system identifier to group related runs under a common pipeline or workflow
+        statusReason:
+          type: string
+          description: |-
+            status_reason is "POLICY" when a policy gate caused the current status, otherwise empty.
+             Note: CloudBees-native runs never report PENDING_APPROVAL as their run status on this API,
+             so in practice this identifies a policy-caused failure.
+      description: Run represents an external CI/CD run from a third-party tool.
+    api.v4.CreateRunResponse:
+      type: object
+      properties:
+        runId:
+          type: string
+          description: Run id of the newly created run from external source
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.v4.ValidationWarning'
+          description: Optional validation warnings (request succeeded but had validation issues)
+      description: Response message for CreateRun.
+    api.v4.ValidationWarning:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code identifying the type of validation issue
+        message:
+          type: string
+          description: Human-readable error message
+        field:
+          type: string
+          description: Field name that caused the warning
+      description: Validation warning for non-blocking validation issues
+    google.rpc.Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+          format: int32
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+          description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+      description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+    google.protobuf.Any:
+      type: object
+      properties:
+        '@type':
+          type: string
+          description: The type of the serialized message.
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+    api.v4.RunForUpdate:
+      type: object
+      properties:
+        runNumber:
+          type: integer
+          description: run number, uniquely identifies an execution of a workflow
+          format: int32
+        url:
+          type: string
+          description: run URL in the original external system
+        actorEmail:
+          type: string
+          description: email address of the user who triggered the run
+        status:
+          type: string
+          description: 'run status; accepted values: PENDING, PAUSED, STARTED, FAILED, ERRORED, ABORTED, SUCCEEDED, PENDING_APPROVAL, TIMED_OUT, APPROVED, REJECTED, APPROVAL_TIMED_OUT, SKIPPED, UNSCHEDULED, UNSTABLE'
+        statusMessage:
+          type: string
+          description: run status message (normally specifying the failure cause)
+        endedAt:
+          type: string
+          description: run end timestamp
+          format: date-time
+        externalParentFlow:
+          type: string
+          description: external system identifier to group related runs under a common pipeline or workflow
+        statusReason:
+          type: string
+          description: |-
+            status_reason is "POLICY" when a policy gate caused the current status, otherwise empty.
+             Note: CloudBees-native runs never report PENDING_APPROVAL as their run status on this API,
+             so in practice this identifies a policy-caused failure.
+      description: Run represents an external CI/CD run from a third-party tool.
+    api.v4.Run:
+      required:
+        - scmRef
+        - workflowName
+        - toolType
+        - url
+        - trigger
+        - actorName
+        - status
+        - startedAt
+        - commitSha
+      type: object
+      properties:
+        id:
+          readOnly: true
+          type: string
+          description: unique identifier for this run
+        scmRef:
+          type: string
+          description: 'The SCM ref for this run; can be a branch, a tag, etc. Must use the full git ref format (e.g.: refs/heads/main)'
+        workflowName:
+          type: string
+          description: the name of the workflow that is being executed
+        runNumber:
+          type: integer
+          description: run number, uniquely identifies an execution of a workflow
+          format: int32
+        toolType:
+          type: string
+          description: |-
+            CI/CD tool that produced this run; accepted values: ARGO_CD, CLOUDBEES_CI, HARNESS, JENKINS, UNIFY, CLOUDBEES, GITHUB
+             This field will default to UNKNOWN if the tool doesn't match one of the accepted values
+        runAttempt:
+          type: integer
+          description: run attempt, used in engines like GitHub Actions to distinguish between multiple executions of a workflow
+          format: int32
+        url:
+          type: string
+          description: run URL in the original external system
+        trigger:
+          type: string
+          description: 'what triggered the run; accepted values: PUSH, PULL_REQUEST, WORKFLOW_DISPATCH, SCHEDULE'
+        actorName:
+          type: string
+          description: who triggered the run
+        actorEmail:
+          type: string
+          description: email address of the user who triggered the run
+        status:
+          type: string
+          description: 'run status; accepted values: PENDING, PAUSED, STARTED, FAILED, ERRORED, ABORTED, SUCCEEDED, PENDING_APPROVAL, TIMED_OUT, APPROVED, REJECTED, APPROVAL_TIMED_OUT, SKIPPED, UNSCHEDULED, UNSTABLE'
+        statusMessage:
+          type: string
+          description: run status message (normally specifying the failure cause)
+        startedAt:
+          type: string
+          description: run start timestamp
+          format: date-time
+        endedAt:
+          type: string
+          description: run end timestamp
+          format: date-time
+        changeRequest:
+          readOnly: true
+          type: boolean
+          description: flag that indicates if the run is triggered by a change request
+        changeRequestTitle:
+          type: string
+          description: title of the change request that triggered the run
+        changeRequestTargetBranch:
+          type: string
+          description: target branch of the change request
+        commitSha:
+          type: string
+          description: commit SHA that triggered the run
+        commitMessage:
+          type: string
+          description: commit message of the commit that triggered the run. The value of this field, if present, overrides change_request_title
+        externalParentFlow:
+          type: string
+          description: external system identifier to group related runs under a common pipeline or workflow
+        statusReason:
+          type: string
+          description: |-
+            status_reason is "POLICY" when a policy gate caused the current status, otherwise empty.
+             Note: CloudBees-native runs never report PENDING_APPROVAL as their run status on this API,
+             so in practice this identifies a policy-caused failure.
+      description: Run represents an external CI/CD run from a third-party tool.
+    api.v4.ListArtifactsResponse:
+      type: object
+      properties:
+        artifacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.v4.ArtifactInfo'
+          description: The list of artifacts associated with the run.
+      description: Response containing the list of artifacts for a run.
+    api.v4.ArtifactInfo:
+      required:
+        - name
+        - url
+        - version
+        - type
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the artifact.
+        url:
+          type: string
+          description: The url of the artifact. Must be an absolute URI (e.g. https://... or pkg:...).
+        version:
+          type: string
+          description: The version of the artifact.
+        type:
+          type: string
+          description: 'The type of the artifact. Supported values: container, binary, helm, npm, maven, pypi, gem, nuget.'
+        digest:
+          type: string
+          description: The digest of the image.
+        label:
+          type: string
+          description: A comma-separated list of artifact labels.
+        repositoryUrl:
+          type: string
+          description: Clone URL of the artifact repository.
+        commit:
+          type: string
+          description: Commit hash of source repository.
+        commitUrl:
+          type: string
+          description: Commit URL of source repository.
+        ref:
+          type: string
+          description: Branch name of checked out source repository.
+        stageName:
+          type: string
+          description: The name of the stage in which the artifact is being created.
+        stageId:
+          type: string
+          description: The unique identifier of the stage in which the artifact is being created.
+        artifactId:
+          type: string
+          description: The Artifact Id for registering the deployment
+        createdAt:
+          type: string
+          description: |-
+            The timestamp when the artifact was built/published in the source system
+             (ISO 8601). Optional. When set, it is persisted on the artifact record;
+             when omitted, the server records the current time.
+          format: date-time
+      description: ArtifactInfo represents a build artifact to associate with a run.
+    api.v4.CreateArtifactsBody:
+      type: object
+      properties:
+        artifacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.v4.ArtifactInfo'
+          description: The list of build artifacts to associate with the run.
+    api.v4.CreateArtifactsResponse:
+      type: object
+      properties:
+        artifacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.v4.CreatedArtifact'
+          description: The list of ingested artifacts with their assigned artifact IDs.
+      description: Response after attaching build artifacts to a run.
+    api.v4.CreatedArtifact:
+      type: object
+      properties:
+        name:
+          readOnly: true
+          type: string
+          description: The name of the artifact.
+        url:
+          readOnly: true
+          type: string
+          description: The URL of the artifact in the registry.
+        version:
+          readOnly: true
+          type: string
+          description: The version of the artifact.
+        digest:
+          readOnly: true
+          type: string
+          description: The digest of the artifact, if specified in the request.
+        artifactId:
+          readOnly: true
+          type: string
+          description: The platform-assigned unique identifier for this artifact.
+      description: A summary of an ingested artifact returned in the create response.
+    api.v4.ListDeploymentsResponse:
+      type: object
+      properties:
+        deployments:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.v4.DeploymentSummary'
+          description: The list of deployments associated with the run.
+      description: Response containing the list of deployments for a run.
+    api.v4.DeploymentSummary:
+      type: object
+      properties:
+        artifact:
+          allOf:
+            - $ref: '#/components/schemas/api.v4.ArtifactSummary'
+          description: The artifact that was deployed.
+        environment:
+          type: string
+          description: Name of the environment where the artifact was deployed.
+        deployedOn:
+          type: string
+          description: When the artifact was deployed to this environment.
+          format: date-time
+        workflowName:
+          type: string
+          description: Name of the workflow that triggered this deployment.
+      description: DeploymentSummary is the user-facing deployment record returned by ListDeployments.
+    api.v4.ArtifactSummary:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the artifact.
+        version:
+          type: string
+          description: Version of the artifact.
+        url:
+          type: string
+          description: URL of the published artifact (purl or download link).
+        type:
+          type: string
+          description: Type of the artifact (e.g. docker, maven, npm).
+        digest:
+          type: string
+          description: Digest / checksum of the artifact.
+        labels:
+          type: array
+          items:
+            type: string
+          description: User-defined labels attached to this artifact version.
+        publishedOn:
+          type: string
+          description: When the artifact was first published.
+          format: date-time
+        componentName:
+          type: string
+          description: Name of the component this artifact belongs to.
+        commit:
+          allOf:
+            - $ref: '#/components/schemas/api.v4.CommitSummary'
+          description: Source code commit that produced this artifact.
+        applicationName:
+          type: string
+          description: Name of the application this artifact belongs to (if any).
+        releaseName:
+          type: string
+          description: Name of the release this artifact belongs to (if any).
+      description: ArtifactSummary is the user-facing subset of artifact details returned by ListDeployments.
+    api.v4.CommitSummary:
+      type: object
+      properties:
+        commitUrl:
+          type: string
+          description: URL to the commit in the source control web UI.
+        commitId:
+          type: string
+          description: Commit hash (SHA).
+        ref:
+          type: string
+          description: Branch or tag ref (e.g. refs/heads/main).
+        repositoryUrl:
+          type: string
+          description: Clone URL of the repository.
+        repositoryDisplayName:
+          type: string
+          description: Human-readable repository name (e.g. org/repo).
+      description: CommitSummary holds the source-control provenance of an artifact.
+    api.v4.CreateDeploymentArtifactsBody:
+      required:
+        - environment
+      type: object
+      properties:
+        artifactReferences:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.v4.ArtifactInfo'
+          description: The list of build artifacts to be linked to deployment that associate with the run.
+        environment:
+          type: string
+          description: The environment in which the deployment artifacts are deployed (e.g., "production", "staging").
+      description: Deployment details, including artifacts and the environment they're deployed to
+    api.v4.CreateDeploymentArtifactsResponse:
+      type: object
+      properties:
+        artifactReferences:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.v4.ArtifactInfo'
+          description: The list of build artifacts to be linked to deployment that associate with the run.
+      description: Response after attaching deployment artifacts to a run.
+    api.v4.ListEvidencesResponse:
+      type: object
+      properties:
+        evidences:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.v4.Evidence'
+          description: The list of evidences associated with the run.
+      description: Response containing the list of evidences for a run.
+    api.v4.Evidence:
+      required:
+        - content
+      type: object
+      properties:
+        content:
+          type: string
+          description: Content to be published as evidence.
+        format:
+          type: string
+          description: |-
+            Format of the content. Accepted values: "markdown" (case-insensitive).
+             Omit or leave empty for unspecified format.
+        createdAt:
+          type: string
+          description: |-
+            Caller-supplied event timestamp from the source system (optional, ISO 8601).
+             When omitted, the server records the current time.
+          format: date-time
+        jobId:
+          type: string
+          description: |-
+            Optional job ID of the stage to attach this evidence to.
+             When omitted, the evidence is attached to the Start stage of the run.
+      description: Evidence represents an evidence entry to associate with a run.
+    api.v4.CreateEvidencesBody:
+      type: object
+      properties:
+        evidences:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.v4.Evidence'
+          description: The list of evidence entries to associate with the run. Each evidence contains content in a specified format (e.g., Markdown).
+    api.v4.CreateEvidencesResponse:
+      type: object
+      properties: {}
+      description: Response after attaching evidences to a run.
+    api.v4.ListSecurityResultsResponse:
+      type: object
+      properties:
+        findings:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.v4.SecurityFinding'
+          description: The list of security findings associated with the run.
+      description: Response containing the list of security findings for a run.
+    api.v4.SecurityFinding:
+      type: object
+      properties:
+        toolName:
+          type: string
+          description: Name of the scanner that produced this finding (e.g. trivy, sonarqube).
+        findingName:
+          type: string
+          description: Human-readable name of the finding/rule.
+        findingCode:
+          type: string
+          description: Rule or finding code identifier.
+        severity:
+          type: string
+          description: Severity level (e.g. CRITICAL, HIGH, MEDIUM, LOW).
+        category:
+          type: string
+          description: Category of the finding (e.g. VULNERABILITY, SECRET_VIOLATION).
+        remediationStatus:
+          type: string
+          description: Current remediation status (OPEN, IN_PROGRESS, RESOLVED, FALSE_POSITIVE, RISK_ACCEPTED, CLOSED).
+        scanTime:
+          type: string
+          description: Timestamp when this scan finding was recorded.
+          format: date-time
+        isActive:
+          type: boolean
+          description: Whether this finding is currently active (not cleared or superseded by a newer scan).
+        triageStatus:
+          type: string
+          description: Triage decision independent of remediation_status (e.g. FALSE_POSITIVE, RISK_ACCEPTED).
+        toolDisplayName:
+          type: string
+          description: Human-readable display name of the scanner tool (e.g. "SonarQube" vs tool_name "sonarqube").
+      description: SecurityFinding represents a single processed security finding from a scan.
+    api.v4.CreateSecurityResultsBodyForCreate:
+      type: object
+      properties:
+        securityResults:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.v4.SecurityScanResultForCreate'
+          description: The list of security scan reports to associate with the run.
+    api.v4.SecurityScanResultForCreate:
+      type: object
+      properties:
+        file:
+          type: string
+          description: File name of the SARIF report.
+        generatedAt:
+          type: string
+          description: The timestamp when the report was generated.
+          format: date-time
+        format:
+          type: string
+          description: File format of the security scan report.
+        scanner:
+          type: string
+          description: Scanner name used to generate the report.
+      description: SecurityScanResult represents a security scan report to associate with a run.
+    api.v4.CreateSecurityResultsResponse:
+      type: object
+      properties: {}
+      description: Response after attaching security scan results to a run.
+    api.v4.ListTestResultsResponse:
+      type: object
+      properties:
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.v4.TestResultsFile'
+          description: The list of test results files associated with the run.
+      description: Response containing the list of test results for a run.
+    api.v4.TestResultsFile:
+      type: object
+      properties:
+        fileName:
+          type: string
+          description: File name of the test results archive.
+        downloadUrl:
+          type: string
+          description: Presigned URL to download the file directly from S3.
+        expiresAt:
+          type: string
+          description: Timestamp when the presigned URL expires.
+          format: date-time
+        uploadedAt:
+          type: string
+          description: Timestamp when the file was last modified in S3.
+          format: date-time
+      description: TestResultsFile represents a test results file stored in S3.
+    api.v4.CreateTestResultsResponse:
+      type: object
+      properties: {}
+      description: Response after attaching test results to a run.
+    api.v4.ListComponentsResponse:
+      type: object
+      properties:
+        components:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.v4.Component'
+          description: The components matching the request, for the current page.
+        nextPageToken:
+          type: string
+          description: |-
+            Cursor for the next page of results. An empty string indicates that this is
+             the last page.
+        totalSize:
+          type: integer
+          description: Total number of components matching the request across all pages.
+          format: int32
+      description: Response message for listing components.
+    api.v4.Component:
+      required:
+        - name
+        - repositoryUrl
+      type: object
+      properties:
+        id:
+          readOnly: true
+          type: string
+          description: Unique identifier for this component. Auto-generated on create.
+        name:
+          type: string
+          description: Display name for the component. Required on create; mutable via PATCH.
+        description:
+          type: string
+          description: |-
+            Optional free-text description. Mutable via PATCH.
+
+             Note: once set, a description cannot be cleared back to empty through this
+             API; sending an empty value leaves the existing description unchanged.
+        repositoryUrl:
+          type: string
+          description: |-
+            Repository clone URL (.git form). Required on create. It is the identity of
+             the component and cannot be changed after creation.
+        repositoryHref:
+          readOnly: true
+          type: string
+          description: |-
+            Browser-facing repository URL. Server-derived by stripping the trailing
+             ".git" from repository_url.
+        defaultBranch:
+          type: string
+          description: |-
+            Default branch for the repository. Optional on create (defaults to "main"
+             when absent); mutable via PATCH.
+        provider:
+          type: string
+          description: |-
+            SCM provider backing the repository. Optional on create: inferred from the
+             repository_url hostname for known public providers, or supplied explicitly
+             for self-hosted providers. Not directly mutable via PATCH; it is
+             resolved automatically, including when an SCM integration is attached.
+             One of: "GITHUB", "GITHUB_ENTERPRISE", "GITLAB", "GITLAB_SERVER",
+             "BITBUCKET", "BITBUCKET_DATACENTER". Empty when unresolved.
+        integrationId:
+          type: string
+          description: |-
+            Identifier of the SCM integration backing this component. Empty when the
+             component has no integration. Optional on create, and can be set via PATCH
+             to attach an integration to a component that has none.
+
+             Note: once an integration is attached it cannot be removed through this
+             API; sending an empty value leaves the existing integration in place.
+        organizationId:
+          readOnly: true
+          type: string
+          description: |-
+            Organization that owns this component. Read-only; set from the organization
+             in the request URL.
+        createdAt:
+          readOnly: true
+          type: string
+          description: When this component was created.
+          format: date-time
+        updatedAt:
+          readOnly: true
+          type: string
+          description: When this component was last modified.
+          format: date-time
+      description: |-
+        A component represents a source code repository tracked by CloudBees Unify.
+         Components can be created with or without an SCM integration, so teams in
+         air-gapped or network-restricted environments can onboard immediately. A
+         component created without an integration can be connected to one later to
+         unlock features that depend on it.
+    api.v4.DeleteComponentResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Always true if the component was deleted.
+        message:
+          type: string
+          description: Human-readable message describing the result.
+      description: Response message for deleting a component.
+    api.v4.ListTeamsResponse:
+      type: object
+      properties:
+        teams:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.v4.TeamWithExpansions'
+          description: List of teams matching the request.
+        nextPageToken:
+          type: string
+          description: |-
+            Cursor token for retrieving the next page of results.
+             Empty string indicates this is the last page.
+        totalSize:
+          type: integer
+          description: |-
+            Total number of items matching the query across all pages.
+             Optional - may be omitted if computing the total would be expensive
+             (e.g., large datasets, complex filters, cross-shard queries).
+             Clients MUST NOT assume this field will always be present.
+          format: int32
+      description: Response message for ListTeams.
+    api.v4.TeamWithExpansions:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for this team
+        name:
+          type: string
+          description: Team name
+        description:
+          type: string
+          description: Optional description explaining the team's purpose or scope
+        tenantId:
+          type: string
+          description: tenant_id field
+        updatedAt:
+          type: string
+          description: When this team was last modified
+          format: date-time
+        immutable:
+          type: boolean
+          description: Whether this team is synchronized from your identity provider and cannot be modified directly
+        type:
+          enum:
+            - TEAM_TYPE_UNSPECIFIED
+            - TEAM_TYPE_PREDEFINED
+            - TEAM_TYPE_USERDEFINED
+          type: string
+          description: Distinguishes platform-managed teams (PREDEFINED) from teams you create (USERDEFINED)
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.v4.User'
+          description: Users who are members of this team.
+      description: Team with optional expansion fields.
+    api.v4.User:
+      required:
+        - email
+      type: object
+      properties:
+        id:
+          readOnly: true
+          type: string
+          description: Unique identifier for this user
+        email:
+          type: string
+          description: Primary email address for authentication and contact
+        displayName:
+          readOnly: true
+          type: string
+          description: Display name for this user
+        firstName:
+          type: string
+          description: First name of the user
+        lastName:
+          type: string
+          description: Last name of the user
+        additionalEmails:
+          type: array
+          items:
+            type: string
+          description: Additional email addresses linked to user account
+      description: A person that can access CloudBees Unify. Invite users to a tenant to grant them access to your organizations.
+    api.v4.ListTeamMembershipsResponse:
+      type: object
+      properties:
+        teamMemberships:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.v4.TeamMember'
+          description: List of team memberships matching the request.
+        nextPageToken:
+          type: string
+          description: |-
+            Cursor token for retrieving the next page of results.
+             Empty string indicates this is the last page.
+             Pass this value as page_token to fetch the next page.
+      description: Response message for ListTeamMemberships.
+    api.v4.TeamMember:
+      type: object
+      properties:
+        userId:
+          type: string
+          description: User who is a member of the team
+        user:
+          allOf:
+            - $ref: '#/components/schemas/api.v4.TeamMember_UserProjection'
+          description: Nested User data
+      description: |-
+        TeamMember is the enriched, public-facing projection of a TeamMembership
+         returned by the List, Create, and Get RPCs. It carries the membership's
+         user_id plus a nested UserProjection (id + email) joined from the user
+         service.
+    api.v4.TeamMember_UserProjection:
+      type: object
+      properties:
+        id:
+          type: string
+          description: id from User
+        email:
+          type: string
+          description: email from User
+        createdAt:
+          type: string
+          description: When the user joined this team
+          format: date-time
+      description: Projected fields from User
+    api.v4.CreateTeamMembershipRequest:
+      required:
+        - teamId
+        - userId
+      type: object
+      properties:
+        teamId:
+          type: string
+          description: Team ID to scope the request.
+        userId:
+          type: string
+          description: User who is a member of the team
+      description: Request message for CreateTeamMembership.
+    api.v4.DeleteTeamMembershipResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Always true if deletion succeeded.
+        message:
+          type: string
+          description: Human-readable message describing the result.
+      description: Response message for DeleteTeamMembership.
+    api.v4.ListUsersResponse:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.v4.User'
+          description: List of users matching the request.
+        nextPageToken:
+          type: string
+          description: |-
+            Cursor token for retrieving the next page of results.
+             Empty string indicates this is the last page.
+             Pass this value as page_token (field 71) to fetch the next page.
+        totalSize:
+          type: integer
+          description: |-
+            Total number of items matching the query across all pages.
+             Optional - may be omitted if computing the total would be expensive
+             (e.g., large datasets, complex filters, cross-shard queries).
+             Clients MUST NOT assume this field will always be present.
+          format: int32
+      description: Response message for ListUsers.
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: CloudBees Unify API access token or personal access token
+tags:
+  - name: Users
+    description: List users in a tenant.
+  - name: Teams
+    description: List teams, and get a specific team with optional user expansion.
+  - name: Components
+    description: |-
+      Create and manage the components in an organization. A component represents a source code repository that CloudBees Unify tracks.
+      Components can be onboarded with or without an SCM integration, and an existing component can be connected to an integration later.
+  - name: Runs
+    description: Create, update, and retrieve CI/CD runs for a component. Attach and list test results, artifacts, security results, evidences, and deployments.
+  - name: Team Memberships
+servers:
+  - url: https://api.cloudbees.io
+    description: CloudBees Unify Production API
+security:
+  - BearerAuth: []

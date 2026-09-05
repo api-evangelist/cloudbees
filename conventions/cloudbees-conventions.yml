@@ -1,0 +1,195 @@
+generated: '2026-09-05'
+method: searched
+source: >-
+  openapi/cloudbees-unify-openapi.yml, openapi/cloudbees-unify-beta-openapi.yml,
+  https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token,
+  https://docs.cloudbees.com/docs/cloudbees-feature-management-rest-api/latest/introduction
+scope: CloudBees Unify Public API (api.cloudbees.io). CloudBees CI, CD/RO and self-hosted surfaces differ.
+authentication:
+  style: bearer
+  header: 'Authorization: Bearer <personal_access_token>'
+  scheme: BearerAuth (http/bearer) applied globally in both Unify specifications
+  token_types:
+    - personal access token (PAT) — inherits the issuing user's permissions
+    - CloudBees Unify API access token
+  docs: https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
+  cross_ref: authentication/cloudbees-authentication.yml
+idempotency:
+  supported: false
+  coverage: none
+  header: null
+  scope: []
+  retention: null
+  evidence: >-
+    Neither harvested Unify specification declares an Idempotency-Key (or equivalent) parameter or header on
+    any of its 65 operations, and no CloudBees documentation page describes replay-safe retries. There are 21
+    mutating operations across the two specs (POST/PUT/PATCH/DELETE) and none of them carries a client-supplied
+    request key. Some writes are naturally idempotent by shape (PUT flag configuration, DELETE by id), but
+    that is REST semantics, not a replay-protection contract an agent can rely on.
+  note: >-
+    Recorded as `none` deliberately: a retried createComponent or createRun will create a second resource.
+pagination:
+  styles:
+    - generation: v1/v2/v3 (Current)
+      style: page-number
+      params:
+        - pagination.page
+        - pagination.pageLength
+        - pagination.lastPage
+        - pagination.sort.fieldName
+        - pagination.sort.order
+      response_field: pagination (api.Pagination schema)
+      source: openapi/cloudbees-unify-openapi.yml
+    - generation: v4 (Beta)
+      style: cursor
+      params:
+        - pageSize
+        - pageToken
+        - orderBy
+      response_field: nextPageToken
+      source: openapi/cloudbees-unify-beta-openapi.yml
+      note: >-
+        The v4 pageSize/pageToken/orderBy triple is the Google API Improvement Proposals (AIP-158) list
+        pagination shape, consistent with the API being generated from protobuf service definitions.
+  note: >-
+    The two generations paginate differently. Client code written against the current API does not carry
+    over to v4 without change; this is the single largest migration cost visible in the contracts.
+field_expansion:
+  supported: true
+  param: include
+  description: >-
+    Both generations accept an `include` query parameter to expand related entities (for example expanding
+    users on a team read). Additional filters exist per resource — typeFilter, nested, includeDeleted,
+    configStateEnvs, provider, repositoryUrl, email, name, tenantId.
+  sparse_fields: false
+metadata:
+  custom_properties: >-
+    Feature Management exposes first-class custom properties (api.CustomProperty.CustomProperty) used in
+    targeting conditions and target groups, with CRUD plus usage-rollup operations. This is domain data, not
+    a generic per-object metadata bag; the Unify API has no generic `metadata` map.
+request_tracing:
+  request_id_header: null
+  observed: >-
+    An unauthenticated request to api.cloudbees.io returns no correlation header; mcp.cloudbees.io returns
+    `x-request-id` (UUID) on its 401 responses. Recorded as observed on the MCP host only — no CloudBees
+    documentation describes a request-id contract for the REST API.
+versioning:
+  style: uri-path
+  cross_ref: lifecycle/cloudbees-lifecycle.yml
+error_envelope:
+  format: google.rpc.Status
+  media_type: application/json
+  shape:
+    code: integer (canonical gRPC status code)
+    message: string
+    details: array of google.protobuf.Any
+  rfc9457: false
+  note: >-
+    Every operation in both specifications declares exactly one 200 and one `default` response, and the
+    default resolves to google.rpc.Status. The API is a gRPC-gateway projection: there is no per-status
+    response catalogue in the contract, so a client cannot learn from the spec which 4xx codes an operation
+    can return.
+  cross_ref: errors/cloudbees-problem-types.yml
+rate_limit_signaling:
+  unify_api:
+    documented: false
+    note: No published rate limits or rate-limit response headers for the CloudBees Unify Public API.
+  feature_management_rest_api:
+    documented: true
+    limit: 1 request per second per requester IP
+    status_on_exhaustion: 555
+    headers: []
+    source: https://docs.cloudbees.com/docs/cloudbees-feature-management-rest-api/latest/introduction
+    note: >-
+      HTTP 555 is not a registered status code. A generic HTTP client will treat it as an unknown 5xx and
+      may retry into the same limit; agents need this special-cased.
+  cross_ref: rate-limits/cloudbees-rate-limits.yml
+dry_run_mode:
+  supported: partial
+  operations:
+    - workflow_validate (MCP tool — validate a workflow without running it)
+    - policies_discover (MCP tool — discover applicable policies without enforcing)
+  note: >-
+    No dry-run/preview parameter exists on any published REST operation. The two rehearsal affordances are
+    MCP tools, not REST operations, so a REST-only integrator has none.
+reversibility:
+  grade: documented
+  summary: >-
+    CloudBees publishes inverse operations for the reversible half of the write surface — a flag can be
+    disabled after being enabled, a target group or custom property re-created, a team membership re-added,
+    a running automation stopped, a manual gate rejected. What it does NOT publish anywhere is a WINDOW: no
+    undelete, no restore-within-N-days, no soft-delete retention period is stated in either specification or
+    in the documentation. Graded `documented` (a reversal path exists) rather than `verified` (a reversal
+    path AND a stated window), and no window is asserted here because none is published.
+  write_surfaces:
+    - surface: Feature flag state
+      write: FlagConfigurationApi_UpdateFlagConfigurationConfigState
+      reversal: FlagConfigurationApi_UpdateFlagConfigurationConfigState
+      kind: symmetric-toggle
+      window: null
+      docs: https://apidocs.cloudbees.io/
+      note: Enabling and disabling are the same operation with a different body; a rollout can be reversed immediately.
+    - surface: Feature flag targeting conditions
+      write: FlagConfigurationApi_UpdateFlagConfiguration
+      reversal: FlagConfigurationApi_UpdateFlagConfiguration
+      kind: overwrite
+      window: null
+      note: >-
+        Reversal requires the caller to have retained the prior configuration; the API returns no prior-value
+        snapshot and no revert operation. CloudBees added per-flag audit logs in the September 2026 release,
+        which record what changed, but there is no API operation to restore a recorded prior state.
+    - surface: Feature flag
+      write: FlagApi_DeleteFlag
+      reversal: null
+      kind: destructive
+      window: null
+      note: No undelete operation is published. FlagApi_ListFlags accepts includeDeleted, which implies soft deletion server-side, but no restore operation exists in the contract.
+    - surface: Target group
+      write: TargetGroupApi_DeleteTargetGroup
+      reversal: TargetGroupApi_AddTargetGroup
+      kind: recreate-only
+      window: null
+      note: Re-creating restores the rule set but not the identifier; flags referencing the old target group id are not reattached.
+    - surface: Custom property
+      write: CustomPropertyApi_DeleteCustomProperty
+      reversal: CustomPropertyApi_AddCustomProperty
+      kind: recreate-only
+      window: null
+    - surface: Component (v4)
+      write: deleteComponent
+      reversal: createComponent
+      kind: recreate-only
+      window: null
+      note: Re-creating a component does not restore its run history, artifacts or evidence.
+    - surface: Team membership (v4)
+      write: deleteTeamMembership
+      reversal: createTeamMembership
+      kind: recreate-only
+      window: null
+    - surface: Organization user
+      write: MembershipsService_RemoveUsersFromTeamV3
+      reversal: InvitesService_CreateInviteV3
+      kind: recreate-only
+      window: null
+      note: Reversal is a new invitation the user must accept, not a restore.
+    - surface: Run evidence, artifacts, test results, security results, deployments (v4)
+      write: createEvidences / createArtifacts / createTestResults / createSecurityResults / createDeploymentArtifacts
+      reversal: null
+      kind: append-only
+      window: null
+      note: These are ingestion endpoints with no delete or amend operation — an incorrect submission cannot be withdrawn through the API.
+    - surface: Automation run (MCP only)
+      write: automation_trigger
+      reversal: automation_stop
+      kind: cancel
+      window: null
+      note: >-
+        Only reachable as an MCP tool; there is no public REST operation to trigger or stop an automation.
+        No window is published for how late a run can be stopped.
+cross_references:
+  errors: errors/cloudbees-problem-types.yml
+  lifecycle: lifecycle/cloudbees-lifecycle.yml
+  authentication: authentication/cloudbees-authentication.yml
+  rate_limits: rate-limits/cloudbees-rate-limits.yml
+  scopes: scopes/cloudbees-scopes.yml
+  data_model: data-model/cloudbees-data-model.yml

@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: CloudBees CI REST API (Jenkins-compatible) Computer Json API
+  title: CloudBees CI REST API (Jenkins-compatible) Computer JSON API
   description: 'CloudBees CI exposes the Jenkins remote-access REST API for inspecting and
 
     controlling jobs, builds, queues, and computers. Append `/api/json`,
@@ -41,6 +41,17 @@ paths:
       - Json
 components:
   schemas:
+    JobSummary:
+      type: object
+      properties:
+        _class:
+          type: string
+        name:
+          type: string
+        url:
+          type: string
+        color:
+          type: string
     Jenkins:
       type: object
       properties:
@@ -60,29 +71,7 @@ components:
           type: array
           items:
             type: object
-    JobSummary:
-      type: object
-      properties:
-        _class:
-          type: string
-        name:
-          type: string
-        url:
-          type: string
-        color:
-          type: string
   parameters:
-    Pretty:
-      name: pretty
-      in: query
-      schema:
-        type: boolean
-    Depth:
-      name: depth
-      in: query
-      schema:
-        type: integer
-        default: 0
     Tree:
       name: tree
       in: query
@@ -93,6 +82,17 @@ components:
         '
       schema:
         type: string
+    Depth:
+      name: depth
+      in: query
+      schema:
+        type: integer
+        default: 0
+    Pretty:
+      name: pretty
+      in: query
+      schema:
+        type: boolean
   securitySchemes:
     basicAuth:
       type: http

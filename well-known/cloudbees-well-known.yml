@@ -1,0 +1,265 @@
+generated: '2026-09-05'
+method: probed
+source: live GET probes of the named /.well-known/ path list on every host this record knows
+note: >-
+  Two hosts are catch-alls and their 200s are discarded. cloudbees.io (the CloudBees Unify web app) and
+  x-api.rollout.io (the Feature Management API edge) each answered 200 with an identical body for EVERY
+  path probed, including the negative control that cannot exist, so no document is recorded for them.
+  id.cloudbees.io is included because mcp.cloudbees.io's RFC 9728 protected-resource document names it in
+  authorization_servers; its OIDC metadata is served at the Keycloak realm path, not the host root.
+hosts:
+  - host: https://cloudbees.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        file: cloudbees-security.txt
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/api-catalog.json
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/ucp.json
+        status: 404
+      - path: /.well-known/acp.json
+        status: 404
+      - path: /.well-known/aauth-resource.json
+        status: 404
+      - path: /.well-known/apis.json
+        status: 404
+      - path: /apis.json
+        status: 404
+      - path: /apis.yml
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+      - path: /llms.txt
+        status: 200
+        file: ../llms/cloudbees-llms.txt
+    path_echo_control: passed
+    negative_control:
+      path: /.well-known/cloudbees-negative-control-7f3ab91c.json
+      status: 404
+  - host: https://www.cloudbees.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        file: cloudbees-security.txt
+        note: Byte-identical to the apex; the document's own Canonical field names this host.
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/aauth-resource.json
+        status: 404
+      - path: /.well-known/apis.json
+        status: 404
+      - path: /apis.json
+        status: 404
+      - path: /apis.yml
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+      - path: /llms.txt
+        status: 200
+        file: ../llms/cloudbees-llms.txt
+    path_echo_control: passed
+    negative_control:
+      path: /.well-known/cloudbees-negative-control-7f3ab91c.json
+      status: 404
+  - host: https://api.cloudbees.io
+    documents:
+      - path: /.well-known/openid-configuration
+        status: 200
+        file: cloudbees-api-openid-configuration.json
+        note: >-
+          Workload-identity OIDC issuer for CloudBees Unify workflow runs — claims include repository,
+          run_id, run_number and run_attempt. It is an id_token-only issuer, not the user-facing
+          authorization server (that is id.cloudbees.io).
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/aauth-resource.json
+        status: 404
+      - path: /.well-known/apis.json
+        status: 404
+      - path: /apis.json
+        status: 404
+      - path: /apis.yml
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+      - path: /llms.txt
+        status: 404
+    path_echo_control: passed
+    negative_control:
+      path: /.well-known/cloudbees-negative-control-7f3ab91c.json
+      status: 404
+  - host: https://apidocs.cloudbees.io
+    documents:
+      - path: /.well-known/openid-configuration
+        status: 200
+        note: >-
+          Mirrors the api.cloudbees.io issuer document (issuer https://api.cloudbees.io) because the docs
+          host proxies it. Not saved separately — see cloudbees-api-openid-configuration.json.
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/aauth-resource.json
+        status: 404
+      - path: /.well-known/apis.json
+        status: 404
+      - path: /apis.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+    path_echo_control: passed
+    negative_control:
+      path: /.well-known/cloudbees-negative-control-7f3ab91c.json
+      status: 404
+  - host: https://mcp.cloudbees.io
+    documents:
+      - path: /.well-known/oauth-protected-resource
+        status: 200
+        file: cloudbees-mcp-oauth-protected-resource.json
+        note: >-
+          RFC 9728 protected-resource metadata for the remote MCP server. Also advertised in the
+          WWW-Authenticate header of an unauthenticated POST to /v1/mcp.
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/aauth-resource.json
+        status: 404
+      - path: /.well-known/apis.json
+        status: 404
+      - path: /apis.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+    path_echo_control: passed
+    negative_control:
+      path: /.well-known/cloudbees-negative-control-7f3ab91c.json
+      status: 404
+  - host: https://id.cloudbees.io
+    documents:
+      - path: /realms/cloudbees/.well-known/openid-configuration
+        status: 200
+        file: cloudbees-id-openid-configuration.json
+        note: >-
+          The authorization server named by mcp.cloudbees.io's protected-resource document. Keycloak
+          serves OIDC discovery under the realm path, so the host-root path 404s.
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /realms/cloudbees/.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+    path_echo_control: passed
+  - host: https://docs.cloudbees.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/aauth-resource.json
+        status: 404
+      - path: /.well-known/apis.json
+        status: 404
+      - path: /apis.json
+        status: 404
+      - path: /apis.yml
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+      - path: /llms.txt
+        status: 404
+    path_echo_control: passed
+    negative_control:
+      path: /.well-known/cloudbees-negative-control-7f3ab91c.json
+      status: 404
+  - host: https://cloudbees.io
+    hit_count: 0
+    path_echo_control: failed
+    soft_404_control:
+      path: /.well-known/cloudbees-negative-control-7f3ab91c.json
+      status: 200
+      bytes: 1054
+      content_type: text/html
+    documents: []
+    note: >-
+      Single-page-app catch-all. Every probed path — including the negative control — returned the same
+      1054-byte HTML shell, so no document is recorded and no pointer is emitted for this host.
+  - host: https://x-api.rollout.io
+    hit_count: 0
+    path_echo_control: failed
+    soft_404_control:
+      path: /.well-known/cloudbees-negative-control-7f3ab91c.json
+      status: 200
+      bytes: 14
+      content_type: text/html
+    documents: []
+    note: >-
+      Catch-all edge. Every path returned the 14-byte body "api: status ok", including the negative
+      control. No document recorded.
+summary:
+  hosts_probed: 9
+  hosts_with_documents: 6
+  documents_saved: 4
+  security_txt: true
+  api_catalog: false
+  agent_card: false
+  aauth_resource: false
+  apis_json: false

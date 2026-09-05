@@ -1,0 +1,52 @@
+generated: '2026-09-05'
+method: probed
+source: >-
+  https://mcp.cloudbees.io/.well-known/oauth-protected-resource and
+  https://id.cloudbees.io/realms/cloudbees/.well-known/openid-configuration
+docs: https://docs.cloudbees.com/docs/cloudbees-unify/latest/unify-ai/how-to-guides/secure-your-mcp-connection
+note: >-
+  The CloudBees Unify REST API does not use OAuth — both published specifications declare a single
+  http/bearer scheme carrying a personal access token, with no oauth2 securityScheme and therefore no scope
+  surface. The OAuth scopes below belong to the CloudBees Unify MCP server, which IS an OAuth protected
+  resource. This file exists for that surface only; do not read it as REST API scopes.
+schemes:
+  - name: CloudBees Unify MCP Server
+    resource: https://mcp.cloudbees.io/v1/mcp
+    source: well-known/cloudbees-mcp-oauth-protected-resource.json
+    bearer_methods_supported: [header]
+    authorization_servers:
+      - https://id.cloudbees.io/realms/cloudbees
+    flows:
+      - flow: authorizationCode
+        authorizationUrl: https://id.cloudbees.io/realms/cloudbees/protocol/openid-connect/auth
+        tokenUrl: https://id.cloudbees.io/realms/cloudbees/protocol/openid-connect/token
+        source: well-known/cloudbees-id-openid-configuration.json
+scopes:
+  - scope: openid
+    description: OIDC authentication of the connecting user.
+    flows: [authorizationCode]
+    sources: [well-known/cloudbees-mcp-oauth-protected-resource.json]
+  - scope: profile
+    description: Standard OIDC profile claims for the connecting user.
+    flows: [authorizationCode]
+    sources: [well-known/cloudbees-mcp-oauth-protected-resource.json]
+  - scope: email
+    description: Standard OIDC email claim for the connecting user.
+    flows: [authorizationCode]
+    sources: [well-known/cloudbees-mcp-oauth-protected-resource.json]
+  - scope: mcp:unify:connect
+    description: >-
+      Authorises an MCP client to connect to the CloudBees Unify MCP server. Named in the WWW-Authenticate
+      challenge returned by an unauthenticated POST to https://mcp.cloudbees.io/v1/mcp.
+    flows: [authorizationCode]
+    sources: [well-known/cloudbees-mcp-oauth-protected-resource.json]
+authorization_model:
+  note: >-
+    There is exactly one MCP scope and it is binary — connect or do not connect. Tool-level authority is not
+    expressed in scopes; the agent inherits the full permission set of the signed-in CloudBees Unify user and
+    is constrained by CloudBees Unify RBAC on the server side. An operator scoping an agent down therefore
+    has to do it with a dedicated Unify user and RBAC role, not with an OAuth scope. The X-MCP-Toolsets
+    header narrows which tools are SERVED, but it is a client-set header, not an authorisation boundary.
+  rbac_reference: >-
+    RBAC roles, permissions and authorizations are reachable through the MCP tools (rbac_roles_list,
+    rbac_permissions_list, rbac_authorization_create) but are not published in the REST contract.

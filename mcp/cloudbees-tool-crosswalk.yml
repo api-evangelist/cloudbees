@@ -1,0 +1,580 @@
+generated: '2026-09-05'
+method: derived
+source: mcp/cloudbees-mcp.yml (tool names + descriptions verbatim from the CloudBees Unify MCP tool reference) bound
+  to operationIds greppable in openapi/cloudbees-unify-openapi.yml and openapi/cloudbees-unify-beta-openapi.yml
+surfaces:
+  openapi:
+  - file: openapi/cloudbees-unify-openapi.yml
+    title: CloudBees Unify API (Current)
+    operations: 40
+    server: https://api.cloudbees.io
+    gated: false
+  - file: openapi/cloudbees-unify-beta-openapi.yml
+    title: CloudBees Unify API (Beta)
+    operations: 25
+    server: https://api.cloudbees.io
+    gated: false
+  mcp:
+    url: https://mcp.cloudbees.io/v1/mcp
+    tools_documented: 131
+    gated: true
+    note: tools/list requires an OAuth bearer token (scope mcp:unify:connect), so tool inputSchemas could not be
+      introspected anonymously. Bindings below are by name and semantics against the published REST operations,
+      with confidence recorded honestly.
+  graphql: null
+crosswalk:
+- tool: organizations_list
+  category: Organizations
+  rest:
+  - listOrganizations
+  source: openapi/cloudbees-unify-openapi.yml
+  binding: rest
+  confidence: high
+- tool: organizations_search
+  category: Organizations
+  rest:
+  - getOrganizationByName
+  source: openapi/cloudbees-unify-openapi.yml
+  binding: rest
+  confidence: medium
+  note: REST exposes lookup by exact name; the tool is described as a search.
+- tool: organizations_get
+  category: Organizations
+  rest:
+  - listOrganizations
+  source: openapi/cloudbees-unify-openapi.yml
+  binding: rest
+  confidence: low
+  note: No get-by-id operation is published; the tool most likely filters the list response server-side.
+- tool: services_list
+  category: Components
+  rest:
+  - ServiceEndpoint_ListServices2
+  - listComponents
+  source: openapi/cloudbees-unify-openapi.yml + openapi/cloudbees-unify-beta-openapi.yml
+  binding: rest
+  confidence: high
+  note: Classic /v1 services list and the v4 beta components list are the same capability in two generations.
+- tool: services_get
+  category: Components
+  rest:
+  - getComponent
+  source: openapi/cloudbees-unify-beta-openapi.yml
+  binding: rest
+  confidence: high
+- tool: services_add
+  category: Components
+  rest:
+  - createComponent
+  source: openapi/cloudbees-unify-beta-openapi.yml
+  binding: rest
+  confidence: medium
+  note: Tool wording is 'add a service to an organization'; the v4 op creates a component under an org.
+- tool: services_delete
+  category: Components
+  rest:
+  - deleteComponent
+  source: openapi/cloudbees-unify-beta-openapi.yml
+  binding: rest
+  confidence: medium
+- tool: teams_get
+  category: Teams
+  rest:
+  - TeamsService_GetTeams
+  - listTeams
+  source: openapi/cloudbees-unify-openapi.yml + openapi/cloudbees-unify-beta-openapi.yml
+  binding: rest
+  confidence: medium
+  note: Classic returns the org's teams; v4 listTeams is the tenant-scoped successor.
+- tool: teams_get_by_id
+  category: Teams
+  rest:
+  - getTeam
+  source: openapi/cloudbees-unify-beta-openapi.yml
+  binding: rest
+  confidence: high
+- tool: teams_memberships_list
+  category: Teams
+  rest:
+  - listTeamMemberships
+  source: openapi/cloudbees-unify-beta-openapi.yml
+  binding: rest
+  confidence: high
+- tool: teams_members_add
+  category: Teams
+  rest:
+  - createTeamMembership
+  source: openapi/cloudbees-unify-beta-openapi.yml
+  binding: rest
+  confidence: high
+- tool: teams_members_remove
+  category: Teams
+  rest:
+  - deleteTeamMembership
+  source: openapi/cloudbees-unify-beta-openapi.yml
+  binding: rest
+  confidence: high
+- tool: users_list
+  category: Users
+  rest:
+  - listUsers
+  source: openapi/cloudbees-unify-beta-openapi.yml
+  binding: rest
+  confidence: high
+- tool: teams_invite_create
+  category: Users
+  rest:
+  - InvitesService_CreateInviteV3
+  source: openapi/cloudbees-unify-openapi.yml
+  binding: rest
+  confidence: medium
+  note: Classic invite creation is org-scoped, not team-scoped.
+- tool: flags_environments_list
+  category: Environments
+  rest:
+  - ReportServiceHandler_GetEnvironmentsv2
+  source: openapi/cloudbees-unify-openapi.yml
+  binding: rest
+  confidence: medium
+  note: The published environments list is org-scoped; the tool is described in feature-management terms.
+- tool: flags_list
+  category: Flags
+  rest:
+  - FlagApi_ListFlags
+  source: openapi/cloudbees-unify-openapi.yml
+  binding: rest
+  confidence: high
+- tool: flags_get
+  category: Flags
+  rest:
+  - FlagApi_GetFlag
+  source: openapi/cloudbees-unify-openapi.yml
+  binding: rest
+  confidence: high
+- tool: flags_get_by_name
+  category: Flags
+  rest:
+  - FlagApi_GetFlagByName
+  source: openapi/cloudbees-unify-openapi.yml
+  binding: rest
+  confidence: high
+- tool: flags_add
+  category: Flags
+  rest:
+  - FlagApi_AddFlag
+  source: openapi/cloudbees-unify-openapi.yml
+  binding: rest
+  confidence: high
+- tool: flags_delete
+  category: Flags
+  rest:
+  - FlagApi_DeleteFlag
+  source: openapi/cloudbees-unify-openapi.yml
+  binding: rest
+  confidence: high
+- tool: flags_update_defaultValue
+  category: Flags
+  rest:
+  - FlagApi_UpdateFlag
+  source: openapi/cloudbees-unify-openapi.yml
+  binding: rest
+  confidence: medium
+  note: UpdateFlag is the whole-flag PUT; the tool narrows it to the default value.
+- tool: flags_flag_usage_per_environment
+  category: Flags
+  rest:
+  - FlagApi_GetFlagFlagUsagePerEnvironment
+  source: openapi/cloudbees-unify-openapi.yml
+  binding: rest
+  confidence: high
+- tool: flags_configurations_list
+  category: Flag configurations
+  rest:
+  - FlagConfigurationApi_ListFlagConfigurations
+  source: openapi/cloudbees-unify-openapi.yml
+  binding: rest
+  confidence: high
+- tool: flag_configuration_get
+  category: Flag configurations
+  rest:
+  - FlagConfigurationApi_GetFlagConfiguration
+  source: openapi/cloudbees-unify-openapi.yml
+  binding: rest
+  confidence: high
+- tool: flags_configuration_state_update
+  category: Flag configurations
+  rest:
+  - FlagConfigurationApi_UpdateFlagConfigurationConfigState
+  source: openapi/cloudbees-unify-openapi.yml
+  binding: rest
+  confidence: high
+- tool: flag_configuration_conditions_set
+  category: Flag configurations
+  rest:
+  - FlagConfigurationApi_UpdateFlagConfiguration
+  - FlagConfigurationApi_PatchFlagConfiguration
+  source: openapi/cloudbees-unify-openapi.yml
+  binding: rest
+  confidence: medium
+  note: Targeting conditions live on the flag configuration body; either the PUT or the PATCH carries them.
+- tool: flag_serve_to_target_group
+  category: Flag configurations
+  rest:
+  - FlagConfigurationApi_PatchFlagConfiguration
+  source: openapi/cloudbees-unify-openapi.yml
+  binding: rest
+  confidence: low
+  note: Serving a flag to a target group is a targeting-condition edit on the configuration; no dedicated REST operation
+    exists.
+- tool: flag_target_groups_list
+  category: Target groups
+  rest:
+  - TargetGroupApi_ListTargetGroups
+  source: openapi/cloudbees-unify-openapi.yml
+  binding: rest
+  confidence: high
+- tool: flag_target_groups_get
+  category: Target groups
+  rest:
+  - TargetGroupApi_GetTargetGroup
+  source: openapi/cloudbees-unify-openapi.yml
+  binding: rest
+  confidence: high
+- tool: flag_target_groups_get_by_name
+  category: Target groups
+  rest:
+  - TargetGroupApi_GetTargetGroupByName
+  source: openapi/cloudbees-unify-openapi.yml
+  binding: rest
+  confidence: high
+- tool: flag_target_groups_add
+  category: Target groups
+  rest:
+  - TargetGroupApi_AddTargetGroup
+  source: openapi/cloudbees-unify-openapi.yml
+  binding: rest
+  confidence: high
+- tool: flag_target_groups_delete
+  category: Target groups
+  rest:
+  - TargetGroupApi_DeleteTargetGroup
+  source: openapi/cloudbees-unify-openapi.yml
+  binding: rest
+  confidence: high
+- tool: flag_target_groups_list_with_flags_usage
+  category: Target groups
+  rest:
+  - TargetGroupApi_ListTargetGroupsWithFlagsUsage
+  source: openapi/cloudbees-unify-openapi.yml
+  binding: rest
+  confidence: high
+- tool: flag_target_groups_flag_usage_per_environment
+  category: Target groups
+  rest:
+  - TargetGroupApi_GetTargetGroupFlagUsagePerEnvironment
+  source: openapi/cloudbees-unify-openapi.yml
+  binding: rest
+  confidence: high
+- tool: flag_custom_properties_list
+  category: Flag custom properties
+  rest:
+  - CustomPropertyApi_ListCustomProperties
+  source: openapi/cloudbees-unify-openapi.yml
+  binding: rest
+  confidence: high
+- tool: flag_custom_properties_get
+  category: Flag custom properties
+  rest:
+  - CustomPropertyApi_GetCustomProperty
+  source: openapi/cloudbees-unify-openapi.yml
+  binding: rest
+  confidence: high
+- tool: flag_custom_properties_get_by_name
+  category: Flag custom properties
+  rest:
+  - CustomPropertyApi_GetCustomPropertyByName
+  source: openapi/cloudbees-unify-openapi.yml
+  binding: rest
+  confidence: high
+- tool: flag_custom_properties_add
+  category: Flag custom properties
+  rest:
+  - CustomPropertyApi_AddCustomProperty
+  source: openapi/cloudbees-unify-openapi.yml
+  binding: rest
+  confidence: high
+- tool: flag_custom_properties_delete
+  category: Flag custom properties
+  rest:
+  - CustomPropertyApi_DeleteCustomProperty
+  source: openapi/cloudbees-unify-openapi.yml
+  binding: rest
+  confidence: high
+- tool: flag_custom_properties_flag_usage_per_environment
+  category: Flag custom properties
+  rest:
+  - CustomPropertyApi_GetCustomPropertyFlagUsagePerEnvironment
+  source: openapi/cloudbees-unify-openapi.yml
+  binding: rest
+  confidence: high
+- tool: flag_custom_properties_target_group_usage
+  category: Flag custom properties
+  rest:
+  - CustomPropertyApi_GetCustomPropertyTargetGroupUsage
+  source: openapi/cloudbees-unify-openapi.yml
+  binding: rest
+  confidence: high
+mcp_only:
+- tool: user_whoami
+  reason: No /me or current-user operation is published in either public specification.
+- tool: organizations_create
+  reason: Organization creation is not exposed in the public REST specifications.
+- tool: organizations_list_suborganizations
+  reason: Sub-organization traversal is not a published REST operation; the classic spec exposes only a flat organizations
+    list with a nested query flag.
+- tool: organizations_suborg_report
+  reason: Reporting endpoints are not part of the public REST surface.
+- tool: resources_list
+  reason: Resource-graph operations are not published in the public REST specifications.
+- tool: resources_get
+  reason: Resource-graph operations are not published in the public REST specifications.
+- tool: search_resources
+  reason: Resource-graph operations are not published in the public REST specifications.
+- tool: search_runs
+  reason: The v4 beta spec exposes get/create/update for a single run but no list or search operation.
+- tool: runs_list
+  reason: The v4 beta spec exposes get/create/update for a single run but no list operation.
+- tool: automation_jobs_list
+  reason: Automation jobs are not part of the public REST surface.
+- tool: logs_list
+  reason: Run logs are not part of the public REST surface.
+- tool: workflow_list
+  reason: Workflow definition operations are not published in the public REST specifications.
+- tool: workflow_get_content
+  reason: Workflow definition operations are not published in the public REST specifications.
+- tool: workflow_update_content
+  reason: Workflow definition operations are not published in the public REST specifications.
+- tool: workflow_validate
+  reason: Workflow definition operations are not published in the public REST specifications.
+- tool: workflow_trigger
+  reason: Workflow execution is not published in the public REST specifications.
+- tool: workflow_schema_get
+  reason: Workflow definition operations are not published in the public REST specifications.
+- tool: automation_trigger
+  reason: Automation execution is not published in the public REST specifications.
+- tool: automation_trigger_by_branch
+  reason: Automation execution is not published in the public REST specifications.
+- tool: automation_rerun
+  reason: Automation execution is not published in the public REST specifications.
+- tool: automation_stop
+  reason: Automation execution is not published in the public REST specifications.
+- tool: automation_approve_manual_gate
+  reason: Manual-gate approval is not published in the public REST specifications.
+- tool: automation_reject_manual_gate
+  reason: Manual-gate approval is not published in the public REST specifications.
+- tool: automation_pending_tasks_list
+  reason: Manual-gate approval is not published in the public REST specifications.
+- tool: actions_list
+  reason: The action catalog is not published in the public REST specifications.
+- tool: flags_applications_list
+  reason: Feature-management applications are addressed by path parameter in every published flag operation; no
+    list-applications operation exists.
+- tool: flag_approval_requests_list
+  reason: Flag approval workflow is not published in the public REST specifications.
+- tool: flag_target_groups_target_group_usage
+  reason: The published target-group usage operation is scoped to a custom property, not a target group; the tool
+    has no matching REST operation.
+- tool: properties_list
+  reason: Organization properties are not published in the public REST specifications.
+- tool: properties_get
+  reason: Organization properties are not published in the public REST specifications.
+- tool: properties_add
+  reason: Organization properties are not published in the public REST specifications.
+- tool: property_delete
+  reason: Organization properties are not published in the public REST specifications.
+- tool: endpoint_list
+  reason: Integration endpoints are not published in the public REST specifications.
+- tool: endpoint_add
+  reason: Integration endpoints are not published in the public REST specifications.
+- tool: endpoint_scm_connector_prepare
+  reason: Integration endpoints are not published in the public REST specifications.
+- tool: ticketing_webhook_url_get
+  reason: Ticketing webhook provisioning is not published in the public REST specifications.
+- tool: extensions_list
+  reason: The extension catalog is not published in the public REST specifications.
+- tool: users_get
+  reason: Only listUsers is published in the v4 beta spec.
+- tool: users_get_by_id
+  reason: Only listUsers is published in the v4 beta spec.
+- tool: user_preferences_get
+  reason: User preferences are not published in the public REST specifications.
+- tool: user_set_timezone
+  reason: User preferences are not published in the public REST specifications.
+- tool: teams_create
+  reason: Team creation is not published in the public REST specifications.
+- tool: teams_delete
+  reason: Team deletion is not published in the public REST specifications.
+- tool: teams_invites_list
+  reason: Invite listing is not published; only classic invite creation is.
+- tool: teams_invite_delete
+  reason: Invite deletion is not published in the public REST specifications.
+- tool: rbac_permissions_list
+  reason: RBAC is not published in the public REST specifications.
+- tool: rbac_roles_list
+  reason: RBAC is not published in the public REST specifications.
+- tool: rbac_role_get
+  reason: RBAC is not published in the public REST specifications.
+- tool: rbac_role_create
+  reason: RBAC is not published in the public REST specifications.
+- tool: rbac_role_delete
+  reason: RBAC is not published in the public REST specifications.
+- tool: rbac_authorizations_list
+  reason: RBAC is not published in the public REST specifications.
+- tool: rbac_authorization_create
+  reason: RBAC is not published in the public REST specifications.
+- tool: rbac_authorization_check_bulk
+  reason: RBAC is not published in the public REST specifications.
+- tool: api_tokens_list
+  reason: Token management is not published in the public REST specifications.
+- tool: saml_connections_list
+  reason: SAML configuration is not published in the public REST specifications.
+- tool: saml_email_domains_list
+  reason: SAML configuration is not published in the public REST specifications.
+- tool: repositories_list
+  reason: SCM discovery is not published in the public REST specifications.
+- tool: repositories_search
+  reason: SCM discovery is not published in the public REST specifications.
+- tool: branches_list
+  reason: SCM discovery is not published in the public REST specifications.
+- tool: scm_branches_list
+  reason: SCM discovery is not published in the public REST specifications.
+- tool: scm_gh_app_registrations_list
+  reason: SCM discovery is not published in the public REST specifications.
+- tool: scm_repositories_sync
+  reason: SCM discovery is not published in the public REST specifications.
+- tool: controllers_list
+  reason: CI controller inventory is not published in the public REST specifications.
+- tool: controllers_data_get
+  reason: CI controller inventory is not published in the public REST specifications.
+- tool: report_drilldown_get
+  reason: Reporting is not published in the public REST specifications.
+- tool: policies_list
+  reason: The policy engine is not published in the public REST specifications.
+- tool: policies_get
+  reason: The policy engine is not published in the public REST specifications.
+- tool: policies_get_schema
+  reason: The policy engine is not published in the public REST specifications.
+- tool: policies_create
+  reason: The policy engine is not published in the public REST specifications.
+- tool: policies_update
+  reason: The policy engine is not published in the public REST specifications.
+- tool: policies_delete
+  reason: The policy engine is not published in the public REST specifications.
+- tool: policies_discover
+  reason: The policy engine is not published in the public REST specifications.
+- tool: policies_run_evaluations_list
+  reason: The policy engine is not published in the public REST specifications.
+- tool: security_findings_summary_get
+  reason: Application-security findings and configuration are not published in the public REST specifications; the
+    v4 beta spec only ingests security results onto a run.
+- tool: security_issues_open_get
+  reason: Application-security findings and configuration are not published in the public REST specifications; the
+    v4 beta spec only ingests security results onto a run.
+- tool: security_issues_all_get
+  reason: Application-security findings and configuration are not published in the public REST specifications; the
+    v4 beta spec only ingests security results onto a run.
+- tool: security_filters_list
+  reason: Application-security findings and configuration are not published in the public REST specifications; the
+    v4 beta spec only ingests security results onto a run.
+- tool: security_filter_tools_list
+  reason: Application-security findings and configuration are not published in the public REST specifications; the
+    v4 beta spec only ingests security results onto a run.
+- tool: security_configuration_get
+  reason: Application-security findings and configuration are not published in the public REST specifications; the
+    v4 beta spec only ingests security results onto a run.
+- tool: security_configuration_set
+  reason: Application-security findings and configuration are not published in the public REST specifications; the
+    v4 beta spec only ingests security results onto a run.
+- tool: security_configuration_hierarchy_get
+  reason: Application-security findings and configuration are not published in the public REST specifications; the
+    v4 beta spec only ingests security results onto a run.
+- tool: security_sla_configuration_get
+  reason: Application-security findings and configuration are not published in the public REST specifications; the
+    v4 beta spec only ingests security results onto a run.
+- tool: security_sla_configuration_set
+  reason: Application-security findings and configuration are not published in the public REST specifications; the
+    v4 beta spec only ingests security results onto a run.
+- tool: security_sla_configuration_remove
+  reason: Application-security findings and configuration are not published in the public REST specifications; the
+    v4 beta spec only ingests security results onto a run.
+- tool: security_tenant_sla_configuration_remove
+  reason: Application-security findings and configuration are not published in the public REST specifications; the
+    v4 beta spec only ingests security results onto a run.
+- tool: security_implicit_scans_set
+  reason: Application-security findings and configuration are not published in the public REST specifications; the
+    v4 beta spec only ingests security results onto a run.
+- tool: security_plugin_config_get
+  reason: Application-security findings and configuration are not published in the public REST specifications; the
+    v4 beta spec only ingests security results onto a run.
+- tool: security_plugin_config_set
+  reason: Application-security findings and configuration are not published in the public REST specifications; the
+    v4 beta spec only ingests security results onto a run.
+- tool: security_plugin_activate
+  reason: Application-security findings and configuration are not published in the public REST specifications; the
+    v4 beta spec only ingests security results onto a run.
+- tool: security_plugin_deactivate
+  reason: Application-security findings and configuration are not published in the public REST specifications; the
+    v4 beta spec only ingests security results onto a run.
+rest_only:
+- capability: Components
+  operations:
+  - updateComponent
+- capability: Flag configurations
+  operations:
+  - FlagConfigurationApi_CloneFlagConfiguration
+- capability: Flag custom properties
+  operations:
+  - CustomPropertyApi_UpdateCustomProperty
+- capability: Flag lifecycle
+  operations:
+  - FmImpressionsApi_GetFlagsStatus2
+  - FmImpressionsApi_GetImpressions2
+- capability: Flags
+  operations:
+  - FlagApi_GetFlagConfigurationState
+  - FlagApi_ListLabels
+- capability: Runs
+  operations:
+  - createArtifacts
+  - createDeploymentArtifacts
+  - createEvidences
+  - createRun
+  - createSecurityResults
+  - createTestResults
+  - getRun
+  - listArtifacts
+  - listDeployments
+  - listEvidences
+  - listSecurityResults
+  - listTestResults
+  - updateRun
+- capability: Target groups
+  operations:
+  - TargetGroupApi_UpdateTargetGroup
+- capability: Team Memberships
+  operations:
+  - getTeamMembership
+- capability: Users
+  operations:
+  - MembershipsService_RemoveUsersFromTeamV3
+coverage:
+  tools_documented: 131
+  tools_bound: 41
+  tools_mcp_only: 90
+  rest_operations_total: 65
+  rest_operations_with_tool: 42
+  rest_operations_without_tool: 23
+  note: 'The MCP surface is far wider than the published REST surface: workflows, automations, RBAC, SAML, the policy
+    engine, application security and SCM discovery are all reachable as tools with no public REST equivalent. The
+    REST surface in turn carries impression/lifecycle reads and the v4 run-evidence ingestion that no tool exposes.
+    Neither is a superset.'

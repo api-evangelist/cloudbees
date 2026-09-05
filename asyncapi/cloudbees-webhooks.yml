@@ -1,0 +1,78 @@
+generated: '2026-09-05'
+method: searched
+source: >-
+  https://docs.cloudbees.com/docs/cloudbees-feature-management/latest/integration/webhooks,
+  https://docs.cloudbees.com/docs/cloudbees-unify/latest/configure/notifications,
+  https://docs.cloudbees.com/plugins/ci/outbound-webhook,
+  https://docs.cloudbees.com/docs/cloudbees-cd/latest/triggers/webhook-triggers
+spec_type: none
+asyncapi_published: false
+asyncapi_note: >-
+  CloudBees documents an outbound webhook surface across three product lines but publishes no AsyncAPI (or
+  CloudEvents) description of it. No /asyncapi.yaml, /asyncapi.json or event-catalog document was found on
+  any CloudBees host, and the GitHub organisation carries none. This artifact captures the webhook catalogue
+  as documented; it is NOT a generated AsyncAPI and must not be treated as one.
+surfaces:
+  - name: CloudBees Unify notifications
+    direction: outbound
+    docs: https://docs.cloudbees.com/docs/cloudbees-unify/latest/configure/notifications
+    channels: [email, Microsoft Teams, Slack, webhook]
+    configuration: >-
+      Per notification: a name, a target URL, an authorization type and token, an optional connectivity test,
+      and a scope of either all feature-management environments or one named environment.
+    scope: feature-management events, optionally narrowed to a single environment
+  - name: CloudBees Feature Management webhooks
+    direction: outbound
+    docs: https://docs.cloudbees.com/docs/cloudbees-feature-management/latest/integration/webhooks
+    configuration: App Settings -> Integrations tab -> Webhooks section
+    event_scopes:
+      - all changes for an application
+      - changes in named environments only
+    payload_fields:
+      - name: channel
+        shape: "{name, url}"
+      - name: flag
+        shape: flag name
+      - name: user
+        shape: "{email, name} or {externalUserUrl, externalUserName}"
+      - name: applicationName
+      - name: environmentName
+      - name: targetGroup
+      - name: action
+        description: machine-oriented description of what changed
+      - name: message
+        description: human-readable message
+    delivery:
+      timeout_seconds: 5
+      expected_response: 2xx
+      guidance: >-
+        CloudBees documents that the receiver must answer within 5 seconds with a 2xx and recommends
+        acknowledging immediately then processing asynchronously.
+      retries: undocumented
+      signing: undocumented
+      custom_headers: undocumented
+    named_event_types: false
+    named_event_types_note: >-
+      CloudBees does not publish a list of named event types for this surface. Subscription is by scope
+      (application or environment), and the specific change is carried in the free-text `action` and
+      `message` fields — so a consumer cannot route on a typed event and has to parse prose.
+  - name: CloudBees CI outbound webhook
+    direction: outbound
+    docs: https://docs.cloudbees.com/plugins/ci/outbound-webhook
+    description: Plugin that posts build events from a CloudBees CI controller to an external HTTP endpoint.
+    scope: build events
+  - name: CloudBees CD/RO webhook triggers
+    direction: inbound
+    docs: https://docs.cloudbees.com/docs/cloudbees-cd/latest/triggers/webhook-triggers
+    description: Inbound webhooks that trigger CD/RO pipelines and releases from external systems.
+  - name: Ticketing webhook URL
+    direction: inbound
+    docs: https://docs.cloudbees.com/docs/cloudbees-unify/latest/unify-ai/reference/mcp-tool-reference
+    description: >-
+      A per-organisation inbound ticketing webhook URL, retrievable through the MCP tool
+      ticketing_webhook_url_get. Not exposed in the REST contract.
+gaps:
+  - No AsyncAPI, CloudEvents or JSON Schema description of any webhook payload.
+  - No named event-type vocabulary for Feature Management webhooks.
+  - No documented signature/verification scheme for outbound deliveries.
+  - No documented retry or dead-letter behaviour.

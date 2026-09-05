@@ -21,6 +21,15 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
+  "notes": [
+    "cloudbees-computer-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "cloudbees-createitem-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "cloudbees-job-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "cloudbees-json-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "cloudbees-python-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "cloudbees-queue-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "cloudbees-xml-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
   "skipped": []
 }

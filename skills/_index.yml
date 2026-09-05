@@ -1,0 +1,48 @@
+generated: '2026-09-05'
+method: generated
+source: >-
+  openapi/cloudbees-unify-openapi.yml, openapi/cloudbees-unify-beta-openapi.yml,
+  conventions/cloudbees-conventions.yml, errors/cloudbees-problem-types.yml
+note: >-
+  Every operationId referenced by these skills was grepped out of the harvested specifications before the
+  skill was written; none is invented. CloudBees publishes no AGENTS.md or provider-authored skill files,
+  so these are generated, not searched.
+skills:
+  - file: cloudbees-roll-out-a-feature-flag.md
+    name: Roll out a CloudBees feature flag safely
+    api: openapi/cloudbees-unify-openapi.yml
+    operations:
+      - listOrganizations
+      - ReportServiceHandler_GetEnvironmentsv2
+      - FlagApi_GetFlagByName
+      - FlagConfigurationApi_GetFlagConfiguration
+      - FlagConfigurationApi_UpdateFlagConfigurationConfigState
+      - FlagApi_GetFlagFlagUsagePerEnvironment
+  - file: cloudbees-record-a-delivery-run.md
+    name: Record a CloudBees Unify delivery run
+    api: openapi/cloudbees-unify-beta-openapi.yml
+    operations:
+      - listComponents
+      - getComponent
+      - createRun
+      - createTestResults
+      - createArtifacts
+      - createSecurityResults
+      - createEvidences
+      - createDeploymentArtifacts
+      - updateRun
+      - getRun
+  - file: cloudbees-audit-org-access.md
+    name: Audit CloudBees Unify org and team access
+    api: openapi/cloudbees-unify-beta-openapi.yml
+    operations:
+      - listOrganizations
+      - getOrganizationByName
+      - TeamsService_GetTeams
+      - listTeams
+      - getTeam
+      - listTeamMemberships
+      - getTeamMembership
+      - listUsers
+      - createTeamMembership
+      - deleteTeamMembership

@@ -1,0 +1,55 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for CloudBees Unify API (Beta)
+  version: 1.0.0
+extends: openapi/cloudbees-unify-beta-openapi.yml
+x-provenance:
+  generated: '2026-09-05'
+  method: generated
+  source: openapi/cloudbees-unify-beta-openapi.yml
+  note: >-
+    Captures API Evangelist's enrichment as an Overlay so the harvested CloudBees specification is never
+    mutated. Every action below points at an artifact in this repository or records an observation made
+    while probing CloudBees' live surface on 2026-09-05.
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-provider: cloudbees
+      x-apievangelist-harvested-from: https://apidocs.cloudbees.io/
+      x-apievangelist-harvested-on: '2026-09-05'
+      x-apievangelist-artifacts:
+        authentication: authentication/cloudbees-authentication.yml
+        conventions: conventions/cloudbees-conventions.yml
+        errors: errors/cloudbees-problem-types.yml
+        lifecycle: lifecycle/cloudbees-lifecycle.yml
+        conformance: conformance/cloudbees-conformance.yml
+        data_model: data-model/cloudbees-data-model.yml
+        rate_limits: rate-limits/cloudbees-rate-limits.yml
+        mcp: mcp/cloudbees-mcp.yml
+        tool_crosswalk: mcp/cloudbees-tool-crosswalk.yml
+        webhooks: asyncapi/cloudbees-webhooks.yml
+        skills: skills/_index.yml
+  - target: $.info
+    update:
+      x-apievangelist-observations:
+        error_envelope_mismatch: >-
+          The contract declares google.rpc.Status for the default error response, but a live unauthenticated
+          request to https://api.cloudbees.io returned {"error":"you are not authorized to perform this
+          action"} — a different shape. Observed 2026-09-05.
+        no_enumerated_failures: >-
+          Every operation declares exactly one 200 and one default response; no 4xx is enumerated anywhere,
+          so the contract does not tell a caller which failures are reachable or retryable.
+        no_idempotency: >-
+          No Idempotency-Key parameter exists on any mutating operation. See conventions/.
+  - target: $.servers
+    update:
+      - url: https://api.cloudbees.io
+        description: >-
+          CloudBees Unify Production API. Verified reachable 2026-09-05: an unauthenticated GET returns
+          HTTP 401 application/json, confirming a live, auth-gated host.
+  - target: $.components.securitySchemes.BearerAuth
+    update:
+      x-apievangelist-token-source: >-
+        Personal access tokens are created in the CloudBees Unify UI under the user profile and inherit that
+        user's permissions. See
+        https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token

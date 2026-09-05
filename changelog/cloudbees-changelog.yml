@@ -1,0 +1,41 @@
+generated: '2026-09-05'
+method: searched
+source: https://docs.cloudbees.com/docs/cloudbees-unify-changelog/latest/
+url: https://docs.cloudbees.com/docs/cloudbees-unify-changelog/latest/
+scheme: dated monthly releases with a numeric release id
+current_release: '17.0'
+current_release_month: '2026-09'
+cadence: monthly
+archives:
+  - https://docs.cloudbees.com/docs/cloudbees-unify-changelog/latest/2025-archive
+  - https://docs.cloudbees.com/docs/cloudbees-unify-changelog/latest/2024-archive
+sdk_changelogs: https://docs.cloudbees.com/docs/cloudbees-unify-changelog/latest/fmsdk/
+other_release_notes:
+  - url: https://docs.cloudbees.com/docs/release-notes/latest/cloudbees-ci/
+    scope: CloudBees CI
+entries:
+  - release: '17.0'
+    date: '2026-09'
+    breaking: false
+    highlights:
+      - AI Assistant can list pending approval tasks for workflows.
+      - Rule values can be copied from feature flags to the clipboard.
+      - The CloudBees Unify MCP Server organises its tools into domain-based toolsets.
+      - Individual feature flags display audit logs showing change history.
+    fixes:
+      - Percentage-based rollout splits validate correctly.
+  - release: '15.0-16.0'
+    date: '2026-08'
+    breaking: false
+    highlights:
+      - Interactive CloudBees Unify Public API reference documentation launched (apidocs.cloudbees.io).
+      - Audit reports for release workflow runs viewable in the platform.
+      - Sign-in resumes the last active organization.
+      - MCP Server support for configuring flag targeting conditions.
+deprecations:
+  - item: CloudBees Unify MCP Server local stdio transport
+    date: '2026-05-31'
+    replacement: https://mcp.cloudbees.io/v1/mcp
+window_note: >-
+  Recent window only — the live changelog is the source of truth. Entries above are summarised from the
+  provider's published changelog page; the archives cover 2024 and 2025.

@@ -1,0 +1,70 @@
+generated: '2026-09-05'
+method: searched
+source: >-
+  https://docs.cloudbees.com/docs/cloudbees-common/latest/maintenance-lifecycle,
+  https://docs.cloudbees.com/docs/cloudbees-unify-changelog/latest/,
+  https://apidocs.cloudbees.io/ and the harvested Unify OpenAPI documents
+versioning:
+  scheme: uri-path
+  current: v4 (beta) alongside v1/v2/v3 (current, stable)
+  docs: https://apidocs.cloudbees.io/
+  note: >-
+    The CloudBees Unify Public API versions in the URI path. The "Current" specification mixes /v1, /v2 and
+    /v3 prefixes per resource family; the "Beta" specification is uniformly /v4. CloudBees' own spec
+    description states the current endpoints "are stable and supported, but no longer receive new features"
+    and directs new integrations to the v4 beta, so the two specifications are a published migration path
+    rather than parallel products.
+  specifications:
+    - name: CloudBees Unify API (Current)
+      version: 1.0.0
+      file: openapi/cloudbees-unify-openapi.yml
+      status: stable-feature-frozen
+    - name: CloudBees Unify API (Beta)
+      version: 4.0.0-beta
+      file: openapi/cloudbees-unify-beta-openapi.yml
+      status: beta
+      note: >-
+        CloudBees describes the v4 endpoints as "production-ready and supported, but may evolve based on
+        customer feedback during the beta period."
+deprecation:
+  policy_url: https://docs.cloudbees.com/docs/cloudbees-common/latest/maintenance-lifecycle
+  support_policy_url: https://docs.cloudbees.com/docs/cloudbees-common/latest/support-policies/
+  eol_schedule_url: >-
+    https://docs.cloudbees.com/docs/general-kb/latest/policies/supported-product-versions-and-release-end-of-life
+  sunset_header: unknown
+  note: >-
+    CloudBees publishes a named maintenance-lifecycle policy plus a supported-versions / release-end-of-life
+    schedule, and announces individual product EOLs on dated pages (CodeShip EOL January 2026, Previews EOL
+    September 2025, Blue Ocean and Team controllers EOL with the July 2026 CloudBees CI release). RFC 8594
+    Sunset/Deprecation response headers are not documented for the REST API and were not observed; recorded
+    as unknown rather than false because no unauthenticated call could be made to check.
+  dated_api_deprecations:
+    - item: CloudBees Unify MCP Server local stdio transport
+      deprecated_on: '2026-05-31'
+      replacement: https://mcp.cloudbees.io/v1/mcp
+      source: https://docs.cloudbees.com/docs/cloudbees-unify-changelog/latest/
+sla:
+  url: null
+  uptime_target: null
+  note: >-
+    No public SLA/uptime-commitment page was found; CloudBees Unify is sold through sales-negotiated
+    contracts, and SLA terms sit inside those agreements. https://www.cloudbees.com/legal/sla returns 404.
+status_page: https://status.cloudbees.io/
+status_pages:
+  - url: https://status.cloudbees.io/
+    scope: CloudBees Unify
+    title: CloudBees Unify Status
+    status: 200
+  - url: https://status.cloudbees.com/
+    scope: CloudBees products (Atlassian Statuspage; also served at cloudbees.statuspage.io)
+    title: CloudBees Status
+    status: 200
+release_notes:
+  - url: https://docs.cloudbees.com/docs/cloudbees-unify-changelog/latest/
+    scope: CloudBees Unify (dated changelog)
+  - url: https://docs.cloudbees.com/docs/release-notes/latest/cloudbees-ci/
+    scope: CloudBees CI
+deprecated_operations: []
+deprecated_operations_note: >-
+  No operation in either harvested Unify specification carries `deprecated: true`. The whole "Current"
+  specification is feature-frozen in prose, but that is a document-level statement, not an operation flag.

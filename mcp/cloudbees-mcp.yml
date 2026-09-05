@@ -1,0 +1,449 @@
+generated: '2026-09-05'
+method: searched
+status: published
+source: https://docs.cloudbees.com/docs/cloudbees-unify/latest/unify-ai/reference/mcp-tool-reference
+deployment:
+  mode: remote
+  endpoint: https://mcp.cloudbees.io/v1/mcp
+  auth: oauth
+  verified: probed
+  note: 'An unauthenticated POST of {"jsonrpc":"2.0","id":1,"method":"tools/list"} to the endpoint returned
+    HTTP 401 with WWW-Authenticate: Bearer resource_metadata="https://mcp.cloudbees.io/.well-known/oauth-protected-resource",
+    scope="mcp:unify:connect" — a live, correctly-advertised RFC 9728 MCP server. The local stdio transport
+    CloudBees previously shipped is deprecated as of 2026-05-31 per the CloudBees Unify changelog, so
+    mode is remote and not both.'
+server:
+  name: CloudBees Unify MCP Server
+  transport: http
+  url: https://mcp.cloudbees.io/v1/mcp
+  vendor: CloudBees
+  docs: https://docs.cloudbees.com/docs/cloudbees-unify-mcp-server/latest/
+  tool_reference: https://docs.cloudbees.com/docs/cloudbees-unify/latest/unify-ai/reference/mcp-tool-reference
+authorization:
+  scheme: OAuth 2.0 (RFC 9728 protected resource)
+  protected_resource_metadata: https://mcp.cloudbees.io/.well-known/oauth-protected-resource
+  authorization_servers:
+  - https://id.cloudbees.io/realms/cloudbees
+  scopes_supported:
+  - openid
+  - profile
+  - email
+  - mcp:unify:connect
+  bearer_methods_supported:
+  - header
+  note: The agent acts with exactly the permissions of the signed-in CloudBees Unify user.
+toolsets:
+  header: X-MCP-Toolsets
+  note: Toolsets are selected per connection with the X-MCP-Toolsets request header; the default toolset
+    is served when the header is absent.
+  names:
+  - Default toolset
+  - Organization administration
+  - Access management
+  - Applications and components
+  - Workflows
+  - Feature management
+  - Application security
+  - Reports and analytics
+  - Policy engine
+tools:
+- name: user_whoami
+  description: Get current user information
+  toolset: Default toolset
+- name: organizations_list
+  description: List accessible organizations
+  toolset: Default toolset
+- name: organizations_get
+  description: Get organization details by ID
+  toolset: Default toolset
+- name: organizations_search
+  description: Search for organizations by name
+  toolset: Default toolset
+- name: organizations_list_suborganizations
+  description: List child organizations
+  toolset: Default toolset
+- name: services_list
+  description: List components and applications
+  toolset: Default toolset
+- name: services_get
+  description: Get component or application details by ID
+  toolset: Default toolset
+- name: resources_list
+  description: List resources in an organization
+  toolset: Default toolset
+- name: resources_get
+  description: Get a resource and its optional hierarchy
+  toolset: Default toolset
+- name: search_resources
+  description: Search for resources by name or type
+  toolset: Default toolset
+- name: search_runs
+  description: Search for workflow runs by component
+  toolset: Default toolset
+- name: automation_jobs_list
+  description: List automation jobs within a run
+  toolset: Default toolset
+- name: workflow_list
+  description: List workflows for a component
+  toolset: Default toolset
+- name: logs_list
+  description: List logs for a workflow run
+  toolset: Default toolset
+- name: flags_applications_list
+  description: List feature flag applications
+  toolset: Default toolset
+- name: flags_environments_list
+  description: List feature flag environments
+  toolset: Default toolset
+- name: flags_get_by_name
+  description: Get a feature flag by name
+  toolset: Default toolset
+- name: flag_configuration_get
+  description: Get a feature flag configuration
+  toolset: Default toolset
+- name: organizations_create
+  description: Create a new organization
+  toolset: Organization administration
+- name: services_add
+  description: Add a service to an organization
+  toolset: Organization administration
+- name: services_delete
+  description: Remove a service from an organization
+  toolset: Organization administration
+- name: properties_list
+  description: List properties
+  toolset: Organization administration
+- name: properties_get
+  description: Get a property
+  toolset: Organization administration
+- name: properties_add
+  description: Add a property
+  toolset: Organization administration
+- name: property_delete
+  description: Delete a property
+  toolset: Organization administration
+- name: endpoint_list
+  description: List endpoints
+  toolset: Organization administration
+- name: endpoint_add
+  description: Add an endpoint
+  toolset: Organization administration
+- name: endpoint_scm_connector_prepare
+  description: Prepare an SCM connector endpoint
+  toolset: Organization administration
+- name: ticketing_webhook_url_get
+  description: Get a ticketing webhook URL
+  toolset: Organization administration
+- name: extensions_list
+  description: List available extensions
+  toolset: Organization administration
+- name: users_list
+  description: List users
+  toolset: Access management
+- name: users_get
+  description: Get a user by account
+  toolset: Access management
+- name: users_get_by_id
+  description: Get a user by ID
+  toolset: Access management
+- name: user_preferences_get
+  description: Get user preferences
+  toolset: Access management
+- name: user_set_timezone
+  description: Set user timezone
+  toolset: Access management
+- name: teams_get
+  description: Get a team
+  toolset: Access management
+- name: teams_get_by_id
+  description: Get a team by ID
+  toolset: Access management
+- name: teams_create
+  description: Create a team
+  toolset: Access management
+- name: teams_delete
+  description: Delete a team
+  toolset: Access management
+- name: teams_invites_list
+  description: List team invitations
+  toolset: Access management
+- name: teams_invite_create
+  description: Create a team invitation
+  toolset: Access management
+- name: teams_invite_delete
+  description: Delete a team invitation
+  toolset: Access management
+- name: teams_memberships_list
+  description: List team memberships
+  toolset: Access management
+- name: teams_members_add
+  description: Add a member to a team
+  toolset: Access management
+- name: teams_members_remove
+  description: Remove a member from a team
+  toolset: Access management
+- name: rbac_permissions_list
+  description: List RBAC permissions
+  toolset: Access management
+- name: rbac_roles_list
+  description: List RBAC roles
+  toolset: Access management
+- name: rbac_role_get
+  description: Get an RBAC role
+  toolset: Access management
+- name: rbac_role_create
+  description: Create an RBAC role
+  toolset: Access management
+- name: rbac_role_delete
+  description: Delete an RBAC role
+  toolset: Access management
+- name: rbac_authorizations_list
+  description: List RBAC authorizations
+  toolset: Access management
+- name: rbac_authorization_create
+  description: Create an RBAC authorization
+  toolset: Access management
+- name: rbac_authorization_check_bulk
+  description: Bulk-check RBAC authorizations
+  toolset: Access management
+- name: api_tokens_list
+  description: List API tokens for the current user
+  toolset: Access management
+- name: saml_connections_list
+  description: List SAML connections
+  toolset: Access management
+- name: saml_email_domains_list
+  description: List SAML email domains
+  toolset: Access management
+- name: repositories_list
+  description: List repositories
+  toolset: Applications and components
+- name: repositories_search
+  description: Search for repositories
+  toolset: Applications and components
+- name: branches_list
+  description: List branches
+  toolset: Applications and components
+- name: scm_branches_list
+  description: List SCM branches
+  toolset: Applications and components
+- name: scm_gh_app_registrations_list
+  description: List GitHub App registrations
+  toolset: Applications and components
+- name: scm_repositories_sync
+  description: Request a sync of repositories from the SCM provider
+  toolset: Applications and components
+- name: workflow_get_content
+  description: Get workflow content
+  toolset: Workflows
+- name: workflow_update_content
+  description: Update workflow content
+  toolset: Workflows
+- name: workflow_validate
+  description: Validate a workflow
+  toolset: Workflows
+- name: workflow_trigger
+  description: Trigger a workflow
+  toolset: Workflows
+- name: workflow_schema_get
+  description: Get workflow schema
+  toolset: Workflows
+- name: runs_list
+  description: List workflow runs
+  toolset: Workflows
+- name: automation_trigger
+  description: Trigger an automation
+  toolset: Workflows
+- name: automation_trigger_by_branch
+  description: Trigger an automation for a specific branch
+  toolset: Workflows
+- name: automation_rerun
+  description: Rerun an automation
+  toolset: Workflows
+- name: automation_stop
+  description: Stop a running automation
+  toolset: Workflows
+- name: automation_approve_manual_gate
+  description: Approve a manual workflow gate
+  toolset: Workflows
+- name: automation_reject_manual_gate
+  description: Reject a manual workflow gate
+  toolset: Workflows
+- name: automation_pending_tasks_list
+  description: List pending approval tasks across workflow runs
+  toolset: Workflows
+- name: actions_list
+  description: List actions
+  toolset: Workflows
+- name: flags_list
+  description: List feature flags
+  toolset: Feature management
+- name: flags_get
+  description: Get a feature flag by ID
+  toolset: Feature management
+- name: flags_add
+  description: Add a feature flag
+  toolset: Feature management
+- name: flags_delete
+  description: Delete a feature flag
+  toolset: Feature management
+- name: flags_update_defaultValue
+  description: Update a feature flag default value
+  toolset: Feature management
+- name: flags_configurations_list
+  description: List feature flag configurations
+  toolset: Feature management
+- name: flags_configuration_state_update
+  description: Update feature flag configuration state
+  toolset: Feature management
+- name: flags_flag_usage_per_environment
+  description: Get feature flag usage per environment
+  toolset: Feature management
+- name: flag_configuration_conditions_set
+  description: Set feature flag configuration conditions
+  toolset: Feature management
+- name: flag_serve_to_target_group
+  description: Serve a feature flag to a target group
+  toolset: Feature management
+- name: flag_approval_requests_list
+  description: List feature flag approval requests
+  toolset: Feature management
+- name: flag_target_groups_list
+  description: List target groups
+  toolset: Feature management
+- name: flag_target_groups_get
+  description: Get a target group
+  toolset: Feature management
+- name: flag_target_groups_get_by_name
+  description: Get a target group by name
+  toolset: Feature management
+- name: flag_target_groups_add
+  description: Add a target group
+  toolset: Feature management
+- name: flag_target_groups_delete
+  description: Delete a target group
+  toolset: Feature management
+- name: flag_target_groups_list_with_flags_usage
+  description: List target groups with flag usage
+  toolset: Feature management
+- name: flag_target_groups_flag_usage_per_environment
+  description: Get flag usage per environment for a target group
+  toolset: Feature management
+- name: flag_target_groups_target_group_usage
+  description: Get target group usage statistics
+  toolset: Feature management
+- name: flag_custom_properties_list
+  description: List custom properties
+  toolset: Feature management
+- name: flag_custom_properties_get
+  description: Get a custom property
+  toolset: Feature management
+- name: flag_custom_properties_get_by_name
+  description: Get a custom property by name
+  toolset: Feature management
+- name: flag_custom_properties_add
+  description: Add a custom property
+  toolset: Feature management
+- name: flag_custom_properties_delete
+  description: Delete a custom property
+  toolset: Feature management
+- name: flag_custom_properties_flag_usage_per_environment
+  description: Get flag usage per environment for a custom property
+  toolset: Feature management
+- name: flag_custom_properties_target_group_usage
+  description: Get target group usage for a custom property
+  toolset: Feature management
+- name: security_findings_summary_get
+  description: Get a security findings summary
+  toolset: Application security
+- name: security_issues_open_get
+  description: Get open security issues
+  toolset: Application security
+- name: security_issues_all_get
+  description: Get all security issues
+  toolset: Application security
+- name: security_filters_list
+  description: List security filters
+  toolset: Application security
+- name: security_filter_tools_list
+  description: List tools for a security filter
+  toolset: Application security
+- name: security_configuration_get
+  description: Get security configuration
+  toolset: Application security
+- name: security_configuration_set
+  description: Set security configuration
+  toolset: Application security
+- name: security_configuration_hierarchy_get
+  description: Get security configuration hierarchy
+  toolset: Application security
+- name: security_sla_configuration_get
+  description: Get SLA configuration
+  toolset: Application security
+- name: security_sla_configuration_set
+  description: Set SLA configuration
+  toolset: Application security
+- name: security_sla_configuration_remove
+  description: Remove SLA configuration
+  toolset: Application security
+- name: security_tenant_sla_configuration_remove
+  description: Remove tenant SLA configuration
+  toolset: Application security
+- name: security_implicit_scans_set
+  description: Configure implicit security scans
+  toolset: Application security
+- name: security_plugin_config_get
+  description: Get security plugin configuration
+  toolset: Application security
+- name: security_plugin_config_set
+  description: Set security plugin configuration
+  toolset: Application security
+- name: security_plugin_activate
+  description: Activate a security plugin
+  toolset: Application security
+- name: security_plugin_deactivate
+  description: Deactivate a security plugin
+  toolset: Application security
+- name: organizations_suborg_report
+  description: Get a child organization report
+  toolset: Reports and analytics
+- name: controllers_list
+  description: List CI controllers
+  toolset: Reports and analytics
+- name: controllers_data_get
+  description: Get CI controller data
+  toolset: Reports and analytics
+- name: report_drilldown_get
+  description: Get report drilldown data
+  toolset: Reports and analytics
+- name: policies_list
+  description: List policies
+  toolset: Policy engine
+- name: policies_get
+  description: Get a policy
+  toolset: Policy engine
+- name: policies_get_schema
+  description: Get policy schema
+  toolset: Policy engine
+- name: policies_create
+  description: Create a policy
+  toolset: Policy engine
+- name: policies_update
+  description: Update a policy
+  toolset: Policy engine
+- name: policies_delete
+  description: Delete a policy
+  toolset: Policy engine
+- name: policies_discover
+  description: Discover applicable policies
+  toolset: Policy engine
+- name: policies_run_evaluations_list
+  description: List policy evaluation results for a workflow run
+  toolset: Policy engine
+coverage:
+  tools_documented: 131
+  toolsets: 9
+  input_schemas: auth-gated
+  note: tools/list requires an OAuth bearer token, so the live inputSchema for each tool could not be
+    introspected anonymously. Names, descriptions and toolset grouping are taken verbatim from the provider's
+    own tool reference; input schemas require authenticated introspection.

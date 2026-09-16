@@ -119,46 +119,6 @@ apis:
     environments, feature flags, experiments, target groups, audit logs, and users. Authentication uses
     a bearer token in the Authorization header. The API enforces a one request per second rate limit per
     IP, returning HTTP 555 when exceeded.
-- aid: cloudbees:unify
-  name: CloudBees Unify Platform API
-  tags:
-  - DevOps
-  - Platform
-  - Software Delivery
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cloudbees.com/docs/cloudbees-unify/latest/api-references/
-  baseURL: https://api.cloudbees.io
-  properties:
-  - url: openapi/cloudbees-unify-openapi.yml
-    type: OpenAPI
-    name: CloudBees Unify API (Current)
-  - url: openapi/cloudbees-unify-beta-openapi.yml
-    type: OpenAPI
-    name: CloudBees Unify API (Beta)
-  - url: overlays/cloudbees-unify-overlay.yaml
-    type: Overlay
-  - url: overlays/cloudbees-unify-beta-overlay.yaml
-    type: Overlay
-  - url: mcp/cloudbees-tool-crosswalk.yml
-    type: ToolCrosswalk
-  - url: data-model/cloudbees-data-model.yml
-    type: DataModel
-  - url: https://apidocs.cloudbees.io/
-    type: APIReference
-  - url: https://docs.cloudbees.com/docs/cloudbees-unify/latest/api-references/
-    type: Documentation
-  - url: https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
-    type: Authentication
-  description: >-
-    CloudBees Unify is the modern, opinionated software delivery platform that unifies CI, CD, feature
-    management, analytics, and security into a single workflow. The CloudBees Unify Public API is served
-    from https://api.cloudbees.io and is published as two first-party OpenAPI 3.0.3 documents at
-    apidocs.cloudbees.io: the "Current" specification (v1/v2/v3, 40 operations across organizations, teams,
-    users, components, environments, feature flags, flag configurations, target groups, custom properties
-    and flag lifecycle) and the "Beta" specification (v4, 25 operations across users, teams, team
-    memberships, components and delivery runs with their artifacts, test results, security results,
-    evidences and deployments). Both authenticate with a bearer personal access token. CloudBees directs new
-    integrations at the v4 beta; the current endpoints remain supported but no longer receive new features.
 - aid: cloudbees:jenkins-plugin
   name: CloudBees CD/RO Jenkins Plugin Steps
   tags:
@@ -257,7 +217,305 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/cloudbees-xml-api-openapi.yml
+- aid: cloudbees:cloudbees-components-api
+  name: CloudBees Components API
+  description: >-
+    Create and manage the components in an organization. A component represents a source code repository
+    that CloudBees Unify tracks.
+
+    Components can be onboarded with or without an SCM integration, and an existing component can be connected
+    to an integration later.
+  humanURL: >-
+    https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
+  baseURL: https://example.cloudbees.com
+  tags:
+  - Components
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudbees-components-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/cloudbees-tool-crosswalk.yml
+  - type: DataModel
+    url: data-model/cloudbees-data-model.yml
+  - type: APIReference
+    url: https://apidocs.cloudbees.io/
+  - type: Documentation
+    url: https://docs.cloudbees.com/docs/cloudbees-unify/latest/api-references/
+  - type: Authentication
+    url: >-
+      https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
+- aid: cloudbees:cloudbees-environments-api
+  name: CloudBees Environments API
+  description: >-
+    Discover and manage environments within your organization. Use environments to maintain an up-to-date
+    inventory for feature flag targeting, deployment scripts, and monitoring workflows.
+  humanURL: >-
+    https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
+  baseURL: https://example.cloudbees.com
+  tags:
+  - Environments
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudbees-environments-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/cloudbees-tool-crosswalk.yml
+  - type: DataModel
+    url: data-model/cloudbees-data-model.yml
+  - type: APIReference
+    url: https://apidocs.cloudbees.io/
+  - type: Documentation
+    url: https://docs.cloudbees.com/docs/cloudbees-unify/latest/api-references/
+  - type: Authentication
+    url: >-
+      https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
+- aid: cloudbees:cloudbees-flag-configurations-api
+  name: CloudBees Flag configurations API
+  description: >-
+    Set flag state (enabled or disabled) and targeting rules for a specific environment to determine which
+    users or segments receive each variation.
+  humanURL: >-
+    https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
+  baseURL: https://example.cloudbees.com
+  tags:
+  - Flag configurations
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudbees-flag-configurations-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/cloudbees-tool-crosswalk.yml
+  - type: DataModel
+    url: data-model/cloudbees-data-model.yml
+  - type: APIReference
+    url: https://apidocs.cloudbees.io/
+  - type: Documentation
+    url: https://docs.cloudbees.com/docs/cloudbees-unify/latest/api-references/
+  - type: Authentication
+    url: >-
+      https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
+- aid: cloudbees:cloudbees-flag-custom-properties-api
+  name: CloudBees Flag custom properties API
+  description: >-
+    Create, read, update, and delete custom properties used in targeting conditions and target groups.
+  humanURL: >-
+    https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
+  baseURL: https://example.cloudbees.com
+  tags:
+  - Flag custom properties
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudbees-flag-custom-properties-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/cloudbees-tool-crosswalk.yml
+  - type: DataModel
+    url: data-model/cloudbees-data-model.yml
+  - type: APIReference
+    url: https://apidocs.cloudbees.io/
+  - type: Documentation
+    url: https://docs.cloudbees.com/docs/cloudbees-unify/latest/api-references/
+  - type: Authentication
+    url: >-
+      https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
+- aid: cloudbees:cloudbees-flag-lifecycle-api
+  name: CloudBees Flag lifecycle API
+  description: >-
+    Track how often each feature flag variation is served within an environment.
+
+    Use impression data to monitor flag adoption, validate rollout progress, and analyze which variations
+    are being evaluated by your application.
+
+    Results can be aggregated by hour or day and filtered to a specific time range and set of flags.
+  humanURL: >-
+    https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
+  baseURL: https://example.cloudbees.com
+  tags:
+  - Flag lifecycle
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudbees-flag-lifecycle-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/cloudbees-tool-crosswalk.yml
+  - type: DataModel
+    url: data-model/cloudbees-data-model.yml
+  - type: APIReference
+    url: https://apidocs.cloudbees.io/
+  - type: Documentation
+    url: https://docs.cloudbees.com/docs/cloudbees-unify/latest/api-references/
+  - type: Authentication
+    url: >-
+      https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
+- aid: cloudbees:cloudbees-flags-api
+  name: CloudBees Flags API
+  description: >-
+    Control runtime feature visibility and behavior to enable gradual rollouts, A/B testing, progressive
+    delivery, and safe deployments without redeployment.
+  humanURL: >-
+    https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
+  baseURL: https://example.cloudbees.com
+  tags:
+  - Flags
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudbees-flags-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/cloudbees-tool-crosswalk.yml
+  - type: DataModel
+    url: data-model/cloudbees-data-model.yml
+  - type: APIReference
+    url: https://apidocs.cloudbees.io/
+  - type: Documentation
+    url: https://docs.cloudbees.com/docs/cloudbees-unify/latest/api-references/
+  - type: Authentication
+    url: >-
+      https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
+- aid: cloudbees:cloudbees-organizations-api
+  name: CloudBees Organizations API
+  description: >-
+    Define the structural and governance boundaries within a CloudBees Unify tenant.
+
+    Organizations model business units or departments, support parent-child hierarchies, and inherit configuration—properties,
+    integrations, and environments—from parent organizations.
+
+    Every tenant has one root organization; all others exist beneath it.
+  humanURL: >-
+    https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
+  baseURL: https://example.cloudbees.com
+  tags:
+  - Organizations
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudbees-organizations-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/cloudbees-tool-crosswalk.yml
+  - type: DataModel
+    url: data-model/cloudbees-data-model.yml
+  - type: APIReference
+    url: https://apidocs.cloudbees.io/
+  - type: Documentation
+    url: https://docs.cloudbees.com/docs/cloudbees-unify/latest/api-references/
+  - type: Authentication
+    url: >-
+      https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
+- aid: cloudbees:cloudbees-runs-api
+  name: CloudBees Runs API
+  description: >-
+    Create, update, and retrieve CI/CD runs for a component. Attach and list test results, artifacts,
+    security results, evidences, and deployments.
+  humanURL: >-
+    https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
+  baseURL: https://example.cloudbees.com
+  tags:
+  - Runs
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudbees-runs-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/cloudbees-tool-crosswalk.yml
+  - type: DataModel
+    url: data-model/cloudbees-data-model.yml
+  - type: APIReference
+    url: https://apidocs.cloudbees.io/
+  - type: Documentation
+    url: https://docs.cloudbees.com/docs/cloudbees-unify/latest/api-references/
+  - type: Authentication
+    url: >-
+      https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
+- aid: cloudbees:cloudbees-target-groups-api
+  name: CloudBees Target groups API
+  description: >-
+    Define reusable sets of targeting conditions for feature flags. Specify rules once (such as matching
+    users by role, region, or custom property) and apply them across multiple flags.
+
+    Changes to a target group propagate automatically to every flag that references it.
+  humanURL: >-
+    https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
+  baseURL: https://example.cloudbees.com
+  tags:
+  - Target groups
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudbees-target-groups-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/cloudbees-tool-crosswalk.yml
+  - type: DataModel
+    url: data-model/cloudbees-data-model.yml
+  - type: APIReference
+    url: https://apidocs.cloudbees.io/
+  - type: Documentation
+    url: https://docs.cloudbees.com/docs/cloudbees-unify/latest/api-references/
+  - type: Authentication
+    url: >-
+      https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
+- aid: cloudbees:cloudbees-team-memberships-api
+  name: CloudBees Team Memberships API
+  description: The Team Memberships API from CloudBees — 2 operation(s) for team memberships.
+  humanURL: >-
+    https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
+  baseURL: https://example.cloudbees.com
+  tags:
+  - Team Memberships
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudbees-team-memberships-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/cloudbees-tool-crosswalk.yml
+  - type: DataModel
+    url: data-model/cloudbees-data-model.yml
+  - type: APIReference
+    url: https://apidocs.cloudbees.io/
+  - type: Documentation
+    url: https://docs.cloudbees.com/docs/cloudbees-unify/latest/api-references/
+  - type: Authentication
+    url: >-
+      https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
+- aid: cloudbees:cloudbees-teams-api
+  name: CloudBees Teams API
+  description: List teams, and get a specific team with optional user expansion.
+  humanURL: >-
+    https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
+  baseURL: https://example.cloudbees.com
+  tags:
+  - Teams
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudbees-teams-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/cloudbees-tool-crosswalk.yml
+  - type: DataModel
+    url: data-model/cloudbees-data-model.yml
+  - type: APIReference
+    url: https://apidocs.cloudbees.io/
+  - type: Documentation
+    url: https://docs.cloudbees.com/docs/cloudbees-unify/latest/api-references/
+  - type: Authentication
+    url: >-
+      https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
+- aid: cloudbees:cloudbees-users-api
+  name: CloudBees Users API
+  description: List users in a tenant.
+  humanURL: >-
+    https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
+  baseURL: https://example.cloudbees.com
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudbees-users-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/cloudbees-tool-crosswalk.yml
+  - type: DataModel
+    url: data-model/cloudbees-data-model.yml
+  - type: APIReference
+    url: https://apidocs.cloudbees.io/
+  - type: Documentation
+    url: https://docs.cloudbees.com/docs/cloudbees-unify/latest/api-references/
+  - type: Authentication
+    url: >-
+      https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
 common:
+  - type: Overlay
+    url: overlays/cloudbees-unify-overlay.yaml
+  - type: Overlay
+    url: overlays/cloudbees-unify-beta-overlay.yaml
   - type: AgenticAccess
     url: agentic-access/cloudbees-agentic-access.yml
   - type: TrustCenter

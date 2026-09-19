@@ -124,6 +124,10 @@ apis:
   tags:
   - Continuous Delivery
   - Jenkins
+  - Plugins
+  tags_raw:
+  - Continuous Delivery
+  - Jenkins
   - Plugin
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://www.jenkins.io/doc/pipeline/steps/electricflow/
@@ -200,6 +204,8 @@ apis:
     https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
   baseURL: https://example.cloudbees.com
   tags:
+  - Queues
+  tags_raw:
   - Queue
   properties:
   - type: OpenAPI
@@ -253,6 +259,8 @@ apis:
     https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
   baseURL: https://example.cloudbees.com
   tags:
+  - Environment
+  tags_raw:
   - Environments
   properties:
   - type: OpenAPI
@@ -380,6 +388,8 @@ apis:
     https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
   baseURL: https://example.cloudbees.com
   tags:
+  - Organization
+  tags_raw:
   - Organizations
   properties:
   - type: OpenAPI
@@ -430,6 +440,8 @@ apis:
     https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
   baseURL: https://example.cloudbees.com
   tags:
+  - Target Groups
+  tags_raw:
   - Target groups
   properties:
   - type: OpenAPI
@@ -474,6 +486,8 @@ apis:
     https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
   baseURL: https://example.cloudbees.com
   tags:
+  - Team
+  tags_raw:
   - Teams
   properties:
   - type: OpenAPI
@@ -496,6 +510,8 @@ apis:
     https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
   baseURL: https://example.cloudbees.com
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI

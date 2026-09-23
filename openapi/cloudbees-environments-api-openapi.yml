@@ -1,0 +1,125 @@
+openapi: 3.2.0
+info:
+  title: CloudBees Unify API (Current) Environments API
+  version: 1.0.0
+  description: API documentation for CloudBees Unify's current, stable endpoints.
+servers:
+- url: https://api.cloudbees.io
+  description: CloudBees Unify Production API
+security:
+- BearerAuth: []
+tags:
+- name: Environments
+  description: Discover and manage environments within your organization. Use environments to maintain an up-to-date inventory for feature flag targeting, deployment scripts, and monitoring workflows.
+paths:
+  /v2/organizations/{orgId}/environments:
+    get:
+      tags:
+      - Environments
+      operationId: ReportServiceHandler_GetEnvironmentsv2
+      parameters:
+      - name: orgId
+        in: path
+        description: Unique identifier of the organization whose environments are to be listed.
+        required: true
+        schema:
+          type: string
+      - name: subOrgId
+        in: query
+        description: sub_org_id should not be used, use suborg ids as org_id in the query
+        schema:
+          type: string
+      - name: name
+        in: query
+        description: Optional filter to narrow results to environments matching the specified name.
+        schema:
+          type: string
+      - name: timeZone
+        in: query
+        description: IANA timezone name for the response (for example, "America/New_York"). Defaults to UTC if omitted.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.vsm.report.EnvironmentResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List environments
+      description: Returns a list of environments within the specified organization. Use the name query parameter to filter results by environment name.
+components:
+  schemas:
+    google.protobuf.Any:
+      type: object
+      properties:
+        '@type':
+          type: string
+          description: The type of the serialized message.
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+    api.vsm.report.Environment:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the environment.
+        name:
+          type: string
+          description: Display name of the environment.
+        resourceId:
+          type: string
+          description: Identifier of the resource associated with this environment.
+        isDisabled:
+          type: boolean
+          description: Indicates whether the environment is currently disabled.
+    google.rpc.Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+          format: int32
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+          description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+      description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+    api.vsm.report.EnvironmentResponse:
+      type: object
+      properties:
+        environments:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.vsm.report.Environment'
+          description: List of environments within the organization.
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: CloudBees Unify API access token or personal access token
+x-tagGroups:
+- name: Unify core
+  tags:
+  - Components
+  - Environments
+  - Organizations
+  - Teams
+  - Users
+- name: Feature management
+  tags:
+  - Flags
+  - Flag configurations
+  - Flag custom properties
+  - Target groups
+  - Flag lifecycle

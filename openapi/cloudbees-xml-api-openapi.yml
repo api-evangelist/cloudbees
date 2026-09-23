@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: CloudBees CI REST API (Jenkins-compatible) Computer XML API
+  title: CloudBees CI REST API (Jenkins-compatible) XML API
   description: 'CloudBees CI exposes the Jenkins remote-access REST API for inspecting and
 
     controlling jobs, builds, queues, and computers. Append `/api/json`,
@@ -11,9 +11,7 @@ info:
 
     payload (recommended for performance). Authenticate with an API token via
 
-    HTTP Basic Auth.
-
-    '
+    HTTP Basic Auth.'
   version: 1.0.0
 servers:
 - url: https://example.cloudbees.com
@@ -21,7 +19,7 @@ servers:
 security:
 - basicAuth: []
 tags:
-- name: Xml
+- name: XML
 paths:
   /api/xml:
     get:
@@ -38,17 +36,14 @@ paths:
               schema:
                 type: string
       tags:
-      - Xml
+      - XML
+      operationId: getApiXml
+      x-operation-id-source: derived
 components:
   parameters:
-    Tree:
-      name: tree
+    XPath:
+      name: xpath
       in: query
-      description: 'Tree filter for selecting and trimming response fields.
-
-        Example: `jobs[name,url,color]`.
-
-        '
       schema:
         type: string
     Depth:
@@ -57,9 +52,14 @@ components:
       schema:
         type: integer
         default: 0
-    XPath:
-      name: xpath
+    Tree:
+      name: tree
       in: query
+      description: 'Tree filter for selecting and trimming response fields.
+
+        Example: `jobs[name,url,color]`.
+
+        '
       schema:
         type: string
   securitySchemes:

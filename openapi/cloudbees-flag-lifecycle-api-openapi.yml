@@ -1,0 +1,236 @@
+openapi: 3.2.0
+info:
+  title: CloudBees Unify API (Current) Flag lifecycle API
+  version: 1.0.0
+  description: API documentation for CloudBees Unify's current, stable endpoints.
+servers:
+- url: https://api.cloudbees.io
+  description: CloudBees Unify Production API
+security:
+- BearerAuth: []
+tags:
+- name: Flag lifecycle
+  description: 'Track how often each feature flag variation is served within an environment.
+
+    Use impression data to monitor flag adoption, validate rollout progress, and analyze which variations are being evaluated by your application.
+
+    Results can be aggregated by hour or day and filtered to a specific time range and set of flags.'
+paths:
+  /v1/applications/{organizationId}/environments/{environmentId}/flags-status:
+    get:
+      tags:
+      - Flag lifecycle
+      operationId: FmImpressionsApi_GetFlagsStatus2
+      parameters:
+      - name: organizationId
+        in: path
+        description: Unique identifier of the application that contains the environment.
+        required: true
+        schema:
+          type: string
+      - name: environmentId
+        in: path
+        description: Unique identifier of the environment whose flag statuses are to be returned.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.fmimpressions.GetFlagsStatusResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Get flag statuses
+      description: Returns the current status of all feature flags within the specified environment.
+  /v1/applications/{organizationId}/environments/{environmentId}/impressions:
+    post:
+      tags:
+      - Flag lifecycle
+      operationId: FmImpressionsApi_GetImpressions2
+      parameters:
+      - name: organizationId
+        in: path
+        description: Unique identifier of the application that contains the environment.
+        required: true
+        schema:
+          type: string
+      - name: environmentId
+        in: path
+        description: Unique identifier of the environment whose flag impressions are to be returned.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.fmimpressions.ImpressionParams'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.fmimpressions.GetImpressionsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Get flag impressions
+      description: Returns aggregated impression data for one or more feature flags within the specified environment. Use the mode and time range parameters to control the aggregation granularity and the time window of results.
+components:
+  schemas:
+    api.fmimpressions.FlagStatus:
+      required:
+      - flagName
+      - status
+      type: object
+      properties:
+        flagName:
+          type: string
+          description: Name of the feature flag.
+        status:
+          type: string
+          description: 'Lifecycle status of the flag. Possible values: active (received impressions with different values over the last seven days), stale (received impressions over the last seven days but all had the same value), inactive (no impressions received within the past seven days), setup (no impressions received yet), permanent (a long-lived flag, impression data is ignored).'
+    api.fmimpressions.AllFlagImpressions:
+      type: object
+      properties:
+        impressions:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.fmimpressions.FlagImpression'
+          description: List of impression records for the flag, each representing one time interval.
+    google.rpc.Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+          format: int32
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+          description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+      description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+    api.fmimpressions.SdkKeyImpressions:
+      required:
+      - interval
+      type: object
+      properties:
+        interval:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/api.fmimpressions.AllFlagImpressions'
+          description: Impression data keyed by timestamp interval (hourly or daily durations, depending on the requested mode). Each value contains the aggregated impressions for that interval.
+    api.fmimpressions.ImpressionParams:
+      required:
+      - flagname
+      type: object
+      properties:
+        mode:
+          enum:
+          - HOURLY
+          - DAILY
+          type: string
+          description: Aggregation granularity for the impression data. HOURLY returns data from the last 24 hours; DAILY returns data from the last 30 days. Defaults to HOURLY if omitted.
+        from:
+          type: string
+          description: Start of the time range for impression data, in UTC. Must not be after the to timestamp. Data is bounded by the backend retention window (24 hours for HOURLY mode, 30 days for DAILY mode). Omit to return data from the earliest available point.
+          format: date-time
+        to:
+          type: string
+          description: End of the time range for impression data, in UTC. Must not be before the from timestamp. Omit to return data up to the current time.
+          format: date-time
+        flagname:
+          type: array
+          items:
+            type: string
+          description: One or more feature flag names to retrieve impression data for. If omitted or empty, returns impressions for all flags in the environment.
+      description: Parameters controlling which feature flags and time window are included in the impressions response.
+    api.fmimpressions.ValuesAndCounters:
+      required:
+      - value
+      - counter
+      type: object
+      properties:
+        value:
+          type: string
+          description: The flag variation value that was served.
+        counter:
+          type: number
+          description: Number of times this variation was served during the interval.
+          format: double
+    api.fmimpressions.GetImpressionsResponse:
+      required:
+      - analytics
+      type: object
+      properties:
+        analytics:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/api.fmimpressions.SdkKeyImpressions'
+          description: Impression data keyed by flag name. Each entry maps to aggregated impression counts organized by time interval.
+    api.fmimpressions.GetFlagsStatusResponse:
+      required:
+      - flagsStatus
+      type: object
+      properties:
+        flagsStatus:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/api.fmimpressions.FlagStatus'
+          description: Current status of all feature flags in the environment, keyed by flag name.
+    google.protobuf.Any:
+      type: object
+      properties:
+        '@type':
+          type: string
+          description: The type of the serialized message.
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+    api.fmimpressions.FlagImpression:
+      type: object
+      properties:
+        from:
+          type: string
+          description: Start timestamp of the impression interval.
+          format: date-time
+        aggregatedValues:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.fmimpressions.ValuesAndCounters'
+          description: Aggregated impression counts for each flag variation within this interval.
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: CloudBees Unify API access token or personal access token
+x-tagGroups:
+- name: Unify core
+  tags:
+  - Components
+  - Environments
+  - Organizations
+  - Teams
+  - Users
+- name: Feature management
+  tags:
+  - Flags
+  - Flag configurations
+  - Flag custom properties
+  - Target groups
+  - Flag lifecycle

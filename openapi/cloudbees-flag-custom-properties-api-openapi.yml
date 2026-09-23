@@ -1,0 +1,428 @@
+openapi: 3.2.0
+info:
+  title: CloudBees Unify API (Current) Flag custom properties API
+  version: 1.0.0
+  description: API documentation for CloudBees Unify's current, stable endpoints.
+servers:
+- url: https://api.cloudbees.io
+  description: CloudBees Unify Production API
+security:
+- BearerAuth: []
+tags:
+- name: Flag custom properties
+  description: Create, read, update, and delete custom properties used in targeting conditions and target groups.
+paths:
+  /v2/applications/{applicationId}/custom-properties:
+    get:
+      tags:
+      - Flag custom properties
+      operationId: CustomPropertyApi_ListCustomProperties
+      parameters:
+      - name: applicationId
+        in: path
+        description: Unique identifier of the application whose custom properties are to be listed.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.CustomProperty.ListCustomPropertiesResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List custom properties
+      description: Returns all custom properties defined within the specified application.
+    post:
+      tags:
+      - Flag custom properties
+      operationId: CustomPropertyApi_AddCustomProperty
+      parameters:
+      - name: applicationId
+        in: path
+        description: Unique identifier of the application in which to create the custom property.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.CustomProperty.CustomProperty'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.CustomProperty.AddCustomPropertyResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Create a custom property
+      description: Creates a new custom property within the specified application. Custom properties define additional attributes that can be used in feature flag targeting rules.
+  /v2/applications/{applicationId}/custom-properties/by-name/{name}:
+    get:
+      tags:
+      - Flag custom properties
+      operationId: CustomPropertyApi_GetCustomPropertyByName
+      parameters:
+      - name: applicationId
+        in: path
+        description: Unique identifier of the application that owns the custom property.
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        description: Name of the custom property to retrieve.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.CustomProperty.GetCustomPropertyResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Get a custom property by name
+      description: Returns a single custom property matching the specified name within the application. Use this endpoint when you have the property name but not its ID.
+  /v2/applications/{applicationId}/custom-properties/{id}:
+    get:
+      tags:
+      - Flag custom properties
+      operationId: CustomPropertyApi_GetCustomProperty
+      parameters:
+      - name: applicationId
+        in: path
+        description: Unique identifier of the application that owns the custom property.
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Unique identifier of the custom property to retrieve.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.CustomProperty.GetCustomPropertyResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Get a custom property
+      description: Returns a single custom property by its unique identifier within the specified application.
+    put:
+      tags:
+      - Flag custom properties
+      operationId: CustomPropertyApi_UpdateCustomProperty
+      parameters:
+      - name: applicationId
+        in: path
+        description: Unique identifier of the application that owns the custom property.
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Unique identifier of the custom property to update.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.CustomProperty.CustomProperty'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.CustomProperty.UpdateCustomPropertyResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Update a custom property
+      description: Replaces all fields of the specified custom property with the provided values. All fields in the request body are required; omitted fields are set to their default values.
+    delete:
+      tags:
+      - Flag custom properties
+      operationId: CustomPropertyApi_DeleteCustomProperty
+      parameters:
+      - name: applicationId
+        in: path
+        description: Unique identifier of the application that owns the custom property.
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Unique identifier of the custom property to delete.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content: {}
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Delete a custom property
+      description: Permanently deletes the specified custom property. This action cannot be undone. Ensure the property is not referenced by any feature flag targeting rules before deleting.
+  /v2/applications/{applicationId}/custom-properties/{id}/flag-usage-per-environment:
+    get:
+      tags:
+      - Flag custom properties
+      operationId: CustomPropertyApi_GetCustomPropertyFlagUsagePerEnvironment
+      parameters:
+      - name: applicationId
+        in: path
+        description: Unique identifier of the application that owns the custom property.
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Unique identifier of the custom property to retrieve.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.CustomProperty.GetCustomPropertyFlagsUsagePerEnvironmentResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Get flag usage per environment
+      description: Returns a list of environments and the feature flags that reference this custom property in each environment. Use this to understand where a custom property is actively used before modifying or deleting it.
+  /v2/applications/{applicationId}/custom-properties/{id}/target-group-usage:
+    get:
+      tags:
+      - Flag custom properties
+      operationId: CustomPropertyApi_GetCustomPropertyTargetGroupUsage
+      parameters:
+      - name: applicationId
+        in: path
+        description: Unique identifier of the application that owns the custom property.
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Unique identifier of the custom property to retrieve.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.CustomProperty.GetCustomPropertyTargetGroupUsageResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Get target group usage
+      description: Returns the target groups that reference this custom property in their targeting rules. Use this to understand the impact of changes to a custom property before modifying or deleting it.
+components:
+  schemas:
+    api.CustomProperty.GetCustomPropertyResponse:
+      type: object
+      properties:
+        customProperty:
+          allOf:
+          - $ref: '#/components/schemas/api.CustomProperty.CustomProperty'
+          description: The requested custom property.
+    google.protobuf.Any:
+      type: object
+      properties:
+        '@type':
+          type: string
+          description: The type of the serialized message.
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+    google.rpc.Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+          format: int32
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+          description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+      description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+    api.TargetGroup.EnvironmentUsage:
+      type: object
+      properties:
+        environmentId:
+          type: string
+          description: Unique identifier of the environment.
+        flagUsage:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.TargetGroup.FlagUsageInEnvironment'
+          description: Feature flags that reference the target group in this environment.
+    api.CustomProperty.ListCustomPropertiesResponse:
+      type: object
+      properties:
+        customProperties:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.CustomProperty.CustomProperty'
+          description: List of all custom properties defined within the application.
+    api.CustomProperty.UpdateCustomPropertyResponse:
+      type: object
+      properties:
+        customProperty:
+          allOf:
+          - $ref: '#/components/schemas/api.CustomProperty.CustomProperty'
+          description: The updated custom property.
+    api.TargetGroup.TargetGroupUsage:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the target group.
+        name:
+          type: string
+          description: Display name of the target group.
+        resourceId:
+          type: string
+          description: Unique identifier of the application that owns this target group.
+    api.CustomProperty.GetCustomPropertyTargetGroupUsageResponse:
+      type: object
+      properties:
+        targetGroupUsage:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.TargetGroup.TargetGroupUsage'
+          description: List of target groups that reference this custom property in their targeting rules.
+    api.CustomProperty.GetCustomPropertyFlagsUsagePerEnvironmentResponse:
+      type: object
+      properties:
+        environments:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.TargetGroup.EnvironmentUsage'
+          description: List of environments and the feature flags that reference this custom property in each environment.
+    api.CustomProperty.AddCustomPropertyResponse:
+      type: object
+      properties:
+        customProperty:
+          allOf:
+          - $ref: '#/components/schemas/api.CustomProperty.CustomProperty'
+          description: The newly created custom property.
+    api.TargetGroup.FlagUsageInEnvironment:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the feature flag.
+        name:
+          type: string
+          description: Display name of the feature flag.
+        enabled:
+          type: boolean
+          description: Whether the feature flag is enabled in this environment.
+        resourceId:
+          type: string
+          description: Unique identifier of the application that owns this feature flag.
+    api.CustomProperty.CustomProperty:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the custom property.
+        name:
+          type: string
+          description: Name of the custom property as it appears in the UI and targeting rules.
+        type:
+          enum:
+          - Boolean
+          - String
+          - Semver
+          - Number
+          - DateTime
+          type: string
+          description: 'Data type of the custom property. Valid values: Boolean, String, Semver, Number, DateTime.'
+        description:
+          type: string
+          description: Human-readable description of the custom property's purpose.
+        resourceId:
+          type: string
+          description: Identifier of the application that owns this custom property.
+        cascUrl:
+          type: string
+          description: URL of the CasC (configuration-as-code) representation of this custom property.
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: CloudBees Unify API access token or personal access token
+x-tagGroups:
+- name: Unify core
+  tags:
+  - Components
+  - Environments
+  - Organizations
+  - Teams
+  - Users
+- name: Feature management
+  tags:
+  - Flags
+  - Flag configurations
+  - Flag custom properties
+  - Target groups
+  - Flag lifecycle

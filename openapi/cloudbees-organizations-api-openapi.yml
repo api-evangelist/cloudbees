@@ -1,0 +1,747 @@
+openapi: 3.2.0
+info:
+  title: CloudBees Unify API (Current) Organizations API
+  version: 1.0.0
+  description: API documentation for CloudBees Unify's current, stable endpoints.
+servers:
+- url: https://api.cloudbees.io
+  description: CloudBees Unify Production API
+security:
+- BearerAuth: []
+tags:
+- name: Organizations
+  description: 'Define the structural and governance boundaries within a CloudBees Unify tenant.
+
+    Organizations model business units or departments, support parent-child hierarchies, and inherit configuration—properties, integrations, and environments—from parent organizations.
+
+    Every tenant has one root organization; all others exist beneath it.'
+paths:
+  /v1/organizations:
+    get:
+      tags:
+      - Organizations
+      operationId: listOrganizations
+      parameters:
+      - name: userId
+        in: query
+        description: When provided, returns only organizations that the specified user is a member of.
+        schema:
+          type: string
+      - name: nested
+        in: query
+        description: When true, returns sub-organizations nested under their parent organizations. Defaults to false.
+        schema:
+          type: boolean
+      - name: tenant
+        in: query
+        description: When true, returns only top-level tenant organizations. Defaults to false.
+        schema:
+          type: boolean
+      - name: domainName
+        in: query
+        description: When provided, returns only organizations whose domain name exactly matches this value.
+        schema:
+          type: string
+      - name: includeDeleted
+        in: query
+        description: When true, includes deleted organizations in the results. Defaults to false.
+        schema:
+          type: boolean
+      - name: pagination.page
+        in: query
+        description: page (optional) indicates which page is being requested or returned (0 or 1) returns the 1st page of results
+        schema:
+          type: integer
+          format: int32
+      - name: pagination.pageLength
+        in: query
+        description: "page_length (optional) specifies the number of items per page being requested.  If the request is asking for more than an api limit\n allows, the response will indicate the new page_length that should be used for future calls."
+        schema:
+          type: integer
+          format: int32
+      - name: pagination.sort.fieldName
+        in: query
+        description: "field_name specifies the field to use for sorting a list of results.  See documentation for\n specific API endpoints to determine appropriate field names."
+        schema:
+          type: string
+      - name: pagination.sort.order
+        in: query
+        description: order specifies how to sort the results
+        schema:
+          enum:
+          - ASCENDING
+          - DESCENDING
+          type: string
+      - name: pagination.lastPage
+        in: query
+        description: 'RESPONSE ONLY: last_page is true {response} if there are no more results to be returned'
+        schema:
+          type: boolean
+      - name: include
+        in: query
+        description: Comma-separated list of related resources to include in the response, for example `teams` or `roles`.
+        schema:
+          type: string
+      - name: name
+        in: query
+        description: Partial name to filter results. Returns organizations whose domain name or display name contains this value.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.auth.GetOrganizationsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List organizations
+      description: Returns a list of organizations accessible to the authenticated user.
+  /v1/organizations/name:
+    get:
+      tags:
+      - Organizations
+      operationId: getOrganizationByName
+      parameters:
+      - name: name
+        in: query
+        description: Domain name of the organization to look up. Must be an exact match. Required.
+        schema:
+          type: string
+      - name: nested
+        in: query
+        description: When true, includes and nests all child organizations under the returned organization. Defaults to false.
+        schema:
+          type: boolean
+      - name: userId
+        in: query
+        description: When provided, returns the organization only if the specified user has permission to access it.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.auth.GetOrganizationByNameResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Get organization by name
+      description: Returns the top-level organization whose name exactly matches the provided value.
+components:
+  schemas:
+    api.auth.Connection:
+      type: object
+      properties:
+        id:
+          type: string
+        organizationId:
+          type: string
+          description: Organization the connection was created for
+        entityId:
+          type: string
+          description: Entity ID of the SAML IdP
+        signInEndpoint:
+          type: string
+          description: Sign-in endpoint for the SAML IdP
+        signInCertificate:
+          type: string
+          description: Sign-in certificate from the SAML IdP
+        connectionName:
+          type: string
+          description: Display name for the connection
+        isEnabled:
+          type: boolean
+          description: Whether the connection is enabled or not
+        autoprovision:
+          type: boolean
+          description: "Whether auto-provision is enabled or not\n (when on, users from the SAML IdP are automatically added to the organization during login)"
+        strict:
+          type: boolean
+          description: "Whether strict is enabled or not\n (when on, only email's with the connection's linked email-domain can be invited + forces everyone with linked email domains to use SAML login)"
+        wantAssertionsSigned:
+          type: boolean
+          description: "Whether this connection requires the identity provider to digitally sign SAML assertions before they are accepted.\n This is a standard and commonly supported setting in SAML identity providers. Enabled by default."
+        wantAssertionsEncrypted:
+          type: boolean
+          description: "Whether this connection requires the identity provider to encrypt SAML assertions before they are accepted.\n This is preferable but not supported by all major identity providers. Disable if your IdP is Microsoft Entra ID or Google Workspace."
+        validateSignatures:
+          type: boolean
+          description: Whether this connection validates signatures on incoming SAML responses.
+        source:
+          type: string
+          description: 'Adding source attrribute to differentiate whether connection is migrated from UDS or already present in CBP, Ticket : CBP-13455'
+    api.Audit:
+      type: object
+      properties:
+        who:
+          type: string
+          description: UUID of the user that made the change
+        when:
+          type: string
+          description: timestamp of the update
+          format: date-time
+        why:
+          type: string
+          description: reason for the update (optional)
+      description: Audit records the person that updated the data last.
+    api.auth.Login:
+      type: object
+      properties:
+        id:
+          type: string
+          description: unique id of the login
+        type:
+          enum:
+          - LOGIN_TYPE_UNDEFINED
+          - LOGIN_TYPE_PASSWORD
+          - LOGIN_TYPE_GOOGLE
+          - LOGIN_TYPE_GITHUB
+          - LOGIN_TYPE_SAML
+          - LOGIN_TYPE_LDAP
+          - LOGIN_TYPE_OAUTH2
+          type: string
+          description: what type is the login, see enum
+        email:
+          type: string
+          description: email address
+        password:
+          type: string
+          description: for password logins, the encrypted password
+        salt:
+          type: string
+          description: for password logins, the salt
+        isVerified:
+          type: boolean
+          description: "whether the login method has been verified, some login methods are\n automatically verified"
+        userId:
+          type: string
+          description: user this login belongs to
+        audit:
+          $ref: '#/components/schemas/api.Audit'
+      description: How a user logs in to the system
+    google.rpc.Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+          format: int32
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+          description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+      description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+    api.auth.permission.Permission:
+      required:
+      - action
+      - type
+      type: object
+      properties:
+        action:
+          enum:
+          - UNDEFINED
+          - CREATE
+          - READ
+          - UPDATE
+          - DELETE
+          - EXECUTE
+          - ACCESS
+          type: string
+          description: The action allowed
+        type:
+          enum:
+          - ORGANIZATION
+          - USER_ENTITY
+          - USER_INVITE
+          - TEAM
+          - MEMBERSHIP
+          - AUTHORIZATION
+          - ROLE
+          - ENDPOINT
+          - PROPERTY
+          - SECRET
+          - RESOURCE
+          - SERVICE
+          - ENVIRONMENT
+          - FLAG
+          - EXTENSION
+          - AUDIT
+          - LOG
+          - ACCOUNT
+          - SUBSCRIPTION
+          - ENTITLEMENT
+          - AUTOMATION
+          - RECENT_ORG_RECORD
+          - DEFAULT_PLAN
+          - VSM
+          - CI_INSIGHTS
+          - ARTIFACT
+          - SECURITY
+          - WORKFLOW_EVENT
+          - APPROVAL
+          - API_TOKEN
+          - SLA_CONFIGURATION
+          - ASSET_SERVICE_MARKETPLACE
+          - RESOURCE_ERROR
+          - TRIAGE_APPROVAL
+          - APPLICATION_RELEASE
+          - TRIAGE_FINDINGS
+          - VIEW_FINDINGS_BY_TRIAGE_STATUS
+          - REVIEW_RA_REQUEST
+          - REVIEW_FP_REQUEST
+          - EXTERNAL_WORKFLOW_EVENTS
+          - TARGET_GROUP
+          - CUSTOM_PROPERTY
+          - APPROVAL_REQUEST
+          - POLICY
+          - EDGE_RUNNER
+          - SMART_TESTS_WORKSPACE
+          type: string
+          description: The type of entity being protected
+      description: Permission message represents a permission that can be granted to a user on an API entity.
+    api.auth.GetOrganizationsResponse:
+      type: object
+      properties:
+        organizations:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.Organization'
+          description: List of organizations matching the request criteria.
+        pagination:
+          allOf:
+          - $ref: '#/components/schemas/api.Pagination'
+          description: Pagination metadata for retrieving additional pages of results.
+    api.auth.Team:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the team.
+        name:
+          type: string
+          description: Display name of the team.
+        isDefault:
+          type: boolean
+          description: Indicates whether this is the default team for the organization. Every organization has exactly one default team, which automatically includes all members and cannot be deleted.
+        immutable:
+          type: boolean
+          description: Indicates whether the team is managed by an SSO connection. When true, team membership and configuration cannot be modified manually.
+        organizationId:
+          type: string
+          description: Unique identifier of the organization this team belongs to.
+        userIds:
+          type: array
+          items:
+            type: string
+          description: List of unique identifiers of users who are members of this team.
+        supportEnabled:
+          type: boolean
+          description: Indicates whether this team is synced with Zendesk support.
+        metadata:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/google.protobuf.Any'
+          description: Key-value pairs of additional information stored on the team object.
+        isDeleted:
+          type: boolean
+          description: Indicates whether the team has been soft-deleted.
+        audit:
+          allOf:
+          - $ref: '#/components/schemas/api.Audit'
+          description: Audit metadata including creation and last modification timestamps.
+        description:
+          type: string
+          description: Optional description providing additional details about the team's purpose.
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.User'
+          description: Full user objects for each member of this team, populated when users are included in the response.
+        type:
+          enum:
+          - UNKNOWN
+          - PREDEFINED
+          - USERDEFINED
+          type: string
+          description: The type of team. Valid values are PREDEFINED (system-created, cannot be deleted) or USERDEFINED (user-created, can be deleted).
+        organization:
+          allOf:
+          - $ref: '#/components/schemas/api.auth.Org'
+          description: The organization this team belongs to, populated when organization details are included in the response.
+        invites:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.Invite'
+          description: Pending invitations associated with this team.
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.Role'
+          description: Roles assigned to this team.
+    api.auth.Organization:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the organization.
+        displayName:
+          type: string
+          description: Human-readable display name of the organization.
+        domainName:
+          type: string
+          description: URL-safe domain name of the organization, used in API paths.
+        isDisabled:
+          type: boolean
+          description: When true, the organization is no longer active.
+        childOrganizations:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.Organization'
+          description: Sub-organizations that belong to this organization. Populated only when `nested` is true.
+        parentId:
+          type: string
+          description: Unique identifier of the parent organization. Present only if this is a sub-organization.
+        description:
+          type: string
+          description: Optional description providing additional context about the organization.
+        metadata:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/google.protobuf.Any'
+          description: 'Deprecated: use the properties field instead.'
+        audit:
+          allOf:
+          - $ref: '#/components/schemas/api.Audit'
+          description: Audit metadata for the organization, including creation and last modification timestamps.
+        properties:
+          type: object
+          additionalProperties:
+            type: string
+          description: Key-value pairs of additional metadata associated with the organization.
+        teams:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.Team'
+          description: Teams that belong to this organization.
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.Role'
+          description: Roles defined within this organization.
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.permission.Permission'
+          description: Permissions assigned within this organization.
+        emailDomains:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.EmailDomain'
+          description: Email domains associated with this organization.
+        connections:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.Connection'
+          description: Identity provider connections configured for this organization.
+        isImplicit:
+          readOnly: true
+          type: boolean
+          description: "Populated when SkipDefaultReadAll is enabled for the tenant.\n When true, the user can see this organization name for breadcrumb\n navigation but does not have explicit read access to it. Implicit\n organizations cannot be selected in the organization selector widget."
+    api.auth.User:
+      type: object
+      properties:
+        id:
+          type: string
+          description: unique id of the user
+        givenname:
+          type: string
+          description: given name is the "first" name
+        familyname:
+          type: string
+          description: family is the sur or "last" name
+        displayname:
+          type: string
+          description: displayname is the preferred name to use in the UI
+        type:
+          enum:
+          - USER_TYPE_UNDEFINED
+          - USER_TYPE_PERSON
+          - USER_TYPE_MACHINE
+          type: string
+          description: indicates the type of the user, could be a human, could be a machine
+        status:
+          enum:
+          - USER_STATUS_UNDEFINED
+          - USER_STATUS_ACTIVE
+          - USER_STATUS_DISABLED
+          - USER_STATUS_DELETED
+          type: string
+          description: indicates the status of the user
+        loginIds:
+          type: array
+          items:
+            type: string
+          description: "logins are the specific login methods that user uses to authenticate\n with the system. See Login message."
+        preferences:
+          type: object
+          additionalProperties:
+            type: string
+          description: Key value pair of preferences, things like font, theme, avatar url
+        audit:
+          $ref: '#/components/schemas/api.Audit'
+        logins:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.Login'
+        associatedEmails:
+          type: array
+          items:
+            type: string
+          description: list of emails linked to this user; not used for login
+        email:
+          type: string
+        timezone:
+          type: string
+        mfaEnabled:
+          type: boolean
+        createdat:
+          type: string
+          format: date-time
+        updatedat:
+          type: string
+          format: date-time
+        lastlogindate:
+          type: string
+          format: date-time
+      description: "User will live in a separate database from the rest of the\n platform due to PII"
+    api.auth.Role:
+      required:
+      - organizationId
+      - name
+      - audit
+      type: object
+      properties:
+        organizationId:
+          type: string
+          description: The organization the role belongs to
+        name:
+          type: string
+          description: Role name
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.permission.Permission'
+          description: Permissions assigned to the role
+        isDeleted:
+          type: boolean
+          description: "IsDeleted indicates if this record is no longer valid\n Anyone assigned this role will no longer have the permissions granted by this role"
+        audit:
+          allOf:
+          - $ref: '#/components/schemas/api.Audit'
+          description: Audit information for the role
+        description:
+          type: string
+          description: Description of the role (optional)
+        isEditable:
+          type: boolean
+          description: "Is the role editable. If not, the role can not be modified or deleted.\n This is useful for system roles that should not be modified Vs \"custom\" roles that can.\n Default is false."
+        id:
+          type: string
+          description: Unique identifier for the role
+      description: "Roles are a collection of permission actions.\n PermissionActions can not be granted to a user\n directly, a role must be created."
+    api.auth.EmailDomain:
+      type: object
+      properties:
+        id:
+          type: string
+        domainName:
+          type: string
+          description: 'Name of the domain (example: cloudbees.com - what comes after the @ in an email address)'
+        organizationId:
+          type: string
+          description: Organization this email-domain record was created for
+        challenge:
+          type: string
+          description: UUID used for verification of this email-domain record
+        isVerified:
+          type: boolean
+          description: Whether the email-domain is already verified or not
+        connectionId:
+          type: string
+          description: Connection id that this email-domain is linked to
+    google.protobuf.Any:
+      type: object
+      properties:
+        '@type':
+          type: string
+          description: The type of the serialized message.
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+    api.Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+          description: page (optional) indicates which page is being requested or returned (0 or 1) returns the 1st page of results
+          format: int32
+        pageLength:
+          type: integer
+          description: "page_length (optional) specifies the number of items per page being requested.  If the request is asking for more than an api limit\n allows, the response will indicate the new page_length that should be used for future calls."
+          format: int32
+        sort:
+          allOf:
+          - $ref: '#/components/schemas/api.Sort'
+          description: sort (optional) specifies how the results should be sorted {request} or how they are actually sorted {response}.
+        lastPage:
+          type: boolean
+          description: 'RESPONSE ONLY: last_page is true {response} if there are no more results to be returned'
+      description: Pagination is sent as part of a request to specify handling for paginated results, and returned with paginated results=
+    api.auth.Org:
+      type: object
+      properties:
+        id:
+          type: string
+          description: "ID here must match with the resource ID in resources table,\n since an organization is a type of resource."
+        displayName:
+          type: string
+          description: Organization display name  -  not the same as the resource name
+        domainName:
+          type: string
+          description: "Organization domain name  -  this must match with the resource name\n (since resource name could be in the URL, it must be URL-safe, that's why the domain)"
+        isDisabled:
+          type: boolean
+          description: if true, the organization is no longer active
+        childOrganizations:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.Org'
+          description: sub-organizations
+        parentId:
+          type: string
+          description: parent id if this is a sub-organization
+        description:
+          type: string
+          description: description field
+        metadata:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/google.protobuf.Any'
+          description: '@Deprecated - use the properties field instead'
+        audit:
+          $ref: '#/components/schemas/api.Audit'
+        properties:
+          type: object
+          additionalProperties:
+            type: string
+          description: key value pair of extra information to store in the organization object
+        teams:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.Team'
+          description: Teams that are part of the organization
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.Role'
+          description: Roles
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.permission.Permission'
+          description: Permissions assigned to the role
+        emailDomains:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.EmailDomain'
+          description: email domains
+        connections:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.Connection'
+          description: connections
+    api.auth.Invite:
+      type: object
+      properties:
+        id:
+          type: string
+          description: unique id of the invite
+        email:
+          type: string
+          description: email invited to the platform
+        teamId:
+          type: string
+          description: team to which this email was invited
+        teamRole:
+          type: string
+          description: role for this email when accepted into the team
+        redirectUrl:
+          type: string
+          description: redirect url post invite acceptance
+        expirationDate:
+          type: string
+          description: expiration date for this invitation
+          format: date-time
+        isAutogenerated:
+          type: boolean
+          description: if this invite was created based on a different invite
+        audit:
+          $ref: '#/components/schemas/api.Audit'
+        invitedBy:
+          type: string
+          description: user ID of the user who created this invite
+      description: Record of the invitation for a new user for an organization
+    api.auth.GetOrganizationByNameResponse:
+      type: object
+      properties:
+        organization:
+          allOf:
+          - $ref: '#/components/schemas/api.auth.Organization'
+          description: The organization whose name exactly matched the requested value.
+    api.Sort:
+      type: object
+      properties:
+        fieldName:
+          type: string
+          description: "field_name specifies the field to use for sorting a list of results.  See documentation for\n specific API endpoints to determine appropriate field names."
+        order:
+          enum:
+          - ASCENDING
+          - DESCENDING
+          type: string
+          description: order specifies how to sort the results
+      description: Sort describes which field to sort the results on and the order in which to sort them
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: CloudBees Unify API access token or personal access token
+x-tagGroups:
+- name: Unify core
+  tags:
+  - Components
+  - Environments
+  - Organizations
+  - Teams
+  - Users
+- name: Feature management
+  tags:
+  - Flags
+  - Flag configurations
+  - Flag custom properties
+  - Target groups
+  - Flag lifecycle

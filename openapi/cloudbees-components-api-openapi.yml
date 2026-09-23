@@ -1,0 +1,422 @@
+openapi: 3.2.0
+info:
+  title: Cloudbees Components API
+  version: '1.0'
+  description: 'Operations tagged Components across 2 of this provider''s published API definitions: cloudbees-unify-beta-openapi.yml, cloudbees-unify-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.cloudbees.io
+  description: CloudBees Unify Production API
+security:
+- BearerAuth: []
+tags:
+- name: Components
+  description: 'Create and manage the components in an organization. A component represents a source code repository that CloudBees Unify tracks.
+
+    Components can be onboarded with or without an SCM integration, and an existing component can be connected to an integration later.'
+paths:
+  /v4/organizations/{orgId}/components:
+    get:
+      tags:
+      - Components
+      description: Returns the components in an organization. Supports filtering by name, repository URL, or provider, and cursor-based pagination.
+      operationId: listComponents
+      parameters:
+      - name: orgId
+        in: path
+        description: Organization that owns the components.
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: query
+        description: Return only the component with this exact name.
+        schema:
+          type: string
+      - name: repositoryUrl
+        in: query
+        description: Return only the component with this exact repository clone URL.
+        schema:
+          type: string
+      - name: provider
+        in: query
+        description: "Return only components backed by this SCM provider.\n One of: \"GITHUB\", \"GITHUB_ENTERPRISE\", \"GITLAB\", \"GITLAB_SERVER\",\n \"BITBUCKET\", \"BITBUCKET_DATACENTER\"."
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: "Maximum number of components to return in a single page.\n Default: 100, Maximum: 1000"
+        schema:
+          type: integer
+          format: int32
+      - name: pageToken
+        in: query
+        description: "Cursor for the page to return. Use the `nextPageToken` from the previous\n response; omit it or pass an empty string to fetch the first page."
+        schema:
+          type: string
+      - name: orderBy
+        in: query
+        description: "Optional sort specification.\n Format: \"field [asc|desc]\" (e.g., \"name asc\", \"updated_at desc\").\n Default sort order is ascending if not specified."
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.ListComponentsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List components
+    post:
+      tags:
+      - Components
+      description: Creates a new component and returns it. A component can be created with or without an SCM integration.
+      operationId: createComponent
+      parameters:
+      - name: orgId
+        in: path
+        description: Organization that will own the new component.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.v4.Component'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.Component'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Create component
+    servers:
+    - url: https://api.cloudbees.io
+      description: CloudBees Unify Production API
+  /v4/organizations/{orgId}/components/{id}:
+    get:
+      tags:
+      - Components
+      description: Returns detailed information about a single component.
+      operationId: getComponent
+      parameters:
+      - name: orgId
+        in: path
+        description: Organization that owns the component.
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Unique identifier of the component to return.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.Component'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Get component
+    delete:
+      tags:
+      - Components
+      description: Deletes the specified component.
+      operationId: deleteComponent
+      parameters:
+      - name: orgId
+        in: path
+        description: Organization that owns the component.
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Unique identifier of the component to delete.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.DeleteComponentResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Delete component
+    patch:
+      tags:
+      - Components
+      description: Applies a partial update to a component. Only the fields included in the request are modified.
+      operationId: updateComponent
+      parameters:
+      - name: orgId
+        in: path
+        description: Organization that owns the component.
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Unique identifier of the component to update.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.v4.Component'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.Component'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Update component
+    servers:
+    - url: https://api.cloudbees.io
+      description: CloudBees Unify Production API
+  /v1/organizations/{orgId}/services:
+    get:
+      tags:
+      - Components
+      description: Returns a list of applications and components within the specified organization.
+      operationId: ServiceEndpoint_ListServices2
+      parameters:
+      - name: orgId
+        in: path
+        description: Unique identifier of the organization whose applications and components are to be listed.
+        required: true
+        schema:
+          type: string
+      - name: typeFilter
+        in: query
+        description: Filters the results by type. Defaults to SERVICE_WITH_REPO_FILTER when omitted, which returns only components with an associated repository.
+        schema:
+          enum:
+          - SERVICE_WITH_REPO_FILTER
+          - APPLICATION_FILTER
+          - COMPONENT_FILTER
+          - NO_FILTER
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.service.ListServicesResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List applications and components
+    servers:
+    - url: https://api.cloudbees.io
+      description: CloudBees Unify Production API
+components:
+  schemas:
+    google.rpc.Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+          format: int32
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+          description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+      description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+    api.v4.ListComponentsResponse:
+      type: object
+      properties:
+        components:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.v4.Component'
+          description: The components matching the request, for the current page.
+        nextPageToken:
+          type: string
+          description: "Cursor for the next page of results. An empty string indicates that this is\n the last page."
+        totalSize:
+          type: integer
+          description: Total number of components matching the request across all pages.
+          format: int32
+      description: Response message for listing components.
+    api.v4.Component:
+      required:
+      - name
+      - repositoryUrl
+      type: object
+      properties:
+        id:
+          readOnly: true
+          type: string
+          description: Unique identifier for this component. Auto-generated on create.
+        name:
+          type: string
+          description: Display name for the component. Required on create; mutable via PATCH.
+        description:
+          type: string
+          description: "Optional free-text description. Mutable via PATCH.\n\n Note: once set, a description cannot be cleared back to empty through this\n API; sending an empty value leaves the existing description unchanged."
+        repositoryUrl:
+          type: string
+          description: "Repository clone URL (.git form). Required on create. It is the identity of\n the component and cannot be changed after creation."
+        repositoryHref:
+          readOnly: true
+          type: string
+          description: "Browser-facing repository URL. Server-derived by stripping the trailing\n \".git\" from repository_url."
+        defaultBranch:
+          type: string
+          description: "Default branch for the repository. Optional on create (defaults to \"main\"\n when absent); mutable via PATCH."
+        provider:
+          type: string
+          description: "SCM provider backing the repository. Optional on create: inferred from the\n repository_url hostname for known public providers, or supplied explicitly\n for self-hosted providers. Not directly mutable via PATCH; it is\n resolved automatically, including when an SCM integration is attached.\n One of: \"GITHUB\", \"GITHUB_ENTERPRISE\", \"GITLAB\", \"GITLAB_SERVER\",\n \"BITBUCKET\", \"BITBUCKET_DATACENTER\". Empty when unresolved."
+        integrationId:
+          type: string
+          description: "Identifier of the SCM integration backing this component. Empty when the\n component has no integration. Optional on create, and can be set via PATCH\n to attach an integration to a component that has none.\n\n Note: once an integration is attached it cannot be removed through this\n API; sending an empty value leaves the existing integration in place."
+        organizationId:
+          readOnly: true
+          type: string
+          description: "Organization that owns this component. Read-only; set from the organization\n in the request URL."
+        createdAt:
+          readOnly: true
+          type: string
+          description: When this component was created.
+          format: date-time
+        updatedAt:
+          readOnly: true
+          type: string
+          description: When this component was last modified.
+          format: date-time
+      description: "A component represents a source code repository tracked by CloudBees Unify.\n Components can be created with or without an SCM integration, so teams in\n air-gapped or network-restricted environments can onboard immediately. A\n component created without an integration can be connected to one later to\n unlock features that depend on it."
+    google.protobuf.Any:
+      type: object
+      properties:
+        '@type':
+          type: string
+          description: The type of the serialized message.
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+    api.v4.DeleteComponentResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Always true if the component was deleted.
+        message:
+          type: string
+          description: Human-readable message describing the result.
+      description: Response message for deleting a component.
+    api.service.ListServicesResponse:
+      type: object
+      properties:
+        service:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.service.Service'
+          description: List of applications and components belonging to the specified organization.
+    api.service.Service:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the component.
+        name:
+          type: string
+          description: Name of the component.
+        description:
+          type: string
+          description: Description of the component.
+        endpointId:
+          type: string
+          description: Identifier of the SCM endpoint associated with the component's repository.
+        repositoryUrl:
+          type: string
+          description: Clone URL of the SCM repository associated with the component.
+        defaultBranch:
+          type: string
+          description: Default branch of the SCM repository associated with the component.
+        organizationId:
+          type: string
+          description: Unique identifier of the organization or sub-organization the component belongs to.
+        serviceType:
+          enum:
+          - COMPONENT
+          - APPLICATION
+          type: string
+          description: Type of the component. Valid values are COMPONENT for a standalone component and APPLICATION for an application that groups components.
+        linkedComponentIds:
+          type: array
+          items:
+            type: string
+          description: Identifiers of the components linked to this application. Applies only when serviceType is APPLICATION.
+        linkedEnvironmentIds:
+          type: array
+          items:
+            type: string
+          description: Identifiers of the environments linked to this application. Applies only when serviceType is APPLICATION.
+        repositoryHref:
+          type: string
+          description: URL to the repository web UI. If not set, use repositoryUrl.
+        provider:
+          type: string
+          description: SCM integration provider, for example github, bitbucket, bitbucket-datacenter, or gitlab-server.
+        edge:
+          type: boolean
+          description: True if this component's SCM integration is an edge integration (operations run on edge runners).
+        serviceEndpointId:
+          type: string
+          description: "Identifier of the component's own SCM repository endpoint. Always present,\n including for components created without an SCM integration. Differs from\n endpoint_id (field 4), which identifies the SCM integration and is empty\n for components created without one."
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: CloudBees Unify API access token or personal access token
+x-refined-from:
+- cloudbees-unify-beta-openapi.yml
+- cloudbees-unify-openapi.yml

@@ -1,0 +1,411 @@
+openapi: 3.2.0
+info:
+  title: CloudBees Unify API (Current) Flag configurations API
+  version: 1.0.0
+  description: API documentation for CloudBees Unify's current, stable endpoints.
+servers:
+- url: https://api.cloudbees.io
+  description: CloudBees Unify Production API
+security:
+- BearerAuth: []
+tags:
+- name: Flag configurations
+  description: Set flag state (enabled or disabled) and targeting rules for a specific environment to determine which users or segments receive each variation.
+paths:
+  /v2/applications/{applicationId}/environments/{environmentId}/configuration:
+    get:
+      tags:
+      - Flag configurations
+      operationId: FlagConfigurationApi_ListFlagConfigurations
+      parameters:
+      - name: applicationId
+        in: path
+        description: Unique identifier of the application whose flag configurations are to be listed.
+        required: true
+        schema:
+          type: string
+      - name: environmentId
+        in: path
+        description: Unique identifier of the environment for which to list flag configurations.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.flag.ListFlagConfigurationsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List flag configurations for an environment
+      description: Returns the configurations of all feature flags within the specified environment of an application.
+  /v2/applications/{applicationId}/flags/{flagId}/configuration/environments/{environmentId}:
+    get:
+      tags:
+      - Flag configurations
+      operationId: FlagConfigurationApi_GetFlagConfiguration
+      parameters:
+      - name: applicationId
+        in: path
+        description: Unique identifier of the application that owns the feature flag.
+        required: true
+        schema:
+          type: string
+      - name: flagId
+        in: path
+        description: Unique identifier of the feature flag whose configuration is to be retrieved.
+        required: true
+        schema:
+          type: string
+      - name: environmentId
+        in: path
+        description: Unique identifier of the environment for which to retrieve the flag configuration.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.flag.GetFlagConfigurationResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Get flag configuration for an environment
+      description: Returns the configuration of a feature flag for the specified environment within an application.
+    put:
+      tags:
+      - Flag configurations
+      operationId: FlagConfigurationApi_UpdateFlagConfiguration
+      parameters:
+      - name: applicationId
+        in: path
+        description: Unique identifier of the application that owns the feature flag.
+        required: true
+        schema:
+          type: string
+      - name: flagId
+        in: path
+        description: Unique identifier of the feature flag to update.
+        required: true
+        schema:
+          type: string
+      - name: environmentId
+        in: path
+        description: Unique identifier of the environment for which to update the flag configuration.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.flag.FlagConfiguration'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content: {}
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Update flag configuration for an environment
+      description: Replaces the full configuration of a feature flag for the specified environment within an application.
+    patch:
+      tags:
+      - Flag configurations
+      operationId: FlagConfigurationApi_PatchFlagConfiguration
+      parameters:
+      - name: applicationId
+        in: path
+        description: Unique identifier of the application that owns the feature flag.
+        required: true
+        schema:
+          type: string
+      - name: flagId
+        in: path
+        description: Unique identifier of the feature flag to update.
+        required: true
+        schema:
+          type: string
+      - name: environmentId
+        in: path
+        description: Unique identifier of the environment for which to update the flag configuration.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.flag.FlagConfigurationOptional'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content: {}
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Partially update flag configuration for an environment
+      description: Updates one or more fields of a feature flag configuration for the specified environment. Only fields included in the request body are updated.
+  /v2/applications/{applicationId}/flags/{flagId}/configuration/environments/{environmentId}/configstate:
+    post:
+      tags:
+      - Flag configurations
+      operationId: FlagConfigurationApi_UpdateFlagConfigurationConfigState
+      parameters:
+      - name: applicationId
+        in: path
+        description: Unique identifier of the application that owns the feature flag.
+        required: true
+        schema:
+          type: string
+      - name: flagId
+        in: path
+        description: Unique identifier of the feature flag whose enabled state is to be updated.
+        required: true
+        schema:
+          type: string
+      - name: environmentId
+        in: path
+        description: Unique identifier of the environment for which to update the flag's enabled state.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.flag.FlagConfigState'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content: {}
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Update flag enabled state for an environment
+      description: Enables or disables a feature flag for the specified environment within an application.
+  /v2/applications/{applicationId}/flags/{flagId}/environment/{environmentId}/clone:
+    post:
+      tags:
+      - Flag configurations
+      operationId: FlagConfigurationApi_CloneFlagConfiguration
+      parameters:
+      - name: applicationId
+        in: path
+        description: Unique identifier of the application that owns the feature flag.
+        required: true
+        schema:
+          type: string
+      - name: flagId
+        in: path
+        description: Unique identifier of the feature flag whose configuration is to be cloned.
+        required: true
+        schema:
+          type: string
+      - name: environmentId
+        in: path
+        description: Unique identifier of the source environment whose configuration will be copied.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        '200':
+          description: OK
+          content: {}
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Clone flag configuration to other environments
+      description: Copies the feature flag configuration from a source environment to one or more target environments.
+components:
+  schemas:
+    google.rpc.Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+          format: int32
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+          description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+      description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+    api.flag.FlagConfiguration:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: Whether the feature flag is enabled in this environment.
+        defaultValue:
+          allOf:
+          - $ref: '#/components/schemas/google.protobuf.Value'
+          description: The default value returned to users who do not match any targeting condition.
+        conditions:
+          allOf:
+          - $ref: '#/components/schemas/google.protobuf.ListValue'
+          description: The list of targeting conditions that determine which users receive specific flag values.
+        seed:
+          type: string
+          description: Random seed value used in percentage based (split) configurations to avoid statistical bias when selecting the flag value.
+        stickinessProperty:
+          type: string
+          description: Name of the Custom Property that will be used to ensure consistent flag evaluations for percentage based  (split) configurations.
+        variantsEnabled:
+          type: boolean
+          description: Whether multivariate variants are enabled for this flag configuration.
+        resourceId:
+          type: string
+          description: The unique identifier of the resource this configuration belongs to.
+        cascUrl:
+          type: string
+          description: The CloudBees CasC (Configuration as Code) URL associated with this flag configuration.
+        created:
+          type: string
+          description: The date and time when this flag configuration was created.
+          format: date-time
+        updated:
+          type: string
+          description: The date and time when this flag configuration was last updated.
+          format: date-time
+    api.flag.GetFlagConfigurationResponse:
+      type: object
+      properties:
+        configuration:
+          allOf:
+          - $ref: '#/components/schemas/api.flag.FlagConfiguration'
+          description: The feature flag configuration for the specified environment.
+    google.protobuf.ListValue:
+      description: "`ListValue` is a wrapper around a repeated field of values.\n\n The JSON representation for `ListValue` is JSON array."
+      type: array
+      items: {}
+    api.flag.FlagConfigurationOptional:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: Whether the feature flag is enabled in this environment. Omit to leave the current value unchanged.
+        defaultValue:
+          allOf:
+          - $ref: '#/components/schemas/google.protobuf.Value'
+          description: The default value returned to users who do not match any targeting condition. Omit to leave the current value unchanged.
+        conditions:
+          allOf:
+          - $ref: '#/components/schemas/google.protobuf.ListValue'
+          description: The list of targeting conditions that determine which users receive specific flag values. Omit to leave the current value unchanged.
+        stickinessProperty:
+          type: string
+          description: The user attribute used to ensure consistent flag evaluation for the same user. Omit to leave the current value unchanged.
+        variantsEnabled:
+          type: boolean
+          description: Whether multivariate variants are enabled. Omit to leave the current value unchanged.
+    api.flag.FlagConfigState:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: Whether the feature flag is enabled. Set to true to enable the flag, or false to disable it.
+    google.protobuf.Any:
+      type: object
+      properties:
+        '@type':
+          type: string
+          description: The type of the serialized message.
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+    google.protobuf.Value:
+      description: Represents a dynamically typed value which can be either null, a number, a string, a boolean, a recursive struct value, or a list of values.
+    api.flag.FlagConfigurationEnvironment:
+      type: object
+      properties:
+        flagId:
+          type: string
+          description: Unique identifier of the feature flag this configuration belongs to.
+        flagName:
+          type: string
+          description: Name of the feature flag.
+        description:
+          type: string
+          description: Description of the feature flag.
+        labels:
+          type: array
+          items:
+            type: string
+          description: Labels assigned to the feature flag for organization and filtering.
+        created:
+          type: string
+          description: The date and time when the flag configuration was created.
+          format: date-time
+        updated:
+          type: string
+          description: The date and time when the flag configuration was last updated.
+          format: date-time
+        configuration:
+          allOf:
+          - $ref: '#/components/schemas/api.flag.FlagConfiguration'
+          description: The feature flag configuration data for this environment.
+    api.flag.ListFlagConfigurationsResponse:
+      type: object
+      properties:
+        configurations:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.flag.FlagConfigurationEnvironment'
+          description: The list of feature flag configurations for the specified environment.
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: CloudBees Unify API access token or personal access token
+x-tagGroups:
+- name: Unify core
+  tags:
+  - Components
+  - Environments
+  - Organizations
+  - Teams
+  - Users
+- name: Feature management
+  tags:
+  - Flags
+  - Flag configurations
+  - Flag custom properties
+  - Target groups
+  - Flag lifecycle

@@ -1,0 +1,442 @@
+openapi: 3.2.0
+info:
+  title: CloudBees Unify API (Current) Target groups API
+  version: 1.0.0
+  description: API documentation for CloudBees Unify's current, stable endpoints.
+servers:
+- url: https://api.cloudbees.io
+  description: CloudBees Unify Production API
+security:
+- BearerAuth: []
+tags:
+- name: Target Groups
+  description: 'Define reusable sets of targeting conditions for feature flags. Specify rules once (such as matching users by role, region, or custom property) and apply them across multiple flags.
+
+    Changes to a target group propagate automatically to every flag that references it.'
+paths:
+  /v2/applications/{applicationId}/target-groups:
+    get:
+      tags:
+      - Target Groups
+      operationId: TargetGroupApi_ListTargetGroups
+      parameters:
+      - name: applicationId
+        in: path
+        description: Unique identifier of the application whose target groups are to be listed.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.TargetGroup.ListTargetGroupsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List target groups
+      description: Returns all target groups within the specified application.
+    post:
+      tags:
+      - Target Groups
+      operationId: TargetGroupApi_AddTargetGroup
+      parameters:
+      - name: applicationId
+        in: path
+        description: Unique identifier of the application in which to create the target group.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.TargetGroup.TargetGroup'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.TargetGroup.AddTargetGroupResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Create a target group
+      description: Creates a new target group within the specified application. Target groups define conditions used to target feature flags at specific users or contexts.
+  /v2/applications/{applicationId}/target-groups/by-name/{name}:
+    get:
+      tags:
+      - Target Groups
+      operationId: TargetGroupApi_GetTargetGroupByName
+      parameters:
+      - name: applicationId
+        in: path
+        description: Unique identifier of the application that owns the target group.
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        description: Name of the target group to retrieve.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.TargetGroup.GetTargetGroupResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Get a target group by name
+      description: Returns the target group matching the specified name within the application.
+  /v2/applications/{applicationId}/target-groups/with-flags-usage:
+    get:
+      tags:
+      - Target Groups
+      operationId: TargetGroupApi_ListTargetGroupsWithFlagsUsage
+      parameters:
+      - name: applicationId
+        in: path
+        description: Unique identifier of the application whose target groups are to be listed.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.TargetGroup.ListTargetGroupsWithFlagsUsageResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List target groups with flag usage
+      description: Returns all target groups within the specified application, each including the feature flags that reference it.
+  /v2/applications/{applicationId}/target-groups/{id}:
+    get:
+      tags:
+      - Target Groups
+      operationId: TargetGroupApi_GetTargetGroup
+      parameters:
+      - name: applicationId
+        in: path
+        description: Unique identifier of the application that owns the target group.
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Unique identifier of the target group to retrieve.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.TargetGroup.GetTargetGroupResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Get a target group
+      description: Returns the target group matching the specified identifier within the application.
+    put:
+      tags:
+      - Target Groups
+      operationId: TargetGroupApi_UpdateTargetGroup
+      parameters:
+      - name: applicationId
+        in: path
+        description: Unique identifier of the application that owns the target group.
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Unique identifier of the target group to update.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.TargetGroup.TargetGroup'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.TargetGroup.UpdateTargetGroupResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Update a target group
+      description: Replaces the configuration of the specified target group within the application. All fields in the request body replace the current values.
+    delete:
+      tags:
+      - Target Groups
+      operationId: TargetGroupApi_DeleteTargetGroup
+      parameters:
+      - name: applicationId
+        in: path
+        description: Unique identifier of the application that owns the target group.
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Unique identifier of the target group to delete.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content: {}
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Delete a target group
+      description: Permanently deletes the specified target group from the application. This action cannot be undone.
+  /v2/applications/{applicationId}/target-groups/{id}/flag-usage-per-environment:
+    get:
+      tags:
+      - Target Groups
+      operationId: TargetGroupApi_GetTargetGroupFlagUsagePerEnvironment
+      parameters:
+      - name: applicationId
+        in: path
+        description: Unique identifier of the application that owns the target group.
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Unique identifier of the target group to retrieve.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.TargetGroup.GetTargetGroupFlagsUsagePerEnvironmentResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List flag usage per environment for a target group
+      description: Returns the feature flags that reference the specified target group, grouped by environment.
+components:
+  schemas:
+    api.TargetGroup.UpdateTargetGroupResponse:
+      type: object
+      properties:
+        targetGroup:
+          allOf:
+          - $ref: '#/components/schemas/api.TargetGroup.TargetGroup'
+          description: The updated target group.
+    api.TargetGroup.FlagIdName:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the feature flag.
+        name:
+          type: string
+          description: Display name of the feature flag.
+        resourceId:
+          type: string
+          description: Unique identifier of the application that owns this feature flag.
+    google.rpc.Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+          format: int32
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+          description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+      description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+    api.TargetGroup.EnvironmentUsage:
+      type: object
+      properties:
+        environmentId:
+          type: string
+          description: Unique identifier of the environment.
+        flagUsage:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.TargetGroup.FlagUsageInEnvironment'
+          description: Feature flags that reference the target group in this environment.
+    api.TargetGroup.TargetGroupWithFlagsUsage:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the target group.
+        name:
+          type: string
+          description: Display name of the target group.
+        flagUsage:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.TargetGroup.FlagIdName'
+          description: Feature flags that reference this target group.
+        updated:
+          type: string
+          description: The date and time at which the target group was last updated.
+          format: date-time
+        resourceId:
+          type: string
+          description: Unique identifier of the application that owns this target group.
+        cascUrl:
+          type: string
+          description: Configuration as Code (CasC) URL for this target group.
+    api.TargetGroup.GetTargetGroupFlagsUsagePerEnvironmentResponse:
+      type: object
+      properties:
+        environments:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.TargetGroup.EnvironmentUsage'
+          description: List of environments and the feature flags that reference the target group in each.
+    api.TargetGroup.ListTargetGroupsWithFlagsUsageResponse:
+      type: object
+      properties:
+        targetGroupsWithFlagUsage:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.TargetGroup.TargetGroupWithFlagsUsage'
+          description: List of target groups in the application, each including the feature flags that reference it.
+    api.TargetGroup.ListTargetGroupsResponse:
+      type: object
+      properties:
+        targetGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.TargetGroup.TargetGroup'
+          description: List of target groups in the application.
+    google.protobuf.Any:
+      type: object
+      properties:
+        '@type':
+          type: string
+          description: The type of the serialized message.
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+    api.TargetGroup.GetTargetGroupResponse:
+      type: object
+      properties:
+        targetGroup:
+          allOf:
+          - $ref: '#/components/schemas/api.TargetGroup.TargetGroup'
+          description: The requested target group.
+    api.TargetGroup.TargetGroup:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the target group.
+        name:
+          type: string
+          description: Display name of the target group.
+        description:
+          type: string
+          description: Human-readable description of the target group's purpose.
+        conditions:
+          type: object
+          description: Targeting conditions that define which users or contexts match this group, expressed as a JSON structure.
+        resourceId:
+          type: string
+          description: Unique identifier of the application that owns this target group.
+        cascUrl:
+          type: string
+          description: Configuration as Code (CasC) URL for this target group.
+    api.TargetGroup.FlagUsageInEnvironment:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the feature flag.
+        name:
+          type: string
+          description: Display name of the feature flag.
+        enabled:
+          type: boolean
+          description: Whether the feature flag is enabled in this environment.
+        resourceId:
+          type: string
+          description: Unique identifier of the application that owns this feature flag.
+    api.TargetGroup.AddTargetGroupResponse:
+      type: object
+      properties:
+        targetGroup:
+          allOf:
+          - $ref: '#/components/schemas/api.TargetGroup.TargetGroup'
+          description: The created target group.
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: CloudBees Unify API access token or personal access token
+x-tagGroups:
+- name: Unify core
+  tags:
+  - Components
+  - Environments
+  - Organizations
+  - Teams
+  - Users
+- name: Feature management
+  tags:
+  - Flags
+  - Flag configurations
+  - Flag custom properties
+  - Target groups
+  - Flag lifecycle

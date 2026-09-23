@@ -1,0 +1,239 @@
+openapi: 3.2.0
+info:
+  title: CloudBees Unify API (Beta) Team Memberships API
+  version: 4.0.0-beta
+  description: API documentation for CloudBees Unify.
+servers:
+- url: https://api.cloudbees.io
+  description: CloudBees Unify Production API
+security:
+- BearerAuth: []
+tags:
+- name: Team Memberships
+paths:
+  /v4/teams/{teamId}/memberships:
+    get:
+      tags:
+      - Team Memberships
+      description: Returns a list of team memberships. Supports filtering, pagination, and sorting.
+      operationId: listTeamMemberships
+      parameters:
+      - name: teamId
+        in: path
+        description: Team ID to scope the request.
+        required: true
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: "Maximum number of items to return per page.\n Default: 100, Maximum: 1000"
+        schema:
+          type: integer
+          format: int32
+      - name: pageToken
+        in: query
+        description: "Cursor token for retrieving the next page of results.\n Obtained from next_page_token of the previous response.\n Omit or use empty string for the first page."
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.ListTeamMembershipsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List team memberships
+    post:
+      tags:
+      - Team Memberships
+      description: Creates a new team membership and returns the created resource.
+      operationId: createTeamMembership
+      parameters:
+      - name: teamId
+        in: path
+        description: Team ID to scope the request.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.v4.CreateTeamMembershipRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.TeamMember'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Create team membership
+  /v4/teams/{teamId}/memberships/{userId}:
+    get:
+      tags:
+      - Team Memberships
+      description: Returns detailed information about a specific team membership.
+      operationId: getTeamMembership
+      parameters:
+      - name: teamId
+        in: path
+        description: Team ID to scope the request.
+        required: true
+        schema:
+          type: string
+      - name: userId
+        in: path
+        description: User who is a member of the team.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.TeamMember'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Get team membership
+    delete:
+      tags:
+      - Team Memberships
+      description: Deletes the specified team membership.
+      operationId: deleteTeamMembership
+      parameters:
+      - name: teamId
+        in: path
+        description: Team ID to scope the request.
+        required: true
+        schema:
+          type: string
+      - name: userId
+        in: path
+        description: User who is a member of the team.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.DeleteTeamMembershipResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Delete team membership
+components:
+  schemas:
+    api.v4.DeleteTeamMembershipResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Always true if deletion succeeded.
+        message:
+          type: string
+          description: Human-readable message describing the result.
+      description: Response message for DeleteTeamMembership.
+    google.protobuf.Any:
+      type: object
+      properties:
+        '@type':
+          type: string
+          description: The type of the serialized message.
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+    google.rpc.Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+          format: int32
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+          description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+      description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+    api.v4.TeamMember:
+      type: object
+      properties:
+        userId:
+          type: string
+          description: User who is a member of the team
+        user:
+          allOf:
+          - $ref: '#/components/schemas/api.v4.TeamMember_UserProjection'
+          description: Nested User data
+      description: "TeamMember is the enriched, public-facing projection of a TeamMembership\n returned by the List, Create, and Get RPCs. It carries the membership's\n user_id plus a nested UserProjection (id + email) joined from the user\n service."
+    api.v4.TeamMember_UserProjection:
+      type: object
+      properties:
+        id:
+          type: string
+          description: id from User
+        email:
+          type: string
+          description: email from User
+        createdAt:
+          type: string
+          description: When the user joined this team
+          format: date-time
+      description: Projected fields from User
+    api.v4.CreateTeamMembershipRequest:
+      required:
+      - teamId
+      - userId
+      type: object
+      properties:
+        teamId:
+          type: string
+          description: Team ID to scope the request.
+        userId:
+          type: string
+          description: User who is a member of the team
+      description: Request message for CreateTeamMembership.
+    api.v4.ListTeamMembershipsResponse:
+      type: object
+      properties:
+        teamMemberships:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.v4.TeamMember'
+          description: List of team memberships matching the request.
+        nextPageToken:
+          type: string
+          description: "Cursor token for retrieving the next page of results.\n Empty string indicates this is the last page.\n Pass this value as page_token to fetch the next page."
+      description: Response message for ListTeamMemberships.
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: CloudBees Unify API access token or personal access token

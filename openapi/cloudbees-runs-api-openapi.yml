@@ -1,0 +1,1076 @@
+openapi: 3.2.0
+info:
+  title: CloudBees Unify API (Beta) Runs API
+  version: 4.0.0-beta
+  description: API documentation for CloudBees Unify.
+servers:
+- url: https://api.cloudbees.io
+  description: CloudBees Unify Production API
+security:
+- BearerAuth: []
+tags:
+- name: Runs
+  description: Create, update, and retrieve CI/CD runs for a component. Attach and list test results, artifacts, security results, evidences, and deployments.
+paths:
+  /v4/components/{componentId}/runs:
+    post:
+      tags:
+      - Runs
+      description: Creates a run.
+      operationId: createRun
+      parameters:
+      - name: componentId
+        in: path
+        description: component ID that the run belongs to
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.v4.RunForCreate'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.CreateRunResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Create run
+  /v4/components/{componentId}/runs/{run.id}:
+    patch:
+      tags:
+      - Runs
+      description: Updates a run.
+      operationId: updateRun
+      parameters:
+      - name: componentId
+        in: path
+        description: component ID that the run belongs to
+        required: true
+        schema:
+          type: string
+      - name: run.id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.v4.RunForUpdate'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content: {}
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Update run
+  /v4/components/{componentId}/runs/{runId}:
+    get:
+      tags:
+      - Runs
+      description: Gets a run by ID.
+      operationId: getRun
+      parameters:
+      - name: componentId
+        in: path
+        description: component ID that the run belongs to
+        required: true
+        schema:
+          type: string
+      - name: runId
+        in: path
+        description: run ID to retrieve
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.Run'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Get run
+  /v4/components/{componentId}/runs/{runId}/artifacts:
+    get:
+      tags:
+      - Runs
+      description: List all artifacts associated with a run.
+      operationId: listArtifacts
+      parameters:
+      - name: componentId
+        in: path
+        description: The unique identifier of the component that owns the run.
+        required: true
+        schema:
+          type: string
+      - name: runId
+        in: path
+        description: The unique identifier of the run.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.ListArtifactsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List artifacts
+    post:
+      tags:
+      - Runs
+      description: Attach build artifacts to a run. Returns the ingested artifacts with their assigned IDs.
+      operationId: createArtifacts
+      parameters:
+      - name: componentId
+        in: path
+        description: The unique identifier of the component that owns the run.
+        required: true
+        schema:
+          type: string
+      - name: runId
+        in: path
+        description: The unique identifier of the run to attach artifacts to.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.v4.CreateArtifactsBody'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.CreateArtifactsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Attach artifacts
+  /v4/components/{componentId}/runs/{runId}/deployments:
+    get:
+      tags:
+      - Runs
+      description: List all deployments associated with a run.
+      operationId: listDeployments
+      parameters:
+      - name: componentId
+        in: path
+        description: The unique identifier of the component that owns the run.
+        required: true
+        schema:
+          type: string
+      - name: runId
+        in: path
+        description: The unique identifier of the run.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.ListDeploymentsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List deployments
+    post:
+      tags:
+      - Runs
+      description: Attach deployment artifacts to a run.
+      operationId: createDeploymentArtifacts
+      parameters:
+      - name: componentId
+        in: path
+        description: The unique identifier of the component that owns the run.
+        required: true
+        schema:
+          type: string
+      - name: runId
+        in: path
+        description: The unique identifier of the run to attach deployment artifacts to.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.v4.CreateDeploymentArtifactsBody'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.CreateDeploymentArtifactsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Attach deployments
+  /v4/components/{componentId}/runs/{runId}/evidences:
+    get:
+      tags:
+      - Runs
+      description: List all evidences associated with a run.
+      operationId: listEvidences
+      parameters:
+      - name: componentId
+        in: path
+        description: The unique identifier of the component that owns the run.
+        required: true
+        schema:
+          type: string
+      - name: runId
+        in: path
+        description: The unique identifier of the run.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.ListEvidencesResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List evidences
+    post:
+      tags:
+      - Runs
+      description: Attach evidences to a run.
+      operationId: createEvidences
+      parameters:
+      - name: componentId
+        in: path
+        description: The unique identifier of the component that owns the run.
+        required: true
+        schema:
+          type: string
+      - name: runId
+        in: path
+        description: The unique identifier of the run to attach evidences to.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.v4.CreateEvidencesBody'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.CreateEvidencesResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Attach evidences
+  /v4/components/{componentId}/runs/{runId}/security-results:
+    get:
+      tags:
+      - Runs
+      description: Returns processed security findings for a run.
+      operationId: listSecurityResults
+      parameters:
+      - name: componentId
+        in: path
+        description: The unique identifier of the component that owns the run.
+        required: true
+        schema:
+          type: string
+      - name: runId
+        in: path
+        description: The unique identifier of the run.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.ListSecurityResultsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List security results
+    post:
+      tags:
+      - Runs
+      description: Attach security scan results to a run.
+      operationId: createSecurityResults
+      parameters:
+      - name: componentId
+        in: path
+        description: The unique identifier of the component that owns the run.
+        required: true
+        schema:
+          type: string
+      - name: runId
+        in: path
+        description: The unique identifier of the run to attach security results to.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.v4.CreateSecurityResultsBodyForCreate'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.CreateSecurityResultsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Attach security results
+      x-codeSamples:
+      - lang: Shell
+        source: "# 'report' is populated server-side from the uploaded 'file' part; do not include it in metadata.\ncurl 'https://api.cloudbees.io/v4/components/{componentId}/runs/{runId}/security-results' \\\n  --request POST \\\n  --header 'Authorization: Bearer YOUR_SECRET_TOKEN' \\\n  --header 'Content-Type: multipart/form-data' \\\n  --form 'file=@security-result.sarif' \\\n  --form 'metadata={\n    \"body\": {\n      \"securityResults\": [\n        {\n          \"file\": \"security-result.sarif\",\n          \"scanner\": \"trivy\",\n          \"format\": \"sarif\",\n          \"generatedAt\": \"2026-08-25T14:30:00Z\"\n        }\n      ]\n    }\n  }'\n"
+        label: curl
+  /v4/components/{componentId}/runs/{runId}/test-results:
+    get:
+      tags:
+      - Runs
+      description: Returns presigned download URLs for all test results files uploaded for a run.
+      operationId: listTestResults
+      parameters:
+      - name: componentId
+        in: path
+        description: The unique identifier of the component that owns the run.
+        required: true
+        schema:
+          type: string
+      - name: runId
+        in: path
+        description: The unique identifier of the run.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.ListTestResultsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List test results
+    post:
+      tags:
+      - Runs
+      description: 'Attach test results to a run. The upload is validated for format only and then processed asynchronously: a 202 response means the file was accepted for processing, not that it has been parsed or is visible yet. A well-formed but unparseable file may still fail during later processing and not appear in results.'
+      operationId: createTestResults
+      parameters:
+      - name: componentId
+        in: path
+        description: The unique identifier of the component that owns the run.
+        required: true
+        schema:
+          type: string
+      - name: runId
+        in: path
+        description: The unique identifier of the run to attach test results to.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json: {}
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v4.CreateTestResultsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Attach test results
+      x-codeSamples:
+      - lang: Shell
+        source: "curl 'https://api.cloudbees.io/v4/components/{componentId}/runs/{runId}/test-results' \\\n  --request POST \\\n  --header 'Authorization: Bearer YOUR_SECRET_TOKEN' \\\n  --header 'Content-Type: multipart/form-data' \\\n  --form 'file=@testResultFile'\n"
+        label: curl
+components:
+  schemas:
+    api.v4.RunForUpdate:
+      type: object
+      properties:
+        runNumber:
+          type: integer
+          description: run number, uniquely identifies an execution of a workflow
+          format: int32
+        url:
+          type: string
+          description: run URL in the original external system
+        actorEmail:
+          type: string
+          description: email address of the user who triggered the run
+        status:
+          type: string
+          description: 'run status; accepted values: PENDING, PAUSED, STARTED, FAILED, ERRORED, ABORTED, SUCCEEDED, PENDING_APPROVAL, TIMED_OUT, APPROVED, REJECTED, APPROVAL_TIMED_OUT, SKIPPED, UNSCHEDULED, UNSTABLE'
+        statusMessage:
+          type: string
+          description: run status message (normally specifying the failure cause)
+        endedAt:
+          type: string
+          description: run end timestamp
+          format: date-time
+        externalParentFlow:
+          type: string
+          description: external system identifier to group related runs under a common pipeline or workflow
+        statusReason:
+          type: string
+          description: "status_reason is \"POLICY\" when a policy gate caused the current status, otherwise empty.\n Note: CloudBees-native runs never report PENDING_APPROVAL as their run status on this API,\n so in practice this identifies a policy-caused failure."
+      description: Run represents an external CI/CD run from a third-party tool.
+    google.rpc.Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+          format: int32
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+          description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+      description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+    api.v4.DeploymentSummary:
+      type: object
+      properties:
+        artifact:
+          allOf:
+          - $ref: '#/components/schemas/api.v4.ArtifactSummary'
+          description: The artifact that was deployed.
+        environment:
+          type: string
+          description: Name of the environment where the artifact was deployed.
+        deployedOn:
+          type: string
+          description: When the artifact was deployed to this environment.
+          format: date-time
+        workflowName:
+          type: string
+          description: Name of the workflow that triggered this deployment.
+      description: DeploymentSummary is the user-facing deployment record returned by ListDeployments.
+    google.protobuf.Any:
+      type: object
+      properties:
+        '@type':
+          type: string
+          description: The type of the serialized message.
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+    api.v4.CreateSecurityResultsResponse:
+      type: object
+      properties: {}
+      description: Response after attaching security scan results to a run.
+    api.v4.SecurityFinding:
+      type: object
+      properties:
+        toolName:
+          type: string
+          description: Name of the scanner that produced this finding (e.g. trivy, sonarqube).
+        findingName:
+          type: string
+          description: Human-readable name of the finding/rule.
+        findingCode:
+          type: string
+          description: Rule or finding code identifier.
+        severity:
+          type: string
+          description: Severity level (e.g. CRITICAL, HIGH, MEDIUM, LOW).
+        category:
+          type: string
+          description: Category of the finding (e.g. VULNERABILITY, SECRET_VIOLATION).
+        remediationStatus:
+          type: string
+          description: Current remediation status (OPEN, IN_PROGRESS, RESOLVED, FALSE_POSITIVE, RISK_ACCEPTED, CLOSED).
+        scanTime:
+          type: string
+          description: Timestamp when this scan finding was recorded.
+          format: date-time
+        isActive:
+          type: boolean
+          description: Whether this finding is currently active (not cleared or superseded by a newer scan).
+        triageStatus:
+          type: string
+          description: Triage decision independent of remediation_status (e.g. FALSE_POSITIVE, RISK_ACCEPTED).
+        toolDisplayName:
+          type: string
+          description: Human-readable display name of the scanner tool (e.g. "SonarQube" vs tool_name "sonarqube").
+      description: SecurityFinding represents a single processed security finding from a scan.
+    api.v4.CreateEvidencesBody:
+      type: object
+      properties:
+        evidences:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.v4.Evidence'
+          description: The list of evidence entries to associate with the run. Each evidence contains content in a specified format (e.g., Markdown).
+    api.v4.CreateRunResponse:
+      type: object
+      properties:
+        runId:
+          type: string
+          description: Run id of the newly created run from external source
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.v4.ValidationWarning'
+          description: Optional validation warnings (request succeeded but had validation issues)
+      description: Response message for CreateRun.
+    api.v4.CreateDeploymentArtifactsBody:
+      required:
+      - environment
+      type: object
+      properties:
+        artifactReferences:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.v4.ArtifactInfo'
+          description: The list of build artifacts to be linked to deployment that associate with the run.
+        environment:
+          type: string
+          description: The environment in which the deployment artifacts are deployed (e.g., "production", "staging").
+      description: Deployment details, including artifacts and the environment they're deployed to
+    api.v4.ListDeploymentsResponse:
+      type: object
+      properties:
+        deployments:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.v4.DeploymentSummary'
+          description: The list of deployments associated with the run.
+      description: Response containing the list of deployments for a run.
+    api.v4.CreateArtifactsResponse:
+      type: object
+      properties:
+        artifacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.v4.CreatedArtifact'
+          description: The list of ingested artifacts with their assigned artifact IDs.
+      description: Response after attaching build artifacts to a run.
+    api.v4.ValidationWarning:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code identifying the type of validation issue
+        message:
+          type: string
+          description: Human-readable error message
+        field:
+          type: string
+          description: Field name that caused the warning
+      description: Validation warning for non-blocking validation issues
+    api.v4.ArtifactSummary:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the artifact.
+        version:
+          type: string
+          description: Version of the artifact.
+        url:
+          type: string
+          description: URL of the published artifact (purl or download link).
+        type:
+          type: string
+          description: Type of the artifact (e.g. docker, maven, npm).
+        digest:
+          type: string
+          description: Digest / checksum of the artifact.
+        labels:
+          type: array
+          items:
+            type: string
+          description: User-defined labels attached to this artifact version.
+        publishedOn:
+          type: string
+          description: When the artifact was first published.
+          format: date-time
+        componentName:
+          type: string
+          description: Name of the component this artifact belongs to.
+        commit:
+          allOf:
+          - $ref: '#/components/schemas/api.v4.CommitSummary'
+          description: Source code commit that produced this artifact.
+        applicationName:
+          type: string
+          description: Name of the application this artifact belongs to (if any).
+        releaseName:
+          type: string
+          description: Name of the release this artifact belongs to (if any).
+      description: ArtifactSummary is the user-facing subset of artifact details returned by ListDeployments.
+    api.v4.ListSecurityResultsResponse:
+      type: object
+      properties:
+        findings:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.v4.SecurityFinding'
+          description: The list of security findings associated with the run.
+      description: Response containing the list of security findings for a run.
+    api.v4.CreateArtifactsBody:
+      type: object
+      properties:
+        artifacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.v4.ArtifactInfo'
+          description: The list of build artifacts to associate with the run.
+    api.v4.ListArtifactsResponse:
+      type: object
+      properties:
+        artifacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.v4.ArtifactInfo'
+          description: The list of artifacts associated with the run.
+      description: Response containing the list of artifacts for a run.
+    api.v4.ListTestResultsResponse:
+      type: object
+      properties:
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.v4.TestResultsFile'
+          description: The list of test results files associated with the run.
+      description: Response containing the list of test results for a run.
+    api.v4.TestResultsFile:
+      type: object
+      properties:
+        fileName:
+          type: string
+          description: File name of the test results archive.
+        downloadUrl:
+          type: string
+          description: Presigned URL to download the file directly from S3.
+        expiresAt:
+          type: string
+          description: Timestamp when the presigned URL expires.
+          format: date-time
+        uploadedAt:
+          type: string
+          description: Timestamp when the file was last modified in S3.
+          format: date-time
+      description: TestResultsFile represents a test results file stored in S3.
+    api.v4.Evidence:
+      required:
+      - content
+      type: object
+      properties:
+        content:
+          type: string
+          description: Content to be published as evidence.
+        format:
+          type: string
+          description: "Format of the content. Accepted values: \"markdown\" (case-insensitive).\n Omit or leave empty for unspecified format."
+        createdAt:
+          type: string
+          description: "Caller-supplied event timestamp from the source system (optional, ISO 8601).\n When omitted, the server records the current time."
+          format: date-time
+        jobId:
+          type: string
+          description: "Optional job ID of the stage to attach this evidence to.\n When omitted, the evidence is attached to the Start stage of the run."
+      description: Evidence represents an evidence entry to associate with a run.
+    api.v4.CreateTestResultsResponse:
+      type: object
+      properties: {}
+      description: Response after attaching test results to a run.
+    api.v4.CreateDeploymentArtifactsResponse:
+      type: object
+      properties:
+        artifactReferences:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.v4.ArtifactInfo'
+          description: The list of build artifacts to be linked to deployment that associate with the run.
+      description: Response after attaching deployment artifacts to a run.
+    api.v4.CommitSummary:
+      type: object
+      properties:
+        commitUrl:
+          type: string
+          description: URL to the commit in the source control web UI.
+        commitId:
+          type: string
+          description: Commit hash (SHA).
+        ref:
+          type: string
+          description: Branch or tag ref (e.g. refs/heads/main).
+        repositoryUrl:
+          type: string
+          description: Clone URL of the repository.
+        repositoryDisplayName:
+          type: string
+          description: Human-readable repository name (e.g. org/repo).
+      description: CommitSummary holds the source-control provenance of an artifact.
+    api.v4.ArtifactInfo:
+      required:
+      - name
+      - url
+      - version
+      - type
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the artifact.
+        url:
+          type: string
+          description: The url of the artifact. Must be an absolute URI (e.g. https://... or pkg:...).
+        version:
+          type: string
+          description: The version of the artifact.
+        type:
+          type: string
+          description: 'The type of the artifact. Supported values: container, binary, helm, npm, maven, pypi, gem, nuget.'
+        digest:
+          type: string
+          description: The digest of the image.
+        label:
+          type: string
+          description: A comma-separated list of artifact labels.
+        repositoryUrl:
+          type: string
+          description: Clone URL of the artifact repository.
+        commit:
+          type: string
+          description: Commit hash of source repository.
+        commitUrl:
+          type: string
+          description: Commit URL of source repository.
+        ref:
+          type: string
+          description: Branch name of checked out source repository.
+        stageName:
+          type: string
+          description: The name of the stage in which the artifact is being created.
+        stageId:
+          type: string
+          description: The unique identifier of the stage in which the artifact is being created.
+        artifactId:
+          type: string
+          description: The Artifact Id for registering the deployment
+        createdAt:
+          type: string
+          description: "The timestamp when the artifact was built/published in the source system\n (ISO 8601). Optional. When set, it is persisted on the artifact record;\n when omitted, the server records the current time."
+          format: date-time
+      description: ArtifactInfo represents a build artifact to associate with a run.
+    api.v4.CreateSecurityResultsBodyForCreate:
+      type: object
+      properties:
+        securityResults:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.v4.SecurityScanResultForCreate'
+          description: The list of security scan reports to associate with the run.
+    api.v4.CreateEvidencesResponse:
+      type: object
+      properties: {}
+      description: Response after attaching evidences to a run.
+    api.v4.ListEvidencesResponse:
+      type: object
+      properties:
+        evidences:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.v4.Evidence'
+          description: The list of evidences associated with the run.
+      description: Response containing the list of evidences for a run.
+    api.v4.SecurityScanResultForCreate:
+      type: object
+      properties:
+        file:
+          type: string
+          description: File name of the SARIF report.
+        generatedAt:
+          type: string
+          description: The timestamp when the report was generated.
+          format: date-time
+        format:
+          type: string
+          description: File format of the security scan report.
+        scanner:
+          type: string
+          description: Scanner name used to generate the report.
+      description: SecurityScanResult represents a security scan report to associate with a run.
+    api.v4.RunForCreate:
+      required:
+      - scmRef
+      - workflowName
+      - toolType
+      - url
+      - trigger
+      - actorName
+      - status
+      - startedAt
+      - commitSha
+      type: object
+      properties:
+        scmRef:
+          type: string
+          description: 'The SCM ref for this run; can be a branch, a tag, etc. Must use the full git ref format (e.g.: refs/heads/main)'
+        workflowName:
+          type: string
+          description: the name of the workflow that is being executed
+        runNumber:
+          type: integer
+          description: run number, uniquely identifies an execution of a workflow
+          format: int32
+        toolType:
+          type: string
+          description: "CI/CD tool that produced this run; accepted values: ARGO_CD, CLOUDBEES_CI, HARNESS, JENKINS, UNIFY, CLOUDBEES, GITHUB\n This field will default to UNKNOWN if the tool doesn't match one of the accepted values"
+        runAttempt:
+          type: integer
+          description: run attempt, used in engines like GitHub Actions to distinguish between multiple executions of a workflow
+          format: int32
+        url:
+          type: string
+          description: run URL in the original external system
+        trigger:
+          type: string
+          description: 'what triggered the run; accepted values: PUSH, PULL_REQUEST, WORKFLOW_DISPATCH, SCHEDULE'
+        actorName:
+          type: string
+          description: who triggered the run
+        actorEmail:
+          type: string
+          description: email address of the user who triggered the run
+        status:
+          type: string
+          description: 'run status; accepted values: PENDING, PAUSED, STARTED, FAILED, ERRORED, ABORTED, SUCCEEDED, PENDING_APPROVAL, TIMED_OUT, APPROVED, REJECTED, APPROVAL_TIMED_OUT, SKIPPED, UNSCHEDULED, UNSTABLE'
+        statusMessage:
+          type: string
+          description: run status message (normally specifying the failure cause)
+        startedAt:
+          type: string
+          description: run start timestamp
+          format: date-time
+        endedAt:
+          type: string
+          description: run end timestamp
+          format: date-time
+        changeRequestTitle:
+          type: string
+          description: title of the change request that triggered the run
+        changeRequestTargetBranch:
+          type: string
+          description: target branch of the change request
+        commitSha:
+          type: string
+          description: commit SHA that triggered the run
+        commitMessage:
+          type: string
+          description: commit message of the commit that triggered the run. The value of this field, if present, overrides change_request_title
+        externalParentFlow:
+          type: string
+          description: external system identifier to group related runs under a common pipeline or workflow
+        statusReason:
+          type: string
+          description: "status_reason is \"POLICY\" when a policy gate caused the current status, otherwise empty.\n Note: CloudBees-native runs never report PENDING_APPROVAL as their run status on this API,\n so in practice this identifies a policy-caused failure."
+      description: Run represents an external CI/CD run from a third-party tool.
+    api.v4.Run:
+      required:
+      - scmRef
+      - workflowName
+      - toolType
+      - url
+      - trigger
+      - actorName
+      - status
+      - startedAt
+      - commitSha
+      type: object
+      properties:
+        id:
+          readOnly: true
+          type: string
+          description: unique identifier for this run
+        scmRef:
+          type: string
+          description: 'The SCM ref for this run; can be a branch, a tag, etc. Must use the full git ref format (e.g.: refs/heads/main)'
+        workflowName:
+          type: string
+          description: the name of the workflow that is being executed
+        runNumber:
+          type: integer
+          description: run number, uniquely identifies an execution of a workflow
+          format: int32
+        toolType:
+          type: string
+          description: "CI/CD tool that produced this run; accepted values: ARGO_CD, CLOUDBEES_CI, HARNESS, JENKINS, UNIFY, CLOUDBEES, GITHUB\n This field will default to UNKNOWN if the tool doesn't match one of the accepted values"
+        runAttempt:
+          type: integer
+          description: run attempt, used in engines like GitHub Actions to distinguish between multiple executions of a workflow
+          format: int32
+        url:
+          type: string
+          description: run URL in the original external system
+        trigger:
+          type: string
+          description: 'what triggered the run; accepted values: PUSH, PULL_REQUEST, WORKFLOW_DISPATCH, SCHEDULE'
+        actorName:
+          type: string
+          description: who triggered the run
+        actorEmail:
+          type: string
+          description: email address of the user who triggered the run
+        status:
+          type: string
+          description: 'run status; accepted values: PENDING, PAUSED, STARTED, FAILED, ERRORED, ABORTED, SUCCEEDED, PENDING_APPROVAL, TIMED_OUT, APPROVED, REJECTED, APPROVAL_TIMED_OUT, SKIPPED, UNSCHEDULED, UNSTABLE'
+        statusMessage:
+          type: string
+          description: run status message (normally specifying the failure cause)
+        startedAt:
+          type: string
+          description: run start timestamp
+          format: date-time
+        endedAt:
+          type: string
+          description: run end timestamp
+          format: date-time
+        changeRequest:
+          readOnly: true
+          type: boolean
+          description: flag that indicates if the run is triggered by a change request
+        changeRequestTitle:
+          type: string
+          description: title of the change request that triggered the run
+        changeRequestTargetBranch:
+          type: string
+          description: target branch of the change request
+        commitSha:
+          type: string
+          description: commit SHA that triggered the run
+        commitMessage:
+          type: string
+          description: commit message of the commit that triggered the run. The value of this field, if present, overrides change_request_title
+        externalParentFlow:
+          type: string
+          description: external system identifier to group related runs under a common pipeline or workflow
+        statusReason:
+          type: string
+          description: "status_reason is \"POLICY\" when a policy gate caused the current status, otherwise empty.\n Note: CloudBees-native runs never report PENDING_APPROVAL as their run status on this API,\n so in practice this identifies a policy-caused failure."
+      description: Run represents an external CI/CD run from a third-party tool.
+    api.v4.CreatedArtifact:
+      type: object
+      properties:
+        name:
+          readOnly: true
+          type: string
+          description: The name of the artifact.
+        url:
+          readOnly: true
+          type: string
+          description: The URL of the artifact in the registry.
+        version:
+          readOnly: true
+          type: string
+          description: The version of the artifact.
+        digest:
+          readOnly: true
+          type: string
+          description: The digest of the artifact, if specified in the request.
+        artifactId:
+          readOnly: true
+          type: string
+          description: The platform-assigned unique identifier for this artifact.
+      description: A summary of an ingested artifact returned in the create response.
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: CloudBees Unify API access token or personal access token

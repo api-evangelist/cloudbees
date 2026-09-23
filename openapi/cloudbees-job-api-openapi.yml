@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: CloudBees CI REST API (Jenkins-compatible) Computer Job API
+  title: CloudBees CI REST API (Jenkins-compatible) Job API
   description: 'CloudBees CI exposes the Jenkins remote-access REST API for inspecting and
 
     controlling jobs, builds, queues, and computers. Append `/api/json`,
@@ -11,9 +11,7 @@ info:
 
     payload (recommended for performance). Authenticate with an API token via
 
-    HTTP Basic Auth.
-
-    '
+    HTTP Basic Auth.'
   version: 1.0.0
 servers:
 - url: https://example.cloudbees.com
@@ -43,6 +41,8 @@ paths:
                 $ref: '#/components/schemas/Job'
       tags:
       - Job
+      operationId: getJobByNameApiJson
+      x-operation-id-source: derived
   /job/{name}/build:
     post:
       summary: Trigger a build (no parameters)
@@ -63,6 +63,8 @@ paths:
           description: Bad request (job requires parameters)
       tags:
       - Job
+      operationId: postJobByNameBuild
+      x-operation-id-source: derived
   /job/{name}/buildWithParameters:
     post:
       summary: Trigger a parameterized build
@@ -89,6 +91,8 @@ paths:
           description: Build queued
       tags:
       - Job
+      operationId: postJobByNameBuildWithParameters
+      x-operation-id-source: derived
   /job/{name}/{number}/api/json:
     get:
       summary: Get a specific build
@@ -113,6 +117,8 @@ paths:
                 $ref: '#/components/schemas/Build'
       tags:
       - Job
+      operationId: getJobByNameByNumberApiJson
+      x-operation-id-source: derived
   /job/{name}/lastSuccessfulBuild/api/json:
     get:
       summary: Get last successful build of a job
@@ -132,6 +138,8 @@ paths:
                 $ref: '#/components/schemas/Build'
       tags:
       - Job
+      operationId: getJobByNameLastSuccessfulBuildApiJson
+      x-operation-id-source: derived
   /job/{name}/config.xml:
     parameters:
     - name: name
@@ -150,6 +158,8 @@ paths:
                 type: string
       tags:
       - Job
+      operationId: getJobByNameConfigXml
+      x-operation-id-source: derived
     post:
       summary: Update job configuration XML
       requestBody:
@@ -163,6 +173,8 @@ paths:
           description: Updated
       tags:
       - Job
+      operationId: postJobByNameConfigXml
+      x-operation-id-source: derived
   /job/{name}/doDelete:
     post:
       summary: Delete job
@@ -177,8 +189,42 @@ paths:
           description: Deleted
       tags:
       - Job
+      operationId: postJobByNameDoDelete
+      x-operation-id-source: derived
 components:
+  parameters:
+    Depth:
+      name: depth
+      in: query
+      schema:
+        type: integer
+        default: 0
+    Tree:
+      name: tree
+      in: query
+      description: 'Tree filter for selecting and trimming response fields.
+
+        Example: `jobs[name,url,color]`.
+
+        '
+      schema:
+        type: string
   schemas:
+    Build:
+      type: object
+      properties:
+        _class:
+          type: string
+        number:
+          type: integer
+        result:
+          type: string
+        duration:
+          type: integer
+        timestamp:
+          type: integer
+        url:
+          type: string
     BuildSummary:
       type: object
       properties:
@@ -205,38 +251,6 @@ components:
           $ref: '#/components/schemas/BuildSummary'
         buildable:
           type: boolean
-    Build:
-      type: object
-      properties:
-        _class:
-          type: string
-        number:
-          type: integer
-        result:
-          type: string
-        duration:
-          type: integer
-        timestamp:
-          type: integer
-        url:
-          type: string
-  parameters:
-    Tree:
-      name: tree
-      in: query
-      description: 'Tree filter for selecting and trimming response fields.
-
-        Example: `jobs[name,url,color]`.
-
-        '
-      schema:
-        type: string
-    Depth:
-      name: depth
-      in: query
-      schema:
-        type: integer
-        default: 0
   securitySchemes:
     basicAuth:
       type: http

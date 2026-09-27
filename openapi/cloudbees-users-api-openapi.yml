@@ -133,14 +133,6 @@ paths:
       description: CloudBees Unify Production API
 components:
   schemas:
-    google.protobuf.Any:
-      type: object
-      properties:
-        '@type':
-          type: string
-          description: The type of the serialized message.
-      additionalProperties: true
-      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
     google.rpc.Status:
       type: object
       properties:
@@ -157,22 +149,6 @@ components:
             $ref: '#/components/schemas/google.protobuf.Any'
           description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
       description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
-    api.v4.ListUsersResponse:
-      type: object
-      properties:
-        users:
-          type: array
-          items:
-            $ref: '#/components/schemas/api.v4.User'
-          description: List of users matching the request.
-        nextPageToken:
-          type: string
-          description: "Cursor token for retrieving the next page of results.\n Empty string indicates this is the last page.\n Pass this value as page_token (field 71) to fetch the next page."
-        totalSize:
-          type: integer
-          description: "Total number of items matching the query across all pages.\n Optional - may be omitted if computing the total would be expensive\n (e.g., large datasets, complex filters, cross-shard queries).\n Clients MUST NOT assume this field will always be present."
-          format: int32
-      description: Response message for ListUsers.
     api.v4.User:
       required:
       - email
@@ -201,14 +177,44 @@ components:
             type: string
           description: Additional email addresses linked to user account
       description: A person that can access CloudBees Unify. Invite users to a tenant to grant them access to your organizations.
-    api.auth.CreateInvitesV3Response:
+    google.protobuf.Any:
       type: object
       properties:
-        sentInvites:
+        '@type':
+          type: string
+          description: The type of the serialized message.
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+    api.v4.ListUsersResponse:
+      type: object
+      properties:
+        users:
           type: array
           items:
-            $ref: '#/components/schemas/api.auth.InviteV3'
-          description: List of invitations that were created and sent.
+            $ref: '#/components/schemas/api.v4.User'
+          description: List of users matching the request.
+        nextPageToken:
+          type: string
+          description: "Cursor token for retrieving the next page of results.\n Empty string indicates this is the last page.\n Pass this value as page_token (field 71) to fetch the next page."
+        totalSize:
+          type: integer
+          description: "Total number of items matching the query across all pages.\n Optional - may be omitted if computing the total would be expensive\n (e.g., large datasets, complex filters, cross-shard queries).\n Clients MUST NOT assume this field will always be present."
+          format: int32
+      description: Response message for ListUsers.
+    api.Audit:
+      type: object
+      properties:
+        who:
+          type: string
+          description: UUID of the user that made the change
+        when:
+          type: string
+          description: timestamp of the update
+          format: date-time
+        why:
+          type: string
+          description: reason for the update (optional)
+      description: Audit records the person that updated the data last.
     api.auth.CreateInvitesRequestV3:
       type: object
       properties:
@@ -235,20 +241,6 @@ components:
           type: string
           description: Date and time when the invitations expire. Defaults to 5 days after creation if omitted.
           format: date-time
-    api.Audit:
-      type: object
-      properties:
-        who:
-          type: string
-          description: UUID of the user that made the change
-        when:
-          type: string
-          description: timestamp of the update
-          format: date-time
-        why:
-          type: string
-          description: reason for the update (optional)
-      description: Audit records the person that updated the data last.
     api.auth.InviteV3:
       type: object
       properties:
@@ -278,6 +270,14 @@ components:
           allOf:
           - $ref: '#/components/schemas/api.Audit'
           description: Audit metadata including creation and last modification timestamps.
+    api.auth.CreateInvitesV3Response:
+      type: object
+      properties:
+        sentInvites:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.InviteV3'
+          description: List of invitations that were created and sent.
   securitySchemes:
     BearerAuth:
       type: http

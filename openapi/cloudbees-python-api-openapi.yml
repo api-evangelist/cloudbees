@@ -40,12 +40,6 @@ paths:
       x-operation-id-source: derived
 components:
   parameters:
-    Depth:
-      name: depth
-      in: query
-      schema:
-        type: integer
-        default: 0
     Tree:
       name: tree
       in: query
@@ -56,6 +50,12 @@ components:
         '
       schema:
         type: string
+    Depth:
+      name: depth
+      in: query
+      schema:
+        type: integer
+        default: 0
   securitySchemes:
     basicAuth:
       type: http

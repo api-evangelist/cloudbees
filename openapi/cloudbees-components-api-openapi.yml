@@ -255,22 +255,6 @@ paths:
       description: CloudBees Unify Production API
 components:
   schemas:
-    google.rpc.Status:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
-          format: int32
-        message:
-          type: string
-          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/google.protobuf.Any'
-          description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
-      description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
     api.v4.ListComponentsResponse:
       type: object
       properties:
@@ -334,6 +318,22 @@ components:
           description: When this component was last modified.
           format: date-time
       description: "A component represents a source code repository tracked by CloudBees Unify.\n Components can be created with or without an SCM integration, so teams in\n air-gapped or network-restricted environments can onboard immediately. A\n component created without an integration can be connected to one later to\n unlock features that depend on it."
+    google.rpc.Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+          format: int32
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+          description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+      description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
     google.protobuf.Any:
       type: object
       properties:
@@ -352,14 +352,6 @@ components:
           type: string
           description: Human-readable message describing the result.
       description: Response message for deleting a component.
-    api.service.ListServicesResponse:
-      type: object
-      properties:
-        service:
-          type: array
-          items:
-            $ref: '#/components/schemas/api.service.Service'
-          description: List of applications and components belonging to the specified organization.
     api.service.Service:
       type: object
       properties:
@@ -412,6 +404,14 @@ components:
         serviceEndpointId:
           type: string
           description: "Identifier of the component's own SCM repository endpoint. Always present,\n including for components created without an SCM integration. Differs from\n endpoint_id (field 4), which identifies the SCM integration and is empty\n for components created without one."
+    api.service.ListServicesResponse:
+      type: object
+      properties:
+        service:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.service.Service'
+          description: List of applications and components belonging to the specified organization.
   securitySchemes:
     BearerAuth:
       type: http

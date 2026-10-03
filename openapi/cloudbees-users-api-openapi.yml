@@ -133,22 +133,14 @@ paths:
       description: CloudBees Unify Production API
 components:
   schemas:
-    google.rpc.Status:
+    google.protobuf.Any:
       type: object
       properties:
-        code:
-          type: integer
-          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
-          format: int32
-        message:
+        '@type':
           type: string
-          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/google.protobuf.Any'
-          description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
-      description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+          description: The type of the serialized message.
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
     api.v4.User:
       required:
       - email
@@ -177,14 +169,6 @@ components:
             type: string
           description: Additional email addresses linked to user account
       description: A person that can access CloudBees Unify. Invite users to a tenant to grant them access to your organizations.
-    google.protobuf.Any:
-      type: object
-      properties:
-        '@type':
-          type: string
-          description: The type of the serialized message.
-      additionalProperties: true
-      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
     api.v4.ListUsersResponse:
       type: object
       properties:
@@ -201,6 +185,22 @@ components:
           description: "Total number of items matching the query across all pages.\n Optional - may be omitted if computing the total would be expensive\n (e.g., large datasets, complex filters, cross-shard queries).\n Clients MUST NOT assume this field will always be present."
           format: int32
       description: Response message for ListUsers.
+    google.rpc.Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+          format: int32
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+          description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+      description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
     api.Audit:
       type: object
       properties:
@@ -215,6 +215,14 @@ components:
           type: string
           description: reason for the update (optional)
       description: Audit records the person that updated the data last.
+    api.auth.CreateInvitesV3Response:
+      type: object
+      properties:
+        sentInvites:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.InviteV3'
+          description: List of invitations that were created and sent.
     api.auth.CreateInvitesRequestV3:
       type: object
       properties:
@@ -270,14 +278,6 @@ components:
           allOf:
           - $ref: '#/components/schemas/api.Audit'
           description: Audit metadata including creation and last modification timestamps.
-    api.auth.CreateInvitesV3Response:
-      type: object
-      properties:
-        sentInvites:
-          type: array
-          items:
-            $ref: '#/components/schemas/api.auth.InviteV3'
-          description: List of invitations that were created and sent.
   securitySchemes:
     BearerAuth:
       type: http

@@ -90,85 +90,6 @@ paths:
       description: Returns aggregated impression data for one or more feature flags within the specified environment. Use the mode and time range parameters to control the aggregation granularity and the time window of results.
 components:
   schemas:
-    api.fmimpressions.FlagImpression:
-      type: object
-      properties:
-        from:
-          type: string
-          description: Start timestamp of the impression interval.
-          format: date-time
-        aggregatedValues:
-          type: array
-          items:
-            $ref: '#/components/schemas/api.fmimpressions.ValuesAndCounters'
-          description: Aggregated impression counts for each flag variation within this interval.
-    api.fmimpressions.AllFlagImpressions:
-      type: object
-      properties:
-        impressions:
-          type: array
-          items:
-            $ref: '#/components/schemas/api.fmimpressions.FlagImpression'
-          description: List of impression records for the flag, each representing one time interval.
-    google.rpc.Status:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
-          format: int32
-        message:
-          type: string
-          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/google.protobuf.Any'
-          description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
-      description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
-    api.fmimpressions.FlagStatus:
-      required:
-      - flagName
-      - status
-      type: object
-      properties:
-        flagName:
-          type: string
-          description: Name of the feature flag.
-        status:
-          type: string
-          description: 'Lifecycle status of the flag. Possible values: active (received impressions with different values over the last seven days), stale (received impressions over the last seven days but all had the same value), inactive (no impressions received within the past seven days), setup (no impressions received yet), permanent (a long-lived flag, impression data is ignored).'
-    api.fmimpressions.SdkKeyImpressions:
-      required:
-      - interval
-      type: object
-      properties:
-        interval:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/api.fmimpressions.AllFlagImpressions'
-          description: Impression data keyed by timestamp interval (hourly or daily durations, depending on the requested mode). Each value contains the aggregated impressions for that interval.
-    google.protobuf.Any:
-      type: object
-      properties:
-        '@type':
-          type: string
-          description: The type of the serialized message.
-      additionalProperties: true
-      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
-    api.fmimpressions.ValuesAndCounters:
-      required:
-      - value
-      - counter
-      type: object
-      properties:
-        value:
-          type: string
-          description: The flag variation value that was served.
-        counter:
-          type: number
-          description: Number of times this variation was served during the interval.
-          format: double
     api.fmimpressions.ImpressionParams:
       required:
       - flagname
@@ -204,6 +125,48 @@ components:
           additionalProperties:
             $ref: '#/components/schemas/api.fmimpressions.FlagStatus'
           description: Current status of all feature flags in the environment, keyed by flag name.
+    api.fmimpressions.SdkKeyImpressions:
+      required:
+      - interval
+      type: object
+      properties:
+        interval:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/api.fmimpressions.AllFlagImpressions'
+          description: Impression data keyed by timestamp interval (hourly or daily durations, depending on the requested mode). Each value contains the aggregated impressions for that interval.
+    api.fmimpressions.AllFlagImpressions:
+      type: object
+      properties:
+        impressions:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.fmimpressions.FlagImpression'
+          description: List of impression records for the flag, each representing one time interval.
+    api.fmimpressions.FlagImpression:
+      type: object
+      properties:
+        from:
+          type: string
+          description: Start timestamp of the impression interval.
+          format: date-time
+        aggregatedValues:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.fmimpressions.ValuesAndCounters'
+          description: Aggregated impression counts for each flag variation within this interval.
+    api.fmimpressions.FlagStatus:
+      required:
+      - flagName
+      - status
+      type: object
+      properties:
+        flagName:
+          type: string
+          description: Name of the feature flag.
+        status:
+          type: string
+          description: 'Lifecycle status of the flag. Possible values: active (received impressions with different values over the last seven days), stale (received impressions over the last seven days but all had the same value), inactive (no impressions received within the past seven days), setup (no impressions received yet), permanent (a long-lived flag, impression data is ignored).'
     api.fmimpressions.GetImpressionsResponse:
       required:
       - analytics
@@ -214,6 +177,43 @@ components:
           additionalProperties:
             $ref: '#/components/schemas/api.fmimpressions.SdkKeyImpressions'
           description: Impression data keyed by flag name. Each entry maps to aggregated impression counts organized by time interval.
+    api.fmimpressions.ValuesAndCounters:
+      required:
+      - value
+      - counter
+      type: object
+      properties:
+        value:
+          type: string
+          description: The flag variation value that was served.
+        counter:
+          type: number
+          description: Number of times this variation was served during the interval.
+          format: double
+    google.protobuf.Any:
+      type: object
+      properties:
+        '@type':
+          type: string
+          description: The type of the serialized message.
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+    google.rpc.Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+          format: int32
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+          description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+      description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
   securitySchemes:
     BearerAuth:
       type: http

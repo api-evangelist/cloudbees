@@ -272,6 +272,22 @@ paths:
       description: Returns the target groups that reference this custom property in their targeting rules. Use this to understand the impact of changes to a custom property before modifying or deleting it.
 components:
   schemas:
+    api.CustomProperty.GetCustomPropertyTargetGroupUsageResponse:
+      type: object
+      properties:
+        targetGroupUsage:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.TargetGroup.TargetGroupUsage'
+          description: List of target groups that reference this custom property in their targeting rules.
+    api.CustomProperty.GetCustomPropertyFlagsUsagePerEnvironmentResponse:
+      type: object
+      properties:
+        environments:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.TargetGroup.EnvironmentUsage'
+          description: List of environments and the feature flags that reference this custom property in each environment.
     api.CustomProperty.CustomProperty:
       type: object
       properties:
@@ -299,6 +315,13 @@ components:
         cascUrl:
           type: string
           description: URL of the CasC (configuration-as-code) representation of this custom property.
+    api.CustomProperty.UpdateCustomPropertyResponse:
+      type: object
+      properties:
+        customProperty:
+          allOf:
+          - $ref: '#/components/schemas/api.CustomProperty.CustomProperty'
+          description: The updated custom property.
     api.TargetGroup.TargetGroupUsage:
       type: object
       properties:
@@ -311,51 +334,14 @@ components:
         resourceId:
           type: string
           description: Unique identifier of the application that owns this target group.
-    api.CustomProperty.GetCustomPropertyFlagsUsagePerEnvironmentResponse:
+    api.CustomProperty.ListCustomPropertiesResponse:
       type: object
       properties:
-        environments:
+        customProperties:
           type: array
           items:
-            $ref: '#/components/schemas/api.TargetGroup.EnvironmentUsage'
-          description: List of environments and the feature flags that reference this custom property in each environment.
-    api.CustomProperty.GetCustomPropertyResponse:
-      type: object
-      properties:
-        customProperty:
-          allOf:
-          - $ref: '#/components/schemas/api.CustomProperty.CustomProperty'
-          description: The requested custom property.
-    api.CustomProperty.AddCustomPropertyResponse:
-      type: object
-      properties:
-        customProperty:
-          allOf:
-          - $ref: '#/components/schemas/api.CustomProperty.CustomProperty'
-          description: The newly created custom property.
-    google.rpc.Status:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
-          format: int32
-        message:
-          type: string
-          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/google.protobuf.Any'
-          description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
-      description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
-    api.CustomProperty.UpdateCustomPropertyResponse:
-      type: object
-      properties:
-        customProperty:
-          allOf:
-          - $ref: '#/components/schemas/api.CustomProperty.CustomProperty'
-          description: The updated custom property.
+            $ref: '#/components/schemas/api.CustomProperty.CustomProperty'
+          description: List of all custom properties defined within the application.
     api.TargetGroup.FlagUsageInEnvironment:
       type: object
       properties:
@@ -371,14 +357,6 @@ components:
         resourceId:
           type: string
           description: Unique identifier of the application that owns this feature flag.
-    api.CustomProperty.ListCustomPropertiesResponse:
-      type: object
-      properties:
-        customProperties:
-          type: array
-          items:
-            $ref: '#/components/schemas/api.CustomProperty.CustomProperty'
-          description: List of all custom properties defined within the application.
     api.TargetGroup.EnvironmentUsage:
       type: object
       properties:
@@ -398,14 +376,36 @@ components:
           description: The type of the serialized message.
       additionalProperties: true
       description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
-    api.CustomProperty.GetCustomPropertyTargetGroupUsageResponse:
+    api.CustomProperty.AddCustomPropertyResponse:
       type: object
       properties:
-        targetGroupUsage:
+        customProperty:
+          allOf:
+          - $ref: '#/components/schemas/api.CustomProperty.CustomProperty'
+          description: The newly created custom property.
+    api.CustomProperty.GetCustomPropertyResponse:
+      type: object
+      properties:
+        customProperty:
+          allOf:
+          - $ref: '#/components/schemas/api.CustomProperty.CustomProperty'
+          description: The requested custom property.
+    google.rpc.Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+          format: int32
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        details:
           type: array
           items:
-            $ref: '#/components/schemas/api.TargetGroup.TargetGroupUsage'
-          description: List of target groups that reference this custom property in their targeting rules.
+            $ref: '#/components/schemas/google.protobuf.Any'
+          description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+      description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
   securitySchemes:
     BearerAuth:
       type: http

@@ -306,20 +306,6 @@ paths:
       description: Returns the target groups referenced by a feature flag, grouped by environment.
 components:
   schemas:
-    api.flag.UpdateFlagResponse:
-      type: object
-      properties:
-        flag:
-          allOf:
-          - $ref: '#/components/schemas/api.flag.Flag'
-          description: The feature flag object reflecting its state after the update.
-    api.flag.AddFlagResponse:
-      type: object
-      properties:
-        flag:
-          allOf:
-          - $ref: '#/components/schemas/api.flag.Flag'
-          description: The feature flag object as it was created, including its assigned identifier.
     api.flag.GetFlagConfigurationStateResponse:
       type: object
       properties:
@@ -328,6 +314,14 @@ components:
           items:
             $ref: '#/components/schemas/api.flag.FlagConfigurationState'
           description: The enabled/disabled state of the feature flag for each environment in the application.
+    api.flag.ListLabelsResponse:
+      type: object
+      properties:
+        labels:
+          type: array
+          items:
+            type: string
+          description: The list of label strings associated with feature flags in the application.
     google.rpc.Status:
       type: object
       properties:
@@ -359,6 +353,17 @@ components:
         resourceId:
           type: string
           description: Unique identifier of the application that owns this feature flag.
+    api.TargetGroup.EnvironmentUsage:
+      type: object
+      properties:
+        environmentId:
+          type: string
+          description: Unique identifier of the environment.
+        flagUsage:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.TargetGroup.FlagUsageInEnvironment'
+          description: Feature flags that reference the target group in this environment.
     api.flag.ListFlagsResponse:
       type: object
       properties:
@@ -375,17 +380,21 @@ components:
           items:
             $ref: '#/components/schemas/api.TargetGroup.EnvironmentUsage'
           description: The list of environments and the target groups that this feature flag references in each.
-    api.TargetGroup.EnvironmentUsage:
+    google.protobuf.Any:
       type: object
       properties:
-        environmentId:
+        '@type':
           type: string
-          description: Unique identifier of the environment.
-        flagUsage:
-          type: array
-          items:
-            $ref: '#/components/schemas/api.TargetGroup.FlagUsageInEnvironment'
-          description: Feature flags that reference the target group in this environment.
+          description: The type of the serialized message.
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+    api.flag.AddFlagResponse:
+      type: object
+      properties:
+        flag:
+          allOf:
+          - $ref: '#/components/schemas/api.flag.Flag'
+          description: The feature flag object as it was created, including its assigned identifier.
     api.flag.GetFlagResponse:
       type: object
       properties:
@@ -406,14 +415,13 @@ components:
           type: string
           description: The date and time at which this configuration state was last updated.
           format: date-time
-    google.protobuf.Any:
+    api.flag.UpdateFlagResponse:
       type: object
       properties:
-        '@type':
-          type: string
-          description: The type of the serialized message.
-      additionalProperties: true
-      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+        flag:
+          allOf:
+          - $ref: '#/components/schemas/api.flag.Flag'
+          description: The feature flag object reflecting its state after the update.
     api.flag.Flag:
       type: object
       properties:
@@ -465,14 +473,6 @@ components:
           type: string
           description: The date and time at which the feature flag was last updated.
           format: date-time
-    api.flag.ListLabelsResponse:
-      type: object
-      properties:
-        labels:
-          type: array
-          items:
-            type: string
-          description: The list of label strings associated with feature flags in the application.
   securitySchemes:
     BearerAuth:
       type: http

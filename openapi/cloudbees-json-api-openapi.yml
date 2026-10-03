@@ -41,16 +41,6 @@ paths:
       x-operation-id-source: derived
 components:
   parameters:
-    Tree:
-      name: tree
-      in: query
-      description: 'Tree filter for selecting and trimming response fields.
-
-        Example: `jobs[name,url,color]`.
-
-        '
-      schema:
-        type: string
     Depth:
       name: depth
       in: query
@@ -62,18 +52,17 @@ components:
       in: query
       schema:
         type: boolean
+    Tree:
+      name: tree
+      in: query
+      description: 'Tree filter for selecting and trimming response fields.
+
+        Example: `jobs[name,url,color]`.
+
+        '
+      schema:
+        type: string
   schemas:
-    JobSummary:
-      type: object
-      properties:
-        _class:
-          type: string
-        name:
-          type: string
-        url:
-          type: string
-        color:
-          type: string
     Jenkins:
       type: object
       properties:
@@ -93,6 +82,17 @@ components:
           type: array
           items:
             type: object
+    JobSummary:
+      type: object
+      properties:
+        _class:
+          type: string
+        name:
+          type: string
+        url:
+          type: string
+        color:
+          type: string
   securitySchemes:
     basicAuth:
       type: http

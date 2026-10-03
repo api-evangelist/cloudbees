@@ -148,17 +148,16 @@ paths:
       summary: Delete team membership
 components:
   schemas:
-    api.v4.TeamMember:
+    api.v4.DeleteTeamMembershipResponse:
       type: object
       properties:
-        userId:
+        success:
+          type: boolean
+          description: Always true if deletion succeeded.
+        message:
           type: string
-          description: User who is a member of the team
-        user:
-          allOf:
-          - $ref: '#/components/schemas/api.v4.TeamMember_UserProjection'
-          description: Nested User data
-      description: "TeamMember is the enriched, public-facing projection of a TeamMembership\n returned by the List, Create, and Get RPCs. It carries the membership's\n user_id plus a nested UserProjection (id + email) joined from the user\n service."
+          description: Human-readable message describing the result.
+      description: Response message for DeleteTeamMembership.
     api.v4.ListTeamMembershipsResponse:
       type: object
       properties:
@@ -171,6 +170,20 @@ components:
           type: string
           description: "Cursor token for retrieving the next page of results.\n Empty string indicates this is the last page.\n Pass this value as page_token to fetch the next page."
       description: Response message for ListTeamMemberships.
+    api.v4.TeamMember_UserProjection:
+      type: object
+      properties:
+        id:
+          type: string
+          description: id from User
+        email:
+          type: string
+          description: email from User
+        createdAt:
+          type: string
+          description: When the user joined this team
+          format: date-time
+      description: Projected fields from User
     api.v4.CreateTeamMembershipRequest:
       required:
       - teamId
@@ -184,6 +197,25 @@ components:
           type: string
           description: User who is a member of the team
       description: Request message for CreateTeamMembership.
+    google.protobuf.Any:
+      type: object
+      properties:
+        '@type':
+          type: string
+          description: The type of the serialized message.
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+    api.v4.TeamMember:
+      type: object
+      properties:
+        userId:
+          type: string
+          description: User who is a member of the team
+        user:
+          allOf:
+          - $ref: '#/components/schemas/api.v4.TeamMember_UserProjection'
+          description: Nested User data
+      description: "TeamMember is the enriched, public-facing projection of a TeamMembership\n returned by the List, Create, and Get RPCs. It carries the membership's\n user_id plus a nested UserProjection (id + email) joined from the user\n service."
     google.rpc.Status:
       type: object
       properties:
@@ -200,38 +232,6 @@ components:
             $ref: '#/components/schemas/google.protobuf.Any'
           description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
       description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
-    api.v4.DeleteTeamMembershipResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Always true if deletion succeeded.
-        message:
-          type: string
-          description: Human-readable message describing the result.
-      description: Response message for DeleteTeamMembership.
-    google.protobuf.Any:
-      type: object
-      properties:
-        '@type':
-          type: string
-          description: The type of the serialized message.
-      additionalProperties: true
-      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
-    api.v4.TeamMember_UserProjection:
-      type: object
-      properties:
-        id:
-          type: string
-          description: id from User
-        email:
-          type: string
-          description: email from User
-        createdAt:
-          type: string
-          description: When the user joined this team
-          format: date-time
-      description: Projected fields from User
   securitySchemes:
     BearerAuth:
       type: http

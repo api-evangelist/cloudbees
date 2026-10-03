@@ -39,6 +39,16 @@ paths:
       operationId: getComputerApiJson
       x-operation-id-source: derived
 components:
+  schemas:
+    Computer:
+      type: object
+      properties:
+        _class:
+          type: string
+        computer:
+          type: array
+          items:
+            type: object
   parameters:
     Tree:
       name: tree
@@ -56,16 +66,6 @@ components:
       schema:
         type: integer
         default: 0
-  schemas:
-    Computer:
-      type: object
-      properties:
-        _class:
-          type: string
-        computer:
-          type: array
-          items:
-            type: object
   securitySchemes:
     basicAuth:
       type: http

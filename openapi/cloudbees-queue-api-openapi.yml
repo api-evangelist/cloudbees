@@ -38,16 +38,6 @@ paths:
       operationId: getQueueApiJson
       x-operation-id-source: derived
 components:
-  schemas:
-    Queue:
-      type: object
-      properties:
-        _class:
-          type: string
-        items:
-          type: array
-          items:
-            type: object
   parameters:
     Tree:
       name: tree
@@ -59,6 +49,16 @@ components:
         '
       schema:
         type: string
+  schemas:
+    Queue:
+      type: object
+      properties:
+        _class:
+          type: string
+        items:
+          type: array
+          items:
+            type: object
   securitySchemes:
     basicAuth:
       type: http

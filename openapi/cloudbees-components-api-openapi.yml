@@ -318,6 +318,24 @@ components:
           description: When this component was last modified.
           format: date-time
       description: "A component represents a source code repository tracked by CloudBees Unify.\n Components can be created with or without an SCM integration, so teams in\n air-gapped or network-restricted environments can onboard immediately. A\n component created without an integration can be connected to one later to\n unlock features that depend on it."
+    api.v4.DeleteComponentResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Always true if the component was deleted.
+        message:
+          type: string
+          description: Human-readable message describing the result.
+      description: Response message for deleting a component.
+    google.protobuf.Any:
+      type: object
+      properties:
+        '@type':
+          type: string
+          description: The type of the serialized message.
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
     google.rpc.Status:
       type: object
       properties:
@@ -334,24 +352,14 @@ components:
             $ref: '#/components/schemas/google.protobuf.Any'
           description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
       description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
-    google.protobuf.Any:
+    api.service.ListServicesResponse:
       type: object
       properties:
-        '@type':
-          type: string
-          description: The type of the serialized message.
-      additionalProperties: true
-      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
-    api.v4.DeleteComponentResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Always true if the component was deleted.
-        message:
-          type: string
-          description: Human-readable message describing the result.
-      description: Response message for deleting a component.
+        service:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.service.Service'
+          description: List of applications and components belonging to the specified organization.
     api.service.Service:
       type: object
       properties:
@@ -404,14 +412,6 @@ components:
         serviceEndpointId:
           type: string
           description: "Identifier of the component's own SCM repository endpoint. Always present,\n including for components created without an SCM integration. Differs from\n endpoint_id (field 4), which identifies the SCM integration and is empty\n for components created without one."
-    api.service.ListServicesResponse:
-      type: object
-      properties:
-        service:
-          type: array
-          items:
-            $ref: '#/components/schemas/api.service.Service'
-          description: List of applications and components belonging to the specified organization.
   securitySchemes:
     BearerAuth:
       type: http

@@ -1,0 +1,437 @@
+generated: '2026-10-04'
+method: derived
+generator: derive-vocabulary.py
+source:
+- openapi/cloudbees-components-api-openapi.yml
+- openapi/cloudbees-computer-api-openapi.yml
+- openapi/cloudbees-createitem-api-openapi.yml
+- openapi/cloudbees-environments-api-openapi.yml
+- openapi/cloudbees-flag-configurations-api-openapi.yml
+vocabulary:
+  name: CloudBees Domain Vocabulary
+  description: 'Terms declared by CloudBees''s own API contract: its resource groups, objects and enumerations, with the contract''s definitions.
+    Derived, not authored.'
+  version: '2026-10-04'
+  terms:
+  - term: Components
+    definition: Create and manage the components in an organization. A component represents a source code repository that CloudBees Unify tracks.
+      Components can be onboarded with or without an SCM integration, and an existing component can be connected to an integration later.
+    tags:
+    - Resource Group
+    source: openapi/cloudbees-components-api-openapi.yml
+  - term: Environments
+    definition: Discover and manage environments within your organization. Use environments to maintain an up-to-date inventory for feature flag
+      targeting, deployment scripts, and monitoring workflows.
+    tags:
+    - Resource Group
+    source: openapi/cloudbees-environments-api-openapi.yml
+  - term: Flag configurations
+    definition: Set flag state (enabled or disabled) and targeting rules for a specific environment to determine which users or segments receive
+      each variation.
+    tags:
+    - Resource Group
+    source: openapi/cloudbees-flag-configurations-api-openapi.yml
+  - term: Flag custom properties
+    definition: Create, read, update, and delete custom properties used in targeting conditions and target groups.
+    tags:
+    - Resource Group
+    source: openapi/cloudbees-flag-custom-properties-api-openapi.yml
+  - term: Flag lifecycle
+    definition: Track how often each feature flag variation is served within an environment. Use impression data to monitor flag adoption, validate
+      rollout progress, and analyze which variations are being evaluated by your application. Results can be aggregated by hour or day and filtered
+      to a specific time range and set of flags.
+    tags:
+    - Resource Group
+    source: openapi/cloudbees-flag-lifecycle-api-openapi.yml
+  - term: Flags
+    definition: Control runtime feature visibility and behavior to enable gradual rollouts, A/B testing, progressive delivery, and safe deployments
+      without redeployment.
+    tags:
+    - Resource Group
+    source: openapi/cloudbees-flags-api-openapi.yml
+  - term: Organizations
+    definition: Define the structural and governance boundaries within a CloudBees Unify tenant. Organizations model business units or departments,
+      support parent-child hierarchies, and inherit configuration—properties, integrations, and environments—from parent organizations. Every
+      tenant has one root organization; all others exist beneath it.
+    tags:
+    - Resource Group
+    source: openapi/cloudbees-organizations-api-openapi.yml
+  - term: Runs
+    definition: Create, update, and retrieve CI/CD runs for a component. Attach and list test results, artifacts, security results, evidences,
+      and deployments.
+    tags:
+    - Resource Group
+    source: openapi/cloudbees-runs-api-openapi.yml
+  - term: Target Groups
+    definition: Define reusable sets of targeting conditions for feature flags. Specify rules once (such as matching users by role, region, or
+      custom property) and apply them across multiple flags. Changes to a target group propagate automatically to every flag that references it.
+    tags:
+    - Resource Group
+    source: openapi/cloudbees-target-groups-api-openapi.yml
+  - term: Teams
+    definition: List teams, and get a specific team with optional user expansion.
+    tags:
+    - Resource Group
+    source: openapi/cloudbees-teams-api-openapi.yml
+  - term: Users
+    definition: List users in a tenant.
+    tags:
+    - Resource Group
+    source: openapi/cloudbees-users-api-openapi.yml
+  - term: api.v4.ListComponentsResponse
+    definition: Response message for listing components.
+    tags:
+    - Object
+    source: openapi/cloudbees-components-api-openapi.yml#/components/schemas/api.v4.ListComponentsResponse
+  - term: api.v4.Component
+    definition: A component represents a source code repository tracked by CloudBees Unify. Components can be created with or without an SCM integration,
+      so teams in air-gapped or network-restricted environments can onboard immediately. A component created without an integration can be connected
+      to one later to unlock features that depend on it.
+    tags:
+    - Object
+    source: openapi/cloudbees-components-api-openapi.yml#/components/schemas/api.v4.Component
+  - term: api.v4.DeleteComponentResponse
+    definition: Response message for deleting a component.
+    tags:
+    - Object
+    source: openapi/cloudbees-components-api-openapi.yml#/components/schemas/api.v4.DeleteComponentResponse
+  - term: google.protobuf.Any
+    definition: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+    tags:
+    - Object
+    source: openapi/cloudbees-components-api-openapi.yml#/components/schemas/google.protobuf.Any
+  - term: google.rpc.Status
+    definition: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs
+      and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message,
+      and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google'
+    tags:
+    - Object
+    source: openapi/cloudbees-components-api-openapi.yml#/components/schemas/google.rpc.Status
+  - term: api.service.ListServicesResponse
+    definition: 'Object declared by the contract with fields: service.'
+    tags:
+    - Object
+    source: openapi/cloudbees-components-api-openapi.yml#/components/schemas/api.service.ListServicesResponse
+  - term: api.service.Service
+    definition: 'Object declared by the contract with fields: id, name, description, endpointId, repositoryUrl, defaultBranch, organizationId,
+      serviceType, linkedComponentIds, linkedEnvironmentIds, repositoryHref, provider. (2 more)'
+    tags:
+    - Object
+    source: openapi/cloudbees-components-api-openapi.yml#/components/schemas/api.service.Service
+  - term: Computer
+    definition: 'Object declared by the contract with fields: _class, computer.'
+    tags:
+    - Object
+    source: openapi/cloudbees-computer-api-openapi.yml#/components/schemas/Computer
+  - term: api.vsm.report.Environment
+    definition: 'Object declared by the contract with fields: id, name, resourceId, isDisabled.'
+    tags:
+    - Object
+    source: openapi/cloudbees-environments-api-openapi.yml#/components/schemas/api.vsm.report.Environment
+  - term: api.vsm.report.EnvironmentResponse
+    definition: 'Object declared by the contract with fields: environments.'
+    tags:
+    - Object
+    source: openapi/cloudbees-environments-api-openapi.yml#/components/schemas/api.vsm.report.EnvironmentResponse
+  - term: google.protobuf.Value
+    definition: Represents a dynamically typed value which can be either null, a number, a string, a boolean, a recursive struct value, or a list
+      of values.
+    tags:
+    - Object
+    source: openapi/cloudbees-flag-configurations-api-openapi.yml#/components/schemas/google.protobuf.Value
+  - term: api.flag.FlagConfiguration
+    definition: 'Object declared by the contract with fields: enabled, defaultValue, conditions, seed, stickinessProperty, variantsEnabled, resourceId,
+      cascUrl, created, updated.'
+    tags:
+    - Object
+    source: openapi/cloudbees-flag-configurations-api-openapi.yml#/components/schemas/api.flag.FlagConfiguration
+  - term: api.flag.FlagConfigurationEnvironment
+    definition: 'Object declared by the contract with fields: flagId, flagName, description, labels, created, updated, configuration.'
+    tags:
+    - Object
+    source: openapi/cloudbees-flag-configurations-api-openapi.yml#/components/schemas/api.flag.FlagConfigurationEnvironment
+  - term: api.flag.ListFlagConfigurationsResponse
+    definition: 'Object declared by the contract with fields: configurations.'
+    tags:
+    - Object
+    source: openapi/cloudbees-flag-configurations-api-openapi.yml#/components/schemas/api.flag.ListFlagConfigurationsResponse
+  - term: api.flag.FlagConfigState
+    definition: 'Object declared by the contract with fields: enabled.'
+    tags:
+    - Object
+    source: openapi/cloudbees-flag-configurations-api-openapi.yml#/components/schemas/api.flag.FlagConfigState
+  - term: api.flag.GetFlagConfigurationResponse
+    definition: 'Object declared by the contract with fields: configuration.'
+    tags:
+    - Object
+    source: openapi/cloudbees-flag-configurations-api-openapi.yml#/components/schemas/api.flag.GetFlagConfigurationResponse
+  - term: api.flag.FlagConfigurationOptional
+    definition: 'Object declared by the contract with fields: enabled, defaultValue, conditions, stickinessProperty, variantsEnabled.'
+    tags:
+    - Object
+    source: openapi/cloudbees-flag-configurations-api-openapi.yml#/components/schemas/api.flag.FlagConfigurationOptional
+  - term: google.protobuf.ListValue
+    definition: '`ListValue` is a wrapper around a repeated field of values. The JSON representation for `ListValue` is JSON array.'
+    tags:
+    - Object
+    source: openapi/cloudbees-flag-configurations-api-openapi.yml#/components/schemas/google.protobuf.ListValue
+  - term: api.CustomProperty.GetCustomPropertyTargetGroupUsageResponse
+    definition: 'Object declared by the contract with fields: targetGroupUsage.'
+    tags:
+    - Object
+    source: openapi/cloudbees-flag-custom-properties-api-openapi.yml#/components/schemas/api.CustomProperty.GetCustomPropertyTargetGroupUsageResponse
+  - term: api.CustomProperty.GetCustomPropertyFlagsUsagePerEnvironmentResponse
+    definition: 'Object declared by the contract with fields: environments.'
+    tags:
+    - Object
+    source: openapi/cloudbees-flag-custom-properties-api-openapi.yml#/components/schemas/api.CustomProperty.GetCustomPropertyFlagsUsagePerEnvironmentResponse
+  - term: api.CustomProperty.CustomProperty
+    definition: 'Object declared by the contract with fields: id, name, type, description, resourceId, cascUrl.'
+    tags:
+    - Object
+    source: openapi/cloudbees-flag-custom-properties-api-openapi.yml#/components/schemas/api.CustomProperty.CustomProperty
+  - term: api.CustomProperty.UpdateCustomPropertyResponse
+    definition: 'Object declared by the contract with fields: customProperty.'
+    tags:
+    - Object
+    source: openapi/cloudbees-flag-custom-properties-api-openapi.yml#/components/schemas/api.CustomProperty.UpdateCustomPropertyResponse
+  - term: api.TargetGroup.TargetGroupUsage
+    definition: 'Object declared by the contract with fields: id, name, resourceId.'
+    tags:
+    - Object
+    source: openapi/cloudbees-flag-custom-properties-api-openapi.yml#/components/schemas/api.TargetGroup.TargetGroupUsage
+  - term: api.CustomProperty.ListCustomPropertiesResponse
+    definition: 'Object declared by the contract with fields: customProperties.'
+    tags:
+    - Object
+    source: openapi/cloudbees-flag-custom-properties-api-openapi.yml#/components/schemas/api.CustomProperty.ListCustomPropertiesResponse
+  - term: api.TargetGroup.FlagUsageInEnvironment
+    definition: 'Object declared by the contract with fields: id, name, enabled, resourceId.'
+    tags:
+    - Object
+    source: openapi/cloudbees-flag-custom-properties-api-openapi.yml#/components/schemas/api.TargetGroup.FlagUsageInEnvironment
+  - term: api.TargetGroup.EnvironmentUsage
+    definition: 'Object declared by the contract with fields: environmentId, flagUsage.'
+    tags:
+    - Object
+    source: openapi/cloudbees-flag-custom-properties-api-openapi.yml#/components/schemas/api.TargetGroup.EnvironmentUsage
+  - term: api.CustomProperty.AddCustomPropertyResponse
+    definition: 'Object declared by the contract with fields: customProperty.'
+    tags:
+    - Object
+    source: openapi/cloudbees-flag-custom-properties-api-openapi.yml#/components/schemas/api.CustomProperty.AddCustomPropertyResponse
+  - term: api.CustomProperty.GetCustomPropertyResponse
+    definition: 'Object declared by the contract with fields: customProperty.'
+    tags:
+    - Object
+    source: openapi/cloudbees-flag-custom-properties-api-openapi.yml#/components/schemas/api.CustomProperty.GetCustomPropertyResponse
+  - term: api.fmimpressions.ImpressionParams
+    definition: Parameters controlling which feature flags and time window are included in the impressions response.
+    tags:
+    - Object
+    source: openapi/cloudbees-flag-lifecycle-api-openapi.yml#/components/schemas/api.fmimpressions.ImpressionParams
+  - term: api.fmimpressions.GetFlagsStatusResponse
+    definition: 'Object declared by the contract with fields: flagsStatus.'
+    tags:
+    - Object
+    source: openapi/cloudbees-flag-lifecycle-api-openapi.yml#/components/schemas/api.fmimpressions.GetFlagsStatusResponse
+  - term: api.fmimpressions.SdkKeyImpressions
+    definition: 'Object declared by the contract with fields: interval.'
+    tags:
+    - Object
+    source: openapi/cloudbees-flag-lifecycle-api-openapi.yml#/components/schemas/api.fmimpressions.SdkKeyImpressions
+  - term: api.fmimpressions.AllFlagImpressions
+    definition: 'Object declared by the contract with fields: impressions.'
+    tags:
+    - Object
+    source: openapi/cloudbees-flag-lifecycle-api-openapi.yml#/components/schemas/api.fmimpressions.AllFlagImpressions
+  - term: api.fmimpressions.FlagImpression
+    definition: 'Object declared by the contract with fields: from, aggregatedValues.'
+    tags:
+    - Object
+    source: openapi/cloudbees-flag-lifecycle-api-openapi.yml#/components/schemas/api.fmimpressions.FlagImpression
+  - term: api.fmimpressions.FlagStatus
+    definition: 'Object declared by the contract with fields: flagName, status.'
+    tags:
+    - Object
+    source: openapi/cloudbees-flag-lifecycle-api-openapi.yml#/components/schemas/api.fmimpressions.FlagStatus
+  - term: api.fmimpressions.GetImpressionsResponse
+    definition: 'Object declared by the contract with fields: analytics.'
+    tags:
+    - Object
+    source: openapi/cloudbees-flag-lifecycle-api-openapi.yml#/components/schemas/api.fmimpressions.GetImpressionsResponse
+  - term: api.fmimpressions.ValuesAndCounters
+    definition: 'Object declared by the contract with fields: value, counter.'
+    tags:
+    - Object
+    source: openapi/cloudbees-flag-lifecycle-api-openapi.yml#/components/schemas/api.fmimpressions.ValuesAndCounters
+  - term: api.flag.GetFlagConfigurationStateResponse
+    definition: 'Object declared by the contract with fields: configurationStates.'
+    tags:
+    - Object
+    source: openapi/cloudbees-flags-api-openapi.yml#/components/schemas/api.flag.GetFlagConfigurationStateResponse
+  - term: api.flag.ListLabelsResponse
+    definition: 'Object declared by the contract with fields: labels.'
+    tags:
+    - Object
+    source: openapi/cloudbees-flags-api-openapi.yml#/components/schemas/api.flag.ListLabelsResponse
+  - term: api.flag.ListFlagsResponse
+    definition: 'Object declared by the contract with fields: flags.'
+    tags:
+    - Object
+    source: openapi/cloudbees-flags-api-openapi.yml#/components/schemas/api.flag.ListFlagsResponse
+  - term: api.flag.GetFlagFlagsUsagePerEnvironmentResponse
+    definition: 'Object declared by the contract with fields: environments.'
+    tags:
+    - Object
+    source: openapi/cloudbees-flags-api-openapi.yml#/components/schemas/api.flag.GetFlagFlagsUsagePerEnvironmentResponse
+  - term: api.flag.AddFlagResponse
+    definition: 'Object declared by the contract with fields: flag.'
+    tags:
+    - Object
+    source: openapi/cloudbees-flags-api-openapi.yml#/components/schemas/api.flag.AddFlagResponse
+  - term: api.flag.GetFlagResponse
+    definition: 'Object declared by the contract with fields: flag.'
+    tags:
+    - Object
+    source: openapi/cloudbees-flags-api-openapi.yml#/components/schemas/api.flag.GetFlagResponse
+  - term: api.flag.FlagConfigurationState
+    definition: 'Object declared by the contract with fields: environmentId, enabled, updated.'
+    tags:
+    - Object
+    source: openapi/cloudbees-flags-api-openapi.yml#/components/schemas/api.flag.FlagConfigurationState
+  - term: api.flag.UpdateFlagResponse
+    definition: 'Object declared by the contract with fields: flag.'
+    tags:
+    - Object
+    source: openapi/cloudbees-flags-api-openapi.yml#/components/schemas/api.flag.UpdateFlagResponse
+  - term: api.flag.Flag
+    definition: 'Object declared by the contract with fields: id, name, description, flagType, variants, resourceId, labels, isPermanent, cascUrl,
+      created, configStates, updated.'
+    tags:
+    - Object
+    source: openapi/cloudbees-flags-api-openapi.yml#/components/schemas/api.flag.Flag
+  - term: Job
+    definition: 'Object declared by the contract with fields: _class, name, url, builds, lastBuild, lastSuccessfulBuild, buildable.'
+    tags:
+    - Object
+    source: openapi/cloudbees-job-api-openapi.yml#/components/schemas/Job
+  - term: Build
+    definition: 'Object declared by the contract with fields: _class, number, result, duration, timestamp, url.'
+    tags:
+    - Object
+    source: openapi/cloudbees-job-api-openapi.yml#/components/schemas/Build
+  - term: BuildSummary
+    definition: 'Object declared by the contract with fields: number, url.'
+    tags:
+    - Object
+    source: openapi/cloudbees-job-api-openapi.yml#/components/schemas/BuildSummary
+  - term: Jenkins
+    definition: 'Object declared by the contract with fields: _class, mode, nodeName, numExecutors, jobs, views.'
+    tags:
+    - Object
+    source: openapi/cloudbees-json-api-openapi.yml#/components/schemas/Jenkins
+  - term: JobSummary
+    definition: 'Object declared by the contract with fields: _class, name, url, color.'
+    tags:
+    - Object
+    source: openapi/cloudbees-json-api-openapi.yml#/components/schemas/JobSummary
+  - term: api.auth.Org
+    definition: 'Object declared by the contract with fields: id, displayName, domainName, isDisabled, childOrganizations, parentId, description,
+      metadata, audit, properties, teams, roles. (3 more)'
+    tags:
+    - Object
+    source: openapi/cloudbees-organizations-api-openapi.yml#/components/schemas/api.auth.Org
+  - term: api.Audit
+    definition: Audit records the person that updated the data last.
+    tags:
+    - Object
+    source: openapi/cloudbees-organizations-api-openapi.yml#/components/schemas/api.Audit
+  - term: api.auth.Team
+    definition: 'Object declared by the contract with fields: id, name, isDefault, immutable, organizationId, userIds, supportEnabled, metadata,
+      isDeleted, audit, description, users. (4 more)'
+    tags:
+    - Object
+    source: openapi/cloudbees-organizations-api-openapi.yml#/components/schemas/api.auth.Team
+  - term: api.auth.Login
+    definition: How a user logs in to the system
+    tags:
+    - Object
+    source: openapi/cloudbees-organizations-api-openapi.yml#/components/schemas/api.auth.Login
+  - term: api.auth.Role
+    definition: Roles are a collection of permission actions. PermissionActions can not be granted to a user directly, a role must be created.
+    tags:
+    - Object
+    source: openapi/cloudbees-organizations-api-openapi.yml#/components/schemas/api.auth.Role
+  - term: api.auth.EmailDomain
+    definition: 'Object declared by the contract with fields: id, domainName, organizationId, challenge, isVerified, connectionId.'
+    tags:
+    - Object
+    source: openapi/cloudbees-organizations-api-openapi.yml#/components/schemas/api.auth.EmailDomain
+  - term: api.auth.User
+    definition: User will live in a separate database from the rest of the platform due to PII
+    tags:
+    - Object
+    source: openapi/cloudbees-organizations-api-openapi.yml#/components/schemas/api.auth.User
+  - term: api.auth.GetOrganizationByNameResponse
+    definition: 'Object declared by the contract with fields: organization.'
+    tags:
+    - Object
+    source: openapi/cloudbees-organizations-api-openapi.yml#/components/schemas/api.auth.GetOrganizationByNameResponse
+  - term: api.Pagination
+    definition: Pagination is sent as part of a request to specify handling for paginated results, and returned with paginated results=
+    tags:
+    - Object
+    source: openapi/cloudbees-organizations-api-openapi.yml#/components/schemas/api.Pagination
+  - term: api.auth.Connection
+    definition: 'Object declared by the contract with fields: id, organizationId, entityId, signInEndpoint, signInCertificate, connectionName,
+      isEnabled, autoprovision, strict, wantAssertionsSigned, wantAssertionsEncrypted, validateSignatures. (1 more)'
+    tags:
+    - Object
+    source: openapi/cloudbees-organizations-api-openapi.yml#/components/schemas/api.auth.Connection
+  - term: api.auth.GetOrganizationsResponse
+    definition: 'Object declared by the contract with fields: organizations, pagination.'
+    tags:
+    - Object
+    source: openapi/cloudbees-organizations-api-openapi.yml#/components/schemas/api.auth.GetOrganizationsResponse
+  - term: api.Sort
+    definition: Sort describes which field to sort the results on and the order in which to sort them
+    tags:
+    - Object
+    source: openapi/cloudbees-organizations-api-openapi.yml#/components/schemas/api.Sort
+  - term: api.auth.Invite
+    definition: Record of the invitation for a new user for an organization
+    tags:
+    - Object
+    source: openapi/cloudbees-organizations-api-openapi.yml#/components/schemas/api.auth.Invite
+  - term: api.auth.Organization
+    definition: 'Object declared by the contract with fields: id, displayName, domainName, isDisabled, childOrganizations, parentId, description,
+      metadata, audit, properties, teams, roles. (4 more)'
+    tags:
+    - Object
+    source: openapi/cloudbees-organizations-api-openapi.yml#/components/schemas/api.auth.Organization
+  - term: api.auth.permission.Permission
+    definition: Permission message represents a permission that can be granted to a user on an API entity.
+    tags:
+    - Object
+    source: openapi/cloudbees-organizations-api-openapi.yml#/components/schemas/api.auth.permission.Permission
+  - term: Queue
+    definition: 'Object declared by the contract with fields: _class, items.'
+    tags:
+    - Object
+    source: openapi/cloudbees-queue-api-openapi.yml#/components/schemas/Queue
+  - term: api.v4.CreateArtifactsResponse
+    definition: Response after attaching build artifacts to a run.
+    tags:
+    - Object
+    source: openapi/cloudbees-runs-api-openapi.yml#/components/schemas/api.v4.CreateArtifactsResponse
+  - term: api.v4.ArtifactSummary
+    definition: ArtifactSummary is the user-facing subset of artifact details returned by ListDeployments.
+    tags:
+    - Object
+    source: openapi/cloudbees-runs-api-openapi.yml#/components/schemas/api.v4.ArtifactSummary
+  - term: api.v4.SecurityScanResultForCreate
+    definition: SecurityScanResult represents a security scan report to associate with a run.
+    tags:
+    - Object
+    source: openapi/cloudbees-runs-api-openapi.yml#/components/schemas/api.v4.SecurityScanResultForCreate

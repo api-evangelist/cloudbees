@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudbees/main/json-schema/cloudbees-queue-schema.json",
+  "title": "Queue",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudbees-queue-api-openapi.yml#/components/schemas/Queue",
+  "type": "object",
+  "properties": {
+    "_class": {
+      "type": "string"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    }
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudbees/main/json-schema/cloudbees-api-flag-flag-schema.json",
+  "title": "api.flag.Flag",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudbees-flags-api-openapi.yml#/components/schemas/api.flag.Flag",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique identifier of the feature flag."
+    },
+    "name": {
+      "type": "string",
+      "description": "The unique name of the feature flag within the application."
+    },
+    "description": {
+      "type": "string",
+      "description": "A human-readable description of the feature flag's purpose."
+    },
+    "flagType": {
+      "enum": [
+        "Boolean",
+        "String",
+        "Number"
+      ],
+      "type": "string",
+      "description": "The value type of the flag. One of Boolean, String, or Number."
+    },
+    "variants": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The valid variant values for String or Number flags. Empty for Boolean flags."
+    },
+    "resourceId": {
+      "type": "string",
+      "description": "The unique identifier of the application that owns this feature flag."
+    },
+    "labels": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Labels attached to this feature flag for organizational or filtering purposes."
+    },
+    "isPermanent": {
+      "type": "boolean",
+      "description": "When true, the flag is marked permanent and excluded from stale flag cleanup."
+    },
+    "cascUrl": {
+      "type": "string",
+      "description": "The CasC (Configuration as Code) URL for this feature flag."
+    },
+    "created": {
+      "type": "string",
+      "description": "The date and time at which the feature flag was created.",
+      "format": "date-time"
+    },
+    "configStates": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/api.flag.FlagConfigurationState"
+      },
+      "description": "The enabled or disabled state of this flag per environment. Populated only when environment IDs are requested."
+    },
+    "updated": {
+      "type": "string",
+      "description": "The date and time at which the feature flag was last updated.",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "api.flag.FlagConfigurationState": {
+      "type": "object",
+      "properties": {
+        "environmentId": {
+          "type": "string",
+          "description": "The unique identifier of the environment this state applies to."
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether the feature flag is enabled in this environment."
+        },
+        "updated": {
+          "type": "string",
+          "description": "The date and time at which this configuration state was last updated.",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

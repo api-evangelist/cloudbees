@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudbees/main/json-schema/cloudbees-api-custom-property-get-custom-property-response-schema.json",
+  "title": "api.CustomProperty.GetCustomPropertyResponse",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudbees-flag-custom-properties-api-openapi.yml#/components/schemas/api.CustomProperty.GetCustomPropertyResponse",
+  "type": "object",
+  "properties": {
+    "customProperty": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/api.CustomProperty.CustomProperty"
+        }
+      ],
+      "description": "The requested custom property."
+    }
+  },
+  "$defs": {
+    "api.CustomProperty.CustomProperty": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the custom property."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the custom property as it appears in the UI and targeting rules."
+        },
+        "type": {
+          "enum": [
+            "Boolean",
+            "String",
+            "Semver",
+            "Number",
+            "DateTime"
+          ],
+          "type": "string",
+          "description": "Data type of the custom property. Valid values: Boolean, String, Semver, Number, DateTime."
+        },
+        "description": {
+          "type": "string",
+          "description": "Human-readable description of the custom property's purpose."
+        },
+        "resourceId": {
+          "type": "string",
+          "description": "Identifier of the application that owns this custom property."
+        },
+        "cascUrl": {
+          "type": "string",
+          "description": "URL of the CasC (configuration-as-code) representation of this custom property."
+        }
+      }
+    }
+  }
+}

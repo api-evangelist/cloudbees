@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudbees/main/json-schema/cloudbees-jenkins-schema.json",
+  "title": "Jenkins",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudbees-json-api-openapi.yml#/components/schemas/Jenkins",
+  "type": "object",
+  "properties": {
+    "_class": {
+      "type": "string"
+    },
+    "mode": {
+      "type": "string"
+    },
+    "nodeName": {
+      "type": "string"
+    },
+    "numExecutors": {
+      "type": "integer"
+    },
+    "jobs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/JobSummary"
+      }
+    },
+    "views": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    }
+  },
+  "$defs": {
+    "JobSummary": {
+      "type": "object",
+      "properties": {
+        "_class": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "color": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

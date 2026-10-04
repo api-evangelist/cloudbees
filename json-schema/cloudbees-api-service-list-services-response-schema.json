@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudbees/main/json-schema/cloudbees-api-service-list-services-response-schema.json",
+  "title": "api.service.ListServicesResponse",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudbees-components-api-openapi.yml#/components/schemas/api.service.ListServicesResponse",
+  "type": "object",
+  "properties": {
+    "service": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/api.service.Service"
+      },
+      "description": "List of applications and components belonging to the specified organization."
+    }
+  },
+  "$defs": {
+    "api.service.Service": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the component."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the component."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the component."
+        },
+        "endpointId": {
+          "type": "string",
+          "description": "Identifier of the SCM endpoint associated with the component's repository."
+        },
+        "repositoryUrl": {
+          "type": "string",
+          "description": "Clone URL of the SCM repository associated with the component."
+        },
+        "defaultBranch": {
+          "type": "string",
+          "description": "Default branch of the SCM repository associated with the component."
+        },
+        "organizationId": {
+          "type": "string",
+          "description": "Unique identifier of the organization or sub-organization the component belongs to."
+        },
+        "serviceType": {
+          "enum": [
+            "COMPONENT",
+            "APPLICATION"
+          ],
+          "type": "string",
+          "description": "Type of the component. Valid values are COMPONENT for a standalone component and APPLICATION for an application that groups components."
+        },
+        "linkedComponentIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Identifiers of the components linked to this application. Applies only when serviceType is APPLICATION."
+        },
+        "linkedEnvironmentIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Identifiers of the environments linked to this application. Applies only when serviceType is APPLICATION."
+        },
+        "repositoryHref": {
+          "type": "string",
+          "description": "URL to the repository web UI. If not set, use repositoryUrl."
+        },
+        "provider": {
+          "type": "string",
+          "description": "SCM integration provider, for example github, bitbucket, bitbucket-datacenter, or gitlab-server."
+        },
+        "edge": {
+          "type": "boolean",
+          "description": "True if this component's SCM integration is an edge integration (operations run on edge runners)."
+        },
+        "serviceEndpointId": {
+          "type": "string",
+          "description": "Identifier of the component's own SCM repository endpoint. Always present,\n including for components created without an SCM integration. Differs from\n endpoint_id (field 4), which identifies the SCM integration and is empty\n for components created without one."
+        }
+      }
+    }
+  }
+}

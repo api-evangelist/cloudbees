@@ -41,11 +41,6 @@ paths:
       x-operation-id-source: derived
 components:
   parameters:
-    XPath:
-      name: xpath
-      in: query
-      schema:
-        type: string
     Tree:
       name: tree
       in: query
@@ -62,6 +57,11 @@ components:
       schema:
         type: integer
         default: 0
+    XPath:
+      name: xpath
+      in: query
+      schema:
+        type: string
   securitySchemes:
     basicAuth:
       type: http

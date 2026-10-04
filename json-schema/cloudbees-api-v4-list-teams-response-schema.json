@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudbees/main/json-schema/cloudbees-api-v4-list-teams-response-schema.json",
+  "title": "api.v4.ListTeamsResponse",
+  "description": "Response message for ListTeams.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudbees-teams-api-openapi.yml#/components/schemas/api.v4.ListTeamsResponse",
+  "type": "object",
+  "properties": {
+    "teams": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/api.v4.TeamWithExpansions"
+      },
+      "description": "List of teams matching the request."
+    },
+    "nextPageToken": {
+      "type": "string",
+      "description": "Cursor token for retrieving the next page of results.\n Empty string indicates this is the last page."
+    },
+    "totalSize": {
+      "type": "integer",
+      "description": "Total number of items matching the query across all pages.\n Optional - may be omitted if computing the total would be expensive\n (e.g., large datasets, complex filters, cross-shard queries).\n Clients MUST NOT assume this field will always be present.",
+      "format": "int32"
+    }
+  },
+  "$defs": {
+    "api.v4.TeamWithExpansions": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for this team"
+        },
+        "name": {
+          "type": "string",
+          "description": "Team name"
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional description explaining the team's purpose or scope"
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "tenant_id field"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "When this team was last modified",
+          "format": "date-time"
+        },
+        "immutable": {
+          "type": "boolean",
+          "description": "Whether this team is synchronized from your identity provider and cannot be modified directly"
+        },
+        "type": {
+          "enum": [
+            "TEAM_TYPE_UNSPECIFIED",
+            "TEAM_TYPE_PREDEFINED",
+            "TEAM_TYPE_USERDEFINED"
+          ],
+          "type": "string",
+          "description": "Distinguishes platform-managed teams (PREDEFINED) from teams you create (USERDEFINED)"
+        },
+        "users": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/api.v4.User"
+          },
+          "description": "Users who are members of this team."
+        }
+      },
+      "description": "Team with optional expansion fields."
+    },
+    "api.v4.User": {
+      "required": [
+        "email"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Unique identifier for this user"
+        },
+        "email": {
+          "type": "string",
+          "description": "Primary email address for authentication and contact"
+        },
+        "displayName": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Display name for this user"
+        },
+        "firstName": {
+          "type": "string",
+          "description": "First name of the user"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "Last name of the user"
+        },
+        "additionalEmails": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Additional email addresses linked to user account"
+        }
+      },
+      "description": "A person that can access CloudBees Unify. Invite users to a tenant to grant them access to your organizations."
+    }
+  }
+}

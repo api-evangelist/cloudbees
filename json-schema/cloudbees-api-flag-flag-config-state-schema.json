@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudbees/main/json-schema/cloudbees-api-flag-flag-config-state-schema.json",
+  "title": "api.flag.FlagConfigState",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudbees-flag-configurations-api-openapi.yml#/components/schemas/api.flag.FlagConfigState",
+  "type": "object",
+  "properties": {
+    "enabled": {
+      "type": "boolean",
+      "description": "Whether the feature flag is enabled. Set to true to enable the flag, or false to disable it."
+    }
+  }
+}

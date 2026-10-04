@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudbees/main/json-schema/cloudbees-api-target-group-target-group-schema.json",
+  "title": "api.TargetGroup.TargetGroup",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudbees-target-groups-api-openapi.yml#/components/schemas/api.TargetGroup.TargetGroup",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier of the target group."
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name of the target group."
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description of the target group's purpose."
+    },
+    "conditions": {
+      "type": "object",
+      "description": "Targeting conditions that define which users or contexts match this group, expressed as a JSON structure."
+    },
+    "resourceId": {
+      "type": "string",
+      "description": "Unique identifier of the application that owns this target group."
+    },
+    "cascUrl": {
+      "type": "string",
+      "description": "Configuration as Code (CasC) URL for this target group."
+    }
+  }
+}

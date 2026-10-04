@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudbees/main/json-schema/cloudbees-api-flag-get-flag-configuration-state-response-schema.json",
+  "title": "api.flag.GetFlagConfigurationStateResponse",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudbees-flags-api-openapi.yml#/components/schemas/api.flag.GetFlagConfigurationStateResponse",
+  "type": "object",
+  "properties": {
+    "configurationStates": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/api.flag.FlagConfigurationState"
+      },
+      "description": "The enabled/disabled state of the feature flag for each environment in the application."
+    }
+  },
+  "$defs": {
+    "api.flag.FlagConfigurationState": {
+      "type": "object",
+      "properties": {
+        "environmentId": {
+          "type": "string",
+          "description": "The unique identifier of the environment this state applies to."
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether the feature flag is enabled in this environment."
+        },
+        "updated": {
+          "type": "string",
+          "description": "The date and time at which this configuration state was last updated.",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

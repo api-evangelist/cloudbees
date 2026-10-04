@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudbees/main/json-schema/cloudbees-api-flag-get-flag-flags-usage-per-environment-response-schema.json",
+  "title": "api.flag.GetFlagFlagsUsagePerEnvironmentResponse",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudbees-flags-api-openapi.yml#/components/schemas/api.flag.GetFlagFlagsUsagePerEnvironmentResponse",
+  "type": "object",
+  "properties": {
+    "environments": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/api.TargetGroup.EnvironmentUsage"
+      },
+      "description": "The list of environments and the target groups that this feature flag references in each."
+    }
+  },
+  "$defs": {
+    "api.TargetGroup.EnvironmentUsage": {
+      "type": "object",
+      "properties": {
+        "environmentId": {
+          "type": "string",
+          "description": "Unique identifier of the environment."
+        },
+        "flagUsage": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/api.TargetGroup.FlagUsageInEnvironment"
+          },
+          "description": "Feature flags that reference the target group in this environment."
+        }
+      }
+    },
+    "api.TargetGroup.FlagUsageInEnvironment": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the feature flag."
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the feature flag."
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether the feature flag is enabled in this environment."
+        },
+        "resourceId": {
+          "type": "string",
+          "description": "Unique identifier of the application that owns this feature flag."
+        }
+      }
+    }
+  }
+}

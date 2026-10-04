@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudbees/main/json-schema/cloudbees-api-flag-flag-configuration-schema.json",
+  "title": "api.flag.FlagConfiguration",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudbees-flag-configurations-api-openapi.yml#/components/schemas/api.flag.FlagConfiguration",
+  "type": "object",
+  "properties": {
+    "enabled": {
+      "type": "boolean",
+      "description": "Whether the feature flag is enabled in this environment."
+    },
+    "defaultValue": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/google.protobuf.Value"
+        }
+      ],
+      "description": "The default value returned to users who do not match any targeting condition."
+    },
+    "conditions": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/google.protobuf.ListValue"
+        }
+      ],
+      "description": "The list of targeting conditions that determine which users receive specific flag values."
+    },
+    "seed": {
+      "type": "string",
+      "description": "Random seed value used in percentage based (split) configurations to avoid statistical bias when selecting the flag value."
+    },
+    "stickinessProperty": {
+      "type": "string",
+      "description": "Name of the Custom Property that will be used to ensure consistent flag evaluations for percentage based  (split) configurations."
+    },
+    "variantsEnabled": {
+      "type": "boolean",
+      "description": "Whether multivariate variants are enabled for this flag configuration."
+    },
+    "resourceId": {
+      "type": "string",
+      "description": "The unique identifier of the resource this configuration belongs to."
+    },
+    "cascUrl": {
+      "type": "string",
+      "description": "The CloudBees CasC (Configuration as Code) URL associated with this flag configuration."
+    },
+    "created": {
+      "type": "string",
+      "description": "The date and time when this flag configuration was created.",
+      "format": "date-time"
+    },
+    "updated": {
+      "type": "string",
+      "description": "The date and time when this flag configuration was last updated.",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "google.protobuf.ListValue": {
+      "description": "`ListValue` is a wrapper around a repeated field of values.\n\n The JSON representation for `ListValue` is JSON array.",
+      "type": "array",
+      "items": {}
+    },
+    "google.protobuf.Value": {
+      "description": "Represents a dynamically typed value which can be either null, a number, a string, a boolean, a recursive struct value, or a list of values."
+    }
+  }
+}

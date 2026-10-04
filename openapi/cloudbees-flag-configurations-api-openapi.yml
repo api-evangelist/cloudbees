@@ -252,6 +252,47 @@ paths:
       description: Copies the feature flag configuration from a source environment to one or more target environments.
 components:
   schemas:
+    google.protobuf.ListValue:
+      description: "`ListValue` is a wrapper around a repeated field of values.\n\n The JSON representation for `ListValue` is JSON array."
+      type: array
+      items: {}
+    api.flag.FlagConfigState:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: Whether the feature flag is enabled. Set to true to enable the flag, or false to disable it.
+    api.flag.GetFlagConfigurationResponse:
+      type: object
+      properties:
+        configuration:
+          allOf:
+          - $ref: '#/components/schemas/api.flag.FlagConfiguration'
+          description: The feature flag configuration for the specified environment.
+    google.rpc.Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+          format: int32
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+          description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+      description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+    google.protobuf.Any:
+      type: object
+      properties:
+        '@type':
+          type: string
+          description: The type of the serialized message.
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
     google.protobuf.Value:
       description: Represents a dynamically typed value which can be either null, a number, a string, a boolean, a recursive struct value, or a list of values.
     api.flag.FlagConfiguration:
@@ -291,6 +332,34 @@ components:
           type: string
           description: The date and time when this flag configuration was last updated.
           format: date-time
+    api.flag.FlagConfigurationOptional:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: Whether the feature flag is enabled in this environment. Omit to leave the current value unchanged.
+        defaultValue:
+          allOf:
+          - $ref: '#/components/schemas/google.protobuf.Value'
+          description: The default value returned to users who do not match any targeting condition. Omit to leave the current value unchanged.
+        conditions:
+          allOf:
+          - $ref: '#/components/schemas/google.protobuf.ListValue'
+          description: The list of targeting conditions that determine which users receive specific flag values. Omit to leave the current value unchanged.
+        stickinessProperty:
+          type: string
+          description: The user attribute used to ensure consistent flag evaluation for the same user. Omit to leave the current value unchanged.
+        variantsEnabled:
+          type: boolean
+          description: Whether multivariate variants are enabled. Omit to leave the current value unchanged.
+    api.flag.ListFlagConfigurationsResponse:
+      type: object
+      properties:
+        configurations:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.flag.FlagConfigurationEnvironment'
+          description: The list of feature flag configurations for the specified environment.
     api.flag.FlagConfigurationEnvironment:
       type: object
       properties:
@@ -320,75 +389,6 @@ components:
           allOf:
           - $ref: '#/components/schemas/api.flag.FlagConfiguration'
           description: The feature flag configuration data for this environment.
-    api.flag.ListFlagConfigurationsResponse:
-      type: object
-      properties:
-        configurations:
-          type: array
-          items:
-            $ref: '#/components/schemas/api.flag.FlagConfigurationEnvironment'
-          description: The list of feature flag configurations for the specified environment.
-    api.flag.FlagConfigState:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-          description: Whether the feature flag is enabled. Set to true to enable the flag, or false to disable it.
-    google.protobuf.Any:
-      type: object
-      properties:
-        '@type':
-          type: string
-          description: The type of the serialized message.
-      additionalProperties: true
-      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
-    api.flag.GetFlagConfigurationResponse:
-      type: object
-      properties:
-        configuration:
-          allOf:
-          - $ref: '#/components/schemas/api.flag.FlagConfiguration'
-          description: The feature flag configuration for the specified environment.
-    api.flag.FlagConfigurationOptional:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-          description: Whether the feature flag is enabled in this environment. Omit to leave the current value unchanged.
-        defaultValue:
-          allOf:
-          - $ref: '#/components/schemas/google.protobuf.Value'
-          description: The default value returned to users who do not match any targeting condition. Omit to leave the current value unchanged.
-        conditions:
-          allOf:
-          - $ref: '#/components/schemas/google.protobuf.ListValue'
-          description: The list of targeting conditions that determine which users receive specific flag values. Omit to leave the current value unchanged.
-        stickinessProperty:
-          type: string
-          description: The user attribute used to ensure consistent flag evaluation for the same user. Omit to leave the current value unchanged.
-        variantsEnabled:
-          type: boolean
-          description: Whether multivariate variants are enabled. Omit to leave the current value unchanged.
-    google.protobuf.ListValue:
-      description: "`ListValue` is a wrapper around a repeated field of values.\n\n The JSON representation for `ListValue` is JSON array."
-      type: array
-      items: {}
-    google.rpc.Status:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
-          format: int32
-        message:
-          type: string
-          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/google.protobuf.Any'
-          description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
-      description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
   securitySchemes:
     BearerAuth:
       type: http

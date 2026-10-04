@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudbees/main/json-schema/cloudbees-job-schema.json",
+  "title": "Job",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudbees-job-api-openapi.yml#/components/schemas/Job",
+  "type": "object",
+  "properties": {
+    "_class": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string"
+    },
+    "builds": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/BuildSummary"
+      }
+    },
+    "lastBuild": {
+      "$ref": "#/$defs/BuildSummary"
+    },
+    "lastSuccessfulBuild": {
+      "$ref": "#/$defs/BuildSummary"
+    },
+    "buildable": {
+      "type": "boolean"
+    }
+  },
+  "$defs": {
+    "BuildSummary": {
+      "type": "object",
+      "properties": {
+        "number": {
+          "type": "integer"
+        },
+        "url": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

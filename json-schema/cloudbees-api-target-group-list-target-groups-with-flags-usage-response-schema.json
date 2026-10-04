@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudbees/main/json-schema/cloudbees-api-target-group-list-target-groups-with-flags-usage-response-schema.json",
+  "title": "api.TargetGroup.ListTargetGroupsWithFlagsUsageResponse",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudbees-target-groups-api-openapi.yml#/components/schemas/api.TargetGroup.ListTargetGroupsWithFlagsUsageResponse",
+  "type": "object",
+  "properties": {
+    "targetGroupsWithFlagUsage": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/api.TargetGroup.TargetGroupWithFlagsUsage"
+      },
+      "description": "List of target groups in the application, each including the feature flags that reference it."
+    }
+  },
+  "$defs": {
+    "api.TargetGroup.FlagIdName": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the feature flag."
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the feature flag."
+        },
+        "resourceId": {
+          "type": "string",
+          "description": "Unique identifier of the application that owns this feature flag."
+        }
+      }
+    },
+    "api.TargetGroup.TargetGroupWithFlagsUsage": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the target group."
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the target group."
+        },
+        "flagUsage": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/api.TargetGroup.FlagIdName"
+          },
+          "description": "Feature flags that reference this target group."
+        },
+        "updated": {
+          "type": "string",
+          "description": "The date and time at which the target group was last updated.",
+          "format": "date-time"
+        },
+        "resourceId": {
+          "type": "string",
+          "description": "Unique identifier of the application that owns this target group."
+        },
+        "cascUrl": {
+          "type": "string",
+          "description": "Configuration as Code (CasC) URL for this target group."
+        }
+      }
+    }
+  }
+}

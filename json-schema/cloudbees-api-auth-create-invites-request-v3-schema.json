@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudbees/main/json-schema/cloudbees-api-auth-create-invites-request-v3-schema.json",
+  "title": "api.auth.CreateInvitesRequestV3",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudbees-users-api-openapi.yml#/components/schemas/api.auth.CreateInvitesRequestV3",
+  "type": "object",
+  "properties": {
+    "organizationId": {
+      "type": "string",
+      "description": "Unique identifier of the organization to which users are being invited. Required."
+    },
+    "teamIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of unique identifiers of the teams within the organization that invited users will be added to."
+    },
+    "emails": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of email addresses to invite to the organization. Each address will receive an invitation email."
+    },
+    "redirectUrl": {
+      "type": "string",
+      "description": "URL to redirect the user to after accepting the invitation. If omitted, users are redirected to the default sign-in page."
+    },
+    "invitedBy": {
+      "type": "string",
+      "description": "Unique identifier of the user sending the invitations."
+    },
+    "expirationDate": {
+      "type": "string",
+      "description": "Date and time when the invitations expire. Defaults to 5 days after creation if omitted.",
+      "format": "date-time"
+    }
+  }
+}

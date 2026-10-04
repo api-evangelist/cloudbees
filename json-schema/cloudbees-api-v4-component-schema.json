@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudbees/main/json-schema/cloudbees-api-v4-component-schema.json",
+  "title": "api.v4.Component",
+  "description": "A component represents a source code repository tracked by CloudBees Unify.\n Components can be created with or without an SCM integration, so teams in\n air-gapped or network-restricted environments can onboard immediately. A\n component created without an integration can be connected to one later to\n unlock features that depend on it.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudbees-components-api-openapi.yml#/components/schemas/api.v4.Component",
+  "required": [
+    "name",
+    "repositoryUrl"
+  ],
+  "type": "object",
+  "properties": {
+    "id": {
+      "readOnly": true,
+      "type": "string",
+      "description": "Unique identifier for this component. Auto-generated on create."
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name for the component. Required on create; mutable via PATCH."
+    },
+    "description": {
+      "type": "string",
+      "description": "Optional free-text description. Mutable via PATCH.\n\n Note: once set, a description cannot be cleared back to empty through this\n API; sending an empty value leaves the existing description unchanged."
+    },
+    "repositoryUrl": {
+      "type": "string",
+      "description": "Repository clone URL (.git form). Required on create. It is the identity of\n the component and cannot be changed after creation."
+    },
+    "repositoryHref": {
+      "readOnly": true,
+      "type": "string",
+      "description": "Browser-facing repository URL. Server-derived by stripping the trailing\n \".git\" from repository_url."
+    },
+    "defaultBranch": {
+      "type": "string",
+      "description": "Default branch for the repository. Optional on create (defaults to \"main\"\n when absent); mutable via PATCH."
+    },
+    "provider": {
+      "type": "string",
+      "description": "SCM provider backing the repository. Optional on create: inferred from the\n repository_url hostname for known public providers, or supplied explicitly\n for self-hosted providers. Not directly mutable via PATCH; it is\n resolved automatically, including when an SCM integration is attached.\n One of: \"GITHUB\", \"GITHUB_ENTERPRISE\", \"GITLAB\", \"GITLAB_SERVER\",\n \"BITBUCKET\", \"BITBUCKET_DATACENTER\". Empty when unresolved."
+    },
+    "integrationId": {
+      "type": "string",
+      "description": "Identifier of the SCM integration backing this component. Empty when the\n component has no integration. Optional on create, and can be set via PATCH\n to attach an integration to a component that has none.\n\n Note: once an integration is attached it cannot be removed through this\n API; sending an empty value leaves the existing integration in place."
+    },
+    "organizationId": {
+      "readOnly": true,
+      "type": "string",
+      "description": "Organization that owns this component. Read-only; set from the organization\n in the request URL."
+    },
+    "createdAt": {
+      "readOnly": true,
+      "type": "string",
+      "description": "When this component was created.",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "readOnly": true,
+      "type": "string",
+      "description": "When this component was last modified.",
+      "format": "date-time"
+    }
+  }
+}

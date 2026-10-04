@@ -268,6 +268,127 @@ paths:
       description: Returns the feature flags that reference the specified target group, grouped by environment.
 components:
   schemas:
+    api.TargetGroup.FlagIdName:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the feature flag.
+        name:
+          type: string
+          description: Display name of the feature flag.
+        resourceId:
+          type: string
+          description: Unique identifier of the application that owns this feature flag.
+    api.TargetGroup.GetTargetGroupResponse:
+      type: object
+      properties:
+        targetGroup:
+          allOf:
+          - $ref: '#/components/schemas/api.TargetGroup.TargetGroup'
+          description: The requested target group.
+    api.TargetGroup.FlagUsageInEnvironment:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the feature flag.
+        name:
+          type: string
+          description: Display name of the feature flag.
+        enabled:
+          type: boolean
+          description: Whether the feature flag is enabled in this environment.
+        resourceId:
+          type: string
+          description: Unique identifier of the application that owns this feature flag.
+    google.rpc.Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+          format: int32
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+          description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+      description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+    api.TargetGroup.AddTargetGroupResponse:
+      type: object
+      properties:
+        targetGroup:
+          allOf:
+          - $ref: '#/components/schemas/api.TargetGroup.TargetGroup'
+          description: The created target group.
+    google.protobuf.Any:
+      type: object
+      properties:
+        '@type':
+          type: string
+          description: The type of the serialized message.
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+    api.TargetGroup.ListTargetGroupsWithFlagsUsageResponse:
+      type: object
+      properties:
+        targetGroupsWithFlagUsage:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.TargetGroup.TargetGroupWithFlagsUsage'
+          description: List of target groups in the application, each including the feature flags that reference it.
+    api.TargetGroup.ListTargetGroupsResponse:
+      type: object
+      properties:
+        targetGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.TargetGroup.TargetGroup'
+          description: List of target groups in the application.
+    api.TargetGroup.GetTargetGroupFlagsUsagePerEnvironmentResponse:
+      type: object
+      properties:
+        environments:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.TargetGroup.EnvironmentUsage'
+          description: List of environments and the feature flags that reference the target group in each.
+    api.TargetGroup.EnvironmentUsage:
+      type: object
+      properties:
+        environmentId:
+          type: string
+          description: Unique identifier of the environment.
+        flagUsage:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.TargetGroup.FlagUsageInEnvironment'
+          description: Feature flags that reference the target group in this environment.
+    api.TargetGroup.TargetGroup:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the target group.
+        name:
+          type: string
+          description: Display name of the target group.
+        description:
+          type: string
+          description: Human-readable description of the target group's purpose.
+        conditions:
+          type: object
+          description: Targeting conditions that define which users or contexts match this group, expressed as a JSON structure.
+        resourceId:
+          type: string
+          description: Unique identifier of the application that owns this target group.
+        cascUrl:
+          type: string
+          description: Configuration as Code (CasC) URL for this target group.
     api.TargetGroup.TargetGroupWithFlagsUsage:
       type: object
       properties:
@@ -292,112 +413,6 @@ components:
         cascUrl:
           type: string
           description: Configuration as Code (CasC) URL for this target group.
-    api.TargetGroup.ListTargetGroupsResponse:
-      type: object
-      properties:
-        targetGroups:
-          type: array
-          items:
-            $ref: '#/components/schemas/api.TargetGroup.TargetGroup'
-          description: List of target groups in the application.
-    google.rpc.Status:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
-          format: int32
-        message:
-          type: string
-          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/google.protobuf.Any'
-          description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
-      description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
-    api.TargetGroup.FlagUsageInEnvironment:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier of the feature flag.
-        name:
-          type: string
-          description: Display name of the feature flag.
-        enabled:
-          type: boolean
-          description: Whether the feature flag is enabled in this environment.
-        resourceId:
-          type: string
-          description: Unique identifier of the application that owns this feature flag.
-    api.TargetGroup.GetTargetGroupResponse:
-      type: object
-      properties:
-        targetGroup:
-          allOf:
-          - $ref: '#/components/schemas/api.TargetGroup.TargetGroup'
-          description: The requested target group.
-    api.TargetGroup.EnvironmentUsage:
-      type: object
-      properties:
-        environmentId:
-          type: string
-          description: Unique identifier of the environment.
-        flagUsage:
-          type: array
-          items:
-            $ref: '#/components/schemas/api.TargetGroup.FlagUsageInEnvironment'
-          description: Feature flags that reference the target group in this environment.
-    api.TargetGroup.GetTargetGroupFlagsUsagePerEnvironmentResponse:
-      type: object
-      properties:
-        environments:
-          type: array
-          items:
-            $ref: '#/components/schemas/api.TargetGroup.EnvironmentUsage'
-          description: List of environments and the feature flags that reference the target group in each.
-    api.TargetGroup.FlagIdName:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier of the feature flag.
-        name:
-          type: string
-          description: Display name of the feature flag.
-        resourceId:
-          type: string
-          description: Unique identifier of the application that owns this feature flag.
-    api.TargetGroup.TargetGroup:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier of the target group.
-        name:
-          type: string
-          description: Display name of the target group.
-        description:
-          type: string
-          description: Human-readable description of the target group's purpose.
-        conditions:
-          type: object
-          description: Targeting conditions that define which users or contexts match this group, expressed as a JSON structure.
-        resourceId:
-          type: string
-          description: Unique identifier of the application that owns this target group.
-        cascUrl:
-          type: string
-          description: Configuration as Code (CasC) URL for this target group.
-    google.protobuf.Any:
-      type: object
-      properties:
-        '@type':
-          type: string
-          description: The type of the serialized message.
-      additionalProperties: true
-      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
     api.TargetGroup.UpdateTargetGroupResponse:
       type: object
       properties:
@@ -405,21 +420,6 @@ components:
           allOf:
           - $ref: '#/components/schemas/api.TargetGroup.TargetGroup'
           description: The updated target group.
-    api.TargetGroup.ListTargetGroupsWithFlagsUsageResponse:
-      type: object
-      properties:
-        targetGroupsWithFlagUsage:
-          type: array
-          items:
-            $ref: '#/components/schemas/api.TargetGroup.TargetGroupWithFlagsUsage'
-          description: List of target groups in the application, each including the feature flags that reference it.
-    api.TargetGroup.AddTargetGroupResponse:
-      type: object
-      properties:
-        targetGroup:
-          allOf:
-          - $ref: '#/components/schemas/api.TargetGroup.TargetGroup'
-          description: The created target group.
   securitySchemes:
     BearerAuth:
       type: http

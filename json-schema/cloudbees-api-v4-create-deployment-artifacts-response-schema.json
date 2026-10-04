@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudbees/main/json-schema/cloudbees-api-v4-create-deployment-artifacts-response-schema.json",
+  "title": "api.v4.CreateDeploymentArtifactsResponse",
+  "description": "Response after attaching deployment artifacts to a run.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudbees-runs-api-openapi.yml#/components/schemas/api.v4.CreateDeploymentArtifactsResponse",
+  "type": "object",
+  "properties": {
+    "artifactReferences": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/api.v4.ArtifactInfo"
+      },
+      "description": "The list of build artifacts to be linked to deployment that associate with the run."
+    }
+  },
+  "$defs": {
+    "api.v4.ArtifactInfo": {
+      "required": [
+        "name",
+        "url",
+        "version",
+        "type"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the artifact."
+        },
+        "url": {
+          "type": "string",
+          "description": "The url of the artifact. Must be an absolute URI (e.g. https://... or pkg:...)."
+        },
+        "version": {
+          "type": "string",
+          "description": "The version of the artifact."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the artifact. Supported values: container, binary, helm, npm, maven, pypi, gem, nuget."
+        },
+        "digest": {
+          "type": "string",
+          "description": "The digest of the image."
+        },
+        "label": {
+          "type": "string",
+          "description": "A comma-separated list of artifact labels."
+        },
+        "repositoryUrl": {
+          "type": "string",
+          "description": "Clone URL of the artifact repository."
+        },
+        "commit": {
+          "type": "string",
+          "description": "Commit hash of source repository."
+        },
+        "commitUrl": {
+          "type": "string",
+          "description": "Commit URL of source repository."
+        },
+        "ref": {
+          "type": "string",
+          "description": "Branch name of checked out source repository."
+        },
+        "stageName": {
+          "type": "string",
+          "description": "The name of the stage in which the artifact is being created."
+        },
+        "stageId": {
+          "type": "string",
+          "description": "The unique identifier of the stage in which the artifact is being created."
+        },
+        "artifactId": {
+          "type": "string",
+          "description": "The Artifact Id for registering the deployment"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "The timestamp when the artifact was built/published in the source system\n (ISO 8601). Optional. When set, it is persisted on the artifact record;\n when omitted, the server records the current time.",
+          "format": "date-time"
+        }
+      },
+      "description": "ArtifactInfo represents a build artifact to associate with a run."
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudbees/main/json-schema/cloudbees-api-fmimpressions-impression-params-schema.json",
+  "title": "api.fmimpressions.ImpressionParams",
+  "description": "Parameters controlling which feature flags and time window are included in the impressions response.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudbees-flag-lifecycle-api-openapi.yml#/components/schemas/api.fmimpressions.ImpressionParams",
+  "required": [
+    "flagname"
+  ],
+  "type": "object",
+  "properties": {
+    "mode": {
+      "enum": [
+        "HOURLY",
+        "DAILY"
+      ],
+      "type": "string",
+      "description": "Aggregation granularity for the impression data. HOURLY returns data from the last 24 hours; DAILY returns data from the last 30 days. Defaults to HOURLY if omitted."
+    },
+    "from": {
+      "type": "string",
+      "description": "Start of the time range for impression data, in UTC. Must not be after the to timestamp. Data is bounded by the backend retention window (24 hours for HOURLY mode, 30 days for DAILY mode). Omit to return data from the earliest available point.",
+      "format": "date-time"
+    },
+    "to": {
+      "type": "string",
+      "description": "End of the time range for impression data, in UTC. Must not be before the from timestamp. Omit to return data up to the current time.",
+      "format": "date-time"
+    },
+    "flagname": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "One or more feature flag names to retrieve impression data for. If omitted or empty, returns impressions for all flags in the environment."
+    }
+  }
+}

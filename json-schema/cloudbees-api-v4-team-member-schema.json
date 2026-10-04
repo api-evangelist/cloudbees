@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudbees/main/json-schema/cloudbees-api-v4-team-member-schema.json",
+  "title": "api.v4.TeamMember",
+  "description": "TeamMember is the enriched, public-facing projection of a TeamMembership\n returned by the List, Create, and Get RPCs. It carries the membership's\n user_id plus a nested UserProjection (id + email) joined from the user\n service.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudbees-team-memberships-api-openapi.yml#/components/schemas/api.v4.TeamMember",
+  "type": "object",
+  "properties": {
+    "userId": {
+      "type": "string",
+      "description": "User who is a member of the team"
+    },
+    "user": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/api.v4.TeamMember_UserProjection"
+        }
+      ],
+      "description": "Nested User data"
+    }
+  },
+  "$defs": {
+    "api.v4.TeamMember_UserProjection": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "id from User"
+        },
+        "email": {
+          "type": "string",
+          "description": "email from User"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "When the user joined this team",
+          "format": "date-time"
+        }
+      },
+      "description": "Projected fields from User"
+    }
+  }
+}

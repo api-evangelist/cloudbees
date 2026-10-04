@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudbees/main/json-schema/cloudbees-api-v4-list-users-response-schema.json",
+  "title": "api.v4.ListUsersResponse",
+  "description": "Response message for ListUsers.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudbees-users-api-openapi.yml#/components/schemas/api.v4.ListUsersResponse",
+  "type": "object",
+  "properties": {
+    "users": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/api.v4.User"
+      },
+      "description": "List of users matching the request."
+    },
+    "nextPageToken": {
+      "type": "string",
+      "description": "Cursor token for retrieving the next page of results.\n Empty string indicates this is the last page.\n Pass this value as page_token (field 71) to fetch the next page."
+    },
+    "totalSize": {
+      "type": "integer",
+      "description": "Total number of items matching the query across all pages.\n Optional - may be omitted if computing the total would be expensive\n (e.g., large datasets, complex filters, cross-shard queries).\n Clients MUST NOT assume this field will always be present.",
+      "format": "int32"
+    }
+  },
+  "$defs": {
+    "api.v4.User": {
+      "required": [
+        "email"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Unique identifier for this user"
+        },
+        "email": {
+          "type": "string",
+          "description": "Primary email address for authentication and contact"
+        },
+        "displayName": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Display name for this user"
+        },
+        "firstName": {
+          "type": "string",
+          "description": "First name of the user"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "Last name of the user"
+        },
+        "additionalEmails": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Additional email addresses linked to user account"
+        }
+      },
+      "description": "A person that can access CloudBees Unify. Invite users to a tenant to grant them access to your organizations."
+    }
+  }
+}

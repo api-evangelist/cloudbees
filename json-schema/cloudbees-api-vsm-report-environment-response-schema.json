@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudbees/main/json-schema/cloudbees-api-vsm-report-environment-response-schema.json",
+  "title": "api.vsm.report.EnvironmentResponse",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudbees-environments-api-openapi.yml#/components/schemas/api.vsm.report.EnvironmentResponse",
+  "type": "object",
+  "properties": {
+    "environments": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/api.vsm.report.Environment"
+      },
+      "description": "List of environments within the organization."
+    }
+  },
+  "$defs": {
+    "api.vsm.report.Environment": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the environment."
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the environment."
+        },
+        "resourceId": {
+          "type": "string",
+          "description": "Identifier of the resource associated with this environment."
+        },
+        "isDisabled": {
+          "type": "boolean",
+          "description": "Indicates whether the environment is currently disabled."
+        }
+      }
+    }
+  }
+}

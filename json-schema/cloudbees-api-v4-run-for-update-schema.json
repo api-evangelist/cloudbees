@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudbees/main/json-schema/cloudbees-api-v4-run-for-update-schema.json",
+  "title": "api.v4.RunForUpdate",
+  "description": "Run represents an external CI/CD run from a third-party tool.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudbees-runs-api-openapi.yml#/components/schemas/api.v4.RunForUpdate",
+  "type": "object",
+  "properties": {
+    "runNumber": {
+      "type": "integer",
+      "description": "run number, uniquely identifies an execution of a workflow",
+      "format": "int32"
+    },
+    "url": {
+      "type": "string",
+      "description": "run URL in the original external system"
+    },
+    "actorEmail": {
+      "type": "string",
+      "description": "email address of the user who triggered the run"
+    },
+    "status": {
+      "type": "string",
+      "description": "run status; accepted values: PENDING, PAUSED, STARTED, FAILED, ERRORED, ABORTED, SUCCEEDED, PENDING_APPROVAL, TIMED_OUT, APPROVED, REJECTED, APPROVAL_TIMED_OUT, SKIPPED, UNSCHEDULED, UNSTABLE"
+    },
+    "statusMessage": {
+      "type": "string",
+      "description": "run status message (normally specifying the failure cause)"
+    },
+    "endedAt": {
+      "type": "string",
+      "description": "run end timestamp",
+      "format": "date-time"
+    },
+    "externalParentFlow": {
+      "type": "string",
+      "description": "external system identifier to group related runs under a common pipeline or workflow"
+    },
+    "statusReason": {
+      "type": "string",
+      "description": "status_reason is \"POLICY\" when a policy gate caused the current status, otherwise empty.\n Note: CloudBees-native runs never report PENDING_APPROVAL as their run status on this API,\n so in practice this identifies a policy-caused failure."
+    }
+  }
+}

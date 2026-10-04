@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudbees/main/json-schema/cloudbees-api-fmimpressions-get-flags-status-response-schema.json",
+  "title": "api.fmimpressions.GetFlagsStatusResponse",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudbees-flag-lifecycle-api-openapi.yml#/components/schemas/api.fmimpressions.GetFlagsStatusResponse",
+  "required": [
+    "flagsStatus"
+  ],
+  "type": "object",
+  "properties": {
+    "flagsStatus": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/api.fmimpressions.FlagStatus"
+      },
+      "description": "Current status of all feature flags in the environment, keyed by flag name."
+    }
+  },
+  "$defs": {
+    "api.fmimpressions.FlagStatus": {
+      "required": [
+        "flagName",
+        "status"
+      ],
+      "type": "object",
+      "properties": {
+        "flagName": {
+          "type": "string",
+          "description": "Name of the feature flag."
+        },
+        "status": {
+          "type": "string",
+          "description": "Lifecycle status of the flag. Possible values: active (received impressions with different values over the last seven days), stale (received impressions over the last seven days but all had the same value), inactive (no impressions received within the past seven days), setup (no impressions received yet), permanent (a long-lived flag, impression data is ignored)."
+        }
+      }
+    }
+  }
+}

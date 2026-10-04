@@ -2,7 +2,7 @@ overlay: 1.0.0
 info:
   title: API Evangelist enhancements for CloudBees Unify API (Current)
   version: 1.0.0
-extends: openapi/cloudbees-unify-openapi.yml
+extends: ../openapi/_original/cloudbees-unify-openapi.yml
 x-provenance:
   generated: '2026-09-05'
   method: generated

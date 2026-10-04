@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudbees/main/json-schema/cloudbees-api-v4-run-for-create-schema.json",
+  "title": "api.v4.RunForCreate",
+  "description": "Run represents an external CI/CD run from a third-party tool.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudbees-runs-api-openapi.yml#/components/schemas/api.v4.RunForCreate",
+  "required": [
+    "scmRef",
+    "workflowName",
+    "toolType",
+    "url",
+    "trigger",
+    "actorName",
+    "status",
+    "startedAt",
+    "commitSha"
+  ],
+  "type": "object",
+  "properties": {
+    "scmRef": {
+      "type": "string",
+      "description": "The SCM ref for this run; can be a branch, a tag, etc. Must use the full git ref format (e.g.: refs/heads/main)"
+    },
+    "workflowName": {
+      "type": "string",
+      "description": "the name of the workflow that is being executed"
+    },
+    "runNumber": {
+      "type": "integer",
+      "description": "run number, uniquely identifies an execution of a workflow",
+      "format": "int32"
+    },
+    "toolType": {
+      "type": "string",
+      "description": "CI/CD tool that produced this run; accepted values: ARGO_CD, CLOUDBEES_CI, HARNESS, JENKINS, UNIFY, CLOUDBEES, GITHUB\n This field will default to UNKNOWN if the tool doesn't match one of the accepted values"
+    },
+    "runAttempt": {
+      "type": "integer",
+      "description": "run attempt, used in engines like GitHub Actions to distinguish between multiple executions of a workflow",
+      "format": "int32"
+    },
+    "url": {
+      "type": "string",
+      "description": "run URL in the original external system"
+    },
+    "trigger": {
+      "type": "string",
+      "description": "what triggered the run; accepted values: PUSH, PULL_REQUEST, WORKFLOW_DISPATCH, SCHEDULE"
+    },
+    "actorName": {
+      "type": "string",
+      "description": "who triggered the run"
+    },
+    "actorEmail": {
+      "type": "string",
+      "description": "email address of the user who triggered the run"
+    },
+    "status": {
+      "type": "string",
+      "description": "run status; accepted values: PENDING, PAUSED, STARTED, FAILED, ERRORED, ABORTED, SUCCEEDED, PENDING_APPROVAL, TIMED_OUT, APPROVED, REJECTED, APPROVAL_TIMED_OUT, SKIPPED, UNSCHEDULED, UNSTABLE"
+    },
+    "statusMessage": {
+      "type": "string",
+      "description": "run status message (normally specifying the failure cause)"
+    },
+    "startedAt": {
+      "type": "string",
+      "description": "run start timestamp",
+      "format": "date-time"
+    },
+    "endedAt": {
+      "type": "string",
+      "description": "run end timestamp",
+      "format": "date-time"
+    },
+    "changeRequestTitle": {
+      "type": "string",
+      "description": "title of the change request that triggered the run"
+    },
+    "changeRequestTargetBranch": {
+      "type": "string",
+      "description": "target branch of the change request"
+    },
+    "commitSha": {
+      "type": "string",
+      "description": "commit SHA that triggered the run"
+    },
+    "commitMessage": {
+      "type": "string",
+      "description": "commit message of the commit that triggered the run. The value of this field, if present, overrides change_request_title"
+    },
+    "externalParentFlow": {
+      "type": "string",
+      "description": "external system identifier to group related runs under a common pipeline or workflow"
+    },
+    "statusReason": {
+      "type": "string",
+      "description": "status_reason is \"POLICY\" when a policy gate caused the current status, otherwise empty.\n Note: CloudBees-native runs never report PENDING_APPROVAL as their run status on this API,\n so in practice this identifies a policy-caused failure."
+    }
+  }
+}

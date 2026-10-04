@@ -1,9 +1,6 @@
 aid: cloudbees
-
 url: https://raw.githubusercontent.com/api-evangelist/cloudbees/refs/heads/main/apis.yml
-
 name: CloudBees
-
 deliveryModel:
   model: unknown
   open_source: false
@@ -15,7 +12,6 @@ deliveryModel:
   - openapi
   generated: '2026-08-28'
   method: derived
-
 accessModel:
   pricing: freemium
   onboarding: self-serve
@@ -30,25 +26,15 @@ accessModel:
   - security
   generated: '2026-09-03'
   method: derived
-
 created: '2025-01-08'
-
 modified: '2026-09-05'
-
 type: Index
-
 access: 3rd-Party
-
 position: Consuming
-
 specificationVersion: '0.23'
-
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cloudbees.png
-
 kind: company
-
 website: https://www.cloudbees.com
-
 tags:
 - CI/CD
 - Continuous Delivery
@@ -60,16 +46,15 @@ tags:
 - Jenkins
 - Release Orchestration
 - Software Delivery
-
-description: CloudBees provides software delivery automation across continuous integration, continuous deployment, release orchestration, and
-  feature management. Their developer surface includes the CloudBees CI REST API (an extension of the Jenkins REST API), the CloudBees CD/RO REST
-  API for release orchestration, the CloudBees Feature Management REST API (formerly Rollout) for feature flags and environments, and the CloudBees
-  Unify Platform API for the modern unified delivery platform. APIs are generally JSON, token-authenticated, and follow REST conventions.
-
+description: CloudBees provides software delivery automation across continuous integration, continuous
+  deployment, release orchestration, and feature management. Their developer surface includes the CloudBees
+  CI REST API (an extension of the Jenkins REST API), the CloudBees CD/RO REST API for release orchestration,
+  the CloudBees Feature Management REST API (formerly Rollout) for feature flags and environments, and
+  the CloudBees Unify Platform API for the modern unified delivery platform. APIs are generally JSON,
+  token-authenticated, and follow REST conventions.
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
-
 common:
 - type: Vocabulary
   url: vocabulary/cloudbees-vocabulary.yml
@@ -176,7 +161,13 @@ common:
 - type: Postman
   url: https://www.postman.com/cloudbees/cloudbees-feature-management
   name: CloudBees Feature Management public workspace
-
+- type: CapabilityMap
+  url: capabilities/cloudbees-capability-edges.yml
+  name: CloudBees Business Capability Map
+- type: Packages
+  url: packages/cloudbees-packages.yml
+- type: SDKs
+  url: packages/cloudbees-packages.yml
 apis:
 - aid: cloudbees:ci
   name: CloudBees CI REST API
@@ -193,10 +184,11 @@ apis:
     type: Documentation
   - url: https://docs.cloudbees.com/docs/release-notes/latest/cloudbees-ci/
     type: ReleaseNotes
-  description: CloudBees CI is a hardened, enterprise distribution of Jenkins. The REST API is the Jenkins remote access API exposed at /api on
-    every controller and on individual jobs, runs, queues and nodes. Callers authenticate with a username and API token in HTTP basic auth and
-    can list/create jobs, trigger builds, fetch build status and console logs, manage credentials, and inspect operations centers. Responses are
-    available as JSON, XML, or Python.
+  description: CloudBees CI is a hardened, enterprise distribution of Jenkins. The REST API is the Jenkins
+    remote access API exposed at /api on every controller and on individual jobs, runs, queues and nodes.
+    Callers authenticate with a username and API token in HTTP basic auth and can list/create jobs, trigger
+    builds, fetch build status and console logs, manage credentials, and inspect operations centers. Responses
+    are available as JSON, XML, or Python.
 - aid: cloudbees:cd-ro
   name: CloudBees CD/RO REST API
   tags:
@@ -212,9 +204,10 @@ apis:
     type: Documentation
   - url: https://docs.cloudbees.com/plugins/cd/ec-jenkins
     type: Jenkins Plugin
-  description: The CloudBees CD/RO (Continuous Delivery / Release Orchestration) REST API exposes resources for pipelines, releases, environments,
-    applications, deployments, projects and resources. Operations cover modelling deployment pipelines, launching releases, tracking stages, managing
-    environments and inventories, and integrating with Jenkins and other CI tools.
+  description: The CloudBees CD/RO (Continuous Delivery / Release Orchestration) REST API exposes resources
+    for pipelines, releases, environments, applications, deployments, projects and resources. Operations
+    cover modelling deployment pipelines, launching releases, tracking stages, managing environments and
+    inventories, and integrating with Jenkins and other CI tools.
 - aid: cloudbees:feature-management
   name: CloudBees Feature Management REST API
   tags:
@@ -231,9 +224,10 @@ apis:
     type: Environments
   - url: https://docs.cloudbees.com/docs/cloudbees-feature-management/latest/rest-api
     type: Reference
-  description: The CloudBees Feature Management REST API (formerly Rollout) provides programmatic access to applications, environments, feature
-    flags, experiments, target groups, audit logs, and users. Authentication uses a bearer token in the Authorization header. The API enforces
-    a one request per second rate limit per IP, returning HTTP 555 when exceeded.
+  description: The CloudBees Feature Management REST API (formerly Rollout) provides programmatic access
+    to applications, environments, feature flags, experiments, target groups, audit logs, and users. Authentication
+    uses a bearer token in the Authorization header. The API enforces a one request per second rate limit
+    per IP, returning HTTP 555 when exceeded.
 - aid: cloudbees:jenkins-plugin
   name: CloudBees CD/RO Jenkins Plugin Steps
   tags:
@@ -251,8 +245,9 @@ apis:
     type: Documentation
   - url: https://plugins.jenkins.io/electricflow
     type: Plugin
-  description: The CloudBees CD plugin for Jenkins exposes Jenkins pipeline steps that call CloudBees CD/RO REST endpoints — triggering pipelines,
-    running releases, deploying applications, and pulling artifacts from Jenkins build outputs into CD/RO release flows.
+  description: The CloudBees CD plugin for Jenkins exposes Jenkins pipeline steps that call CloudBees
+    CD/RO REST endpoints — triggering pipelines, running releases, deploying applications, and pulling
+    artifacts from Jenkins build outputs into CD/RO release flows.
 - aid: cloudbees:cloudbees-computer-api
   name: CloudBees Computer API
   description: The Computer API from CloudBees — 1 operation(s) for computer.
@@ -341,9 +336,11 @@ apis:
     url: openapi/cloudbees-xml-api-openapi.yml
 - aid: cloudbees:cloudbees-components-api
   name: CloudBees Components API
-  description: 'Create and manage the components in an organization. A component represents a source code repository that CloudBees Unify tracks.
+  description: 'Create and manage the components in an organization. A component represents a source code
+    repository that CloudBees Unify tracks.
 
-    Components can be onboarded with or without an SCM integration, and an existing component can be connected to an integration later.'
+    Components can be onboarded with or without an SCM integration, and an existing component can be connected
+    to an integration later.'
   humanURL: https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
   baseURL: https://example.cloudbees.com
   tags:
@@ -371,8 +368,8 @@ apis:
     url: json-schema/cloudbees-api-service-list-services-response-schema.json
 - aid: cloudbees:cloudbees-environments-api
   name: CloudBees Environments API
-  description: Discover and manage environments within your organization. Use environments to maintain an up-to-date inventory for feature flag
-    targeting, deployment scripts, and monitoring workflows.
+  description: Discover and manage environments within your organization. Use environments to maintain
+    an up-to-date inventory for feature flag targeting, deployment scripts, and monitoring workflows.
   humanURL: https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
   baseURL: https://example.cloudbees.com
   tags:
@@ -396,8 +393,8 @@ apis:
     url: json-schema/cloudbees-api-vsm-report-environment-response-schema.json
 - aid: cloudbees:cloudbees-flag-configurations-api
   name: CloudBees Flag configurations API
-  description: Set flag state (enabled or disabled) and targeting rules for a specific environment to determine which users or segments receive
-    each variation.
+  description: Set flag state (enabled or disabled) and targeting rules for a specific environment to
+    determine which users or segments receive each variation.
   humanURL: https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
   baseURL: https://example.cloudbees.com
   tags:
@@ -427,7 +424,8 @@ apis:
     url: json-schema/cloudbees-api-flag-flag-config-state-schema.json
 - aid: cloudbees:cloudbees-flag-custom-properties-api
   name: CloudBees Flag custom properties API
-  description: Create, read, update, and delete custom properties used in targeting conditions and target groups.
+  description: Create, read, update, and delete custom properties used in targeting conditions and target
+    groups.
   humanURL: https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
   baseURL: https://example.cloudbees.com
   tags:
@@ -461,7 +459,8 @@ apis:
   name: CloudBees Flag lifecycle API
   description: 'Track how often each feature flag variation is served within an environment.
 
-    Use impression data to monitor flag adoption, validate rollout progress, and analyze which variations are being evaluated by your application.
+    Use impression data to monitor flag adoption, validate rollout progress, and analyze which variations
+    are being evaluated by your application.
 
     Results can be aggregated by hour or day and filtered to a specific time range and set of flags.'
   humanURL: https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
@@ -489,8 +488,8 @@ apis:
     url: json-schema/cloudbees-api-fmimpressions-get-flags-status-response-schema.json
 - aid: cloudbees:cloudbees-flags-api
   name: CloudBees Flags API
-  description: Control runtime feature visibility and behavior to enable gradual rollouts, A/B testing, progressive delivery, and safe deployments
-    without redeployment.
+  description: Control runtime feature visibility and behavior to enable gradual rollouts, A/B testing,
+    progressive delivery, and safe deployments without redeployment.
   humanURL: https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
   baseURL: https://example.cloudbees.com
   tags:
@@ -524,8 +523,8 @@ apis:
   name: CloudBees Organizations API
   description: 'Define the structural and governance boundaries within a CloudBees Unify tenant.
 
-    Organizations model business units or departments, support parent-child hierarchies, and inherit configuration—properties, integrations, and
-    environments—from parent organizations.
+    Organizations model business units or departments, support parent-child hierarchies, and inherit configuration—properties,
+    integrations, and environments—from parent organizations.
 
     Every tenant has one root organization; all others exist beneath it.'
   humanURL: https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
@@ -553,8 +552,8 @@ apis:
     url: json-schema/cloudbees-api-auth-get-organization-by-name-response-schema.json
 - aid: cloudbees:cloudbees-runs-api
   name: CloudBees Runs API
-  description: Create, update, and retrieve CI/CD runs for a component. Attach and list test results, artifacts, security results, evidences,
-    and deployments.
+  description: Create, update, and retrieve CI/CD runs for a component. Attach and list test results,
+    artifacts, security results, evidences, and deployments.
   humanURL: https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
   baseURL: https://example.cloudbees.com
   tags:
@@ -586,8 +585,8 @@ apis:
     url: json-schema/cloudbees-api-v4-create-deployment-artifacts-response-schema.json
 - aid: cloudbees:cloudbees-target-groups-api
   name: CloudBees Target groups API
-  description: 'Define reusable sets of targeting conditions for feature flags. Specify rules once (such as matching users by role, region, or
-    custom property) and apply them across multiple flags.
+  description: 'Define reusable sets of targeting conditions for feature flags. Specify rules once (such
+    as matching users by role, region, or custom property) and apply them across multiple flags.
 
     Changes to a target group propagate automatically to every flag that references it.'
   humanURL: https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
@@ -705,11 +704,9 @@ apis:
     url: json-schema/cloudbees-api-v4-list-users-response-schema.json
   - type: JSONSchema
     url: json-schema/cloudbees-api-auth-create-invites-v3-response-schema.json
-
 integrations:
 - name: View all regional partners
 - name: View all technology partners
-
 x-enrichment:
   date: '2026-09-05'
   status: enriched

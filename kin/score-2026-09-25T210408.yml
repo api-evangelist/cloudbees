@@ -1,0 +1,57 @@
+# Kin Score artifact — cloudbees — 2026-09-25T210408
+# The API Evangelist rating (https://github.com/api-evangelist/kin-score). Generated; do not edit.
+---
+kin_score:
+  slug: cloudbees
+  schema_version: 0.23.0
+  scored_at: '2026-09-25'
+  run_ts: 2026-09-25T210408
+  composite: 70.7
+  band: exemplar
+  facets:
+    discoverability: 71.7
+    contract_quality: 59.9
+    contract_governance: 67.3
+    operational_transparency: 81.6
+    developer_ergonomics: 75.6
+    access_clarity: 55.3
+  agent_readiness:
+    score: 41.9
+    band: agent-ready
+    band_gated_from: agent-native
+    dimensions:
+      spec_presence: true
+      agentic_access: derived
+      reversibility_documented: false
+      mcp_server: verified
+      auth_clarity: served
+      idempotency: false
+      error_semantics: derived
+      openapi_examples: false
+      rate_limit_signal: documented
+      event_surface_described: true
+      agent_skills: derived
+      well_known_catalog: false
+      consent_identity: false
+      agent_card: false
+      dry_run_mode: false
+      delegated_identity: false
+      protected_resource_metadata: verified
+      dynamic_client_registration: false
+      agentic_commerce: false
+  regulatory:
+    applies: true
+    regime: Horizontal (data, software, accessibility, platform)
+    regime_id: horizontal
+    score: 45.1
+    matched_via: fallback
+  provenance:
+    mcp: first-party
+    skills: derived
+    agentic_access: derived
+    conformance: first-party
+    contracts:
+      total: 19
+      derived: 0
+      coverage: 0.0
+      callable: 63.2

@@ -528,6 +528,9 @@ apis:
     url: >-
       https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
 common:
+  - type: CapabilityMap
+    url: capabilities/cloudbees-capability-edges.yml
+    name: CloudBees Business Capability Map
   - type: Overlay
     url: overlays/cloudbees-unify-overlay.yaml
   - type: Overlay

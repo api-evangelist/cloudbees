@@ -1,0 +1,102 @@
+slug: cloudbees
+provider: CloudBees
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 9
+edges:
+- tag: Flag configurations
+  spec_file: cloudbees-flag-configurations-api-openapi.yml
+  capability_id: BC-4210.50
+  capability_id_l1: BC-4210
+  capability_name: Feature Flag Management
+  confidence: 0.95
+  evidence: FlagConfigurationApi_UpdateFlagConfigurationConfigState 'Update flag enabled state for an
+    environment'; schema api.flag.FlagConfiguration
+  reason: Operations create, read, update and clone feature flag configurations per environment — exactly
+    feature flag lifecycle and runtime control.
+- tag: Flags
+  spec_file: cloudbees-flags-api-openapi.yml
+  capability_id: BC-4210.50
+  capability_id_l1: BC-4210
+  capability_name: Feature Flag Management
+  confidence: 0.95
+  evidence: POST /v2/applications/{applicationId}/flags  "Create a feature flag"; "Get flag configuration
+    state per environment"
+  reason: Explicit CRUD over feature flags plus per-environment configuration state — directly Feature
+    Flag Management.
+- tag: Job
+  spec_file: cloudbees-job-api-openapi.yml
+  capability_id: BC-4210.10
+  capability_id_l1: BC-4210
+  capability_name: Continuous Integration Management
+  confidence: 0.88
+  evidence: POST /job/{name}/build  "Trigger a build (no parameters)"; "Get last successful build of a
+    job"
+  reason: 'Jenkins-compatible job and build control on the CI controller: triggering builds, inspecting
+    builds, managing job config — continuous integration pipeline management.'
+- tag: Target Groups
+  spec_file: cloudbees-target-groups-api-openapi.yml
+  capability_id: BC-4210.50
+  capability_id_l1: BC-4210
+  capability_name: Feature Flag Management
+  confidence: 0.85
+  evidence: GET /v2/applications/{applicationId}/target-groups/with-flags-usage  "List target groups with
+    flag usage"
+  reason: Target groups are the audience cohorts to which feature flags are targeted in CloudBees Feature
+    Management; operations manage them and report flag usage per environment.
+- tag: Flag custom properties
+  spec_file: cloudbees-flag-custom-properties-api-openapi.yml
+  capability_id: BC-4210.50
+  capability_id_l1: BC-4210
+  capability_name: Feature Flag Management
+  confidence: 0.82
+  evidence: GET /v2/applications/{applicationId}/custom-properties/{id}/flag-usage-per-environment  "Get
+    flag usage per environment"; schema api.TargetGroup.FlagUsageInEnvironment
+  reason: Custom properties are the targeting attributes used by CloudBees Feature Management; the operations
+    expose their lifecycle plus flag/target-group usage per environment, which is feature flag lifecycle
+    and runtime targeting control.
+- tag: Flag lifecycle
+  spec_file: cloudbees-flag-lifecycle-api-openapi.yml
+  capability_id: BC-4210.50
+  capability_id_l1: BC-4210
+  capability_name: Feature Flag Management
+  confidence: 0.78
+  evidence: GET .../environments/{environmentId}/flags-status  "Get flag statuses"; POST .../impressions  "Get
+    flag impressions"
+  reason: Reads per-environment flag status and flag evaluation impressions in the feature management
+    product — runtime control/observation of feature flags rather than general product telemetry.
+- tag: Runs
+  spec_file: cloudbees-runs-api-openapi.yml
+  capability_id: BC-4210.10
+  capability_id_l1: BC-4210
+  capability_name: Continuous Integration Management
+  confidence: 0.78
+  evidence: POST /v4/components/{componentId}/runs  "Create run"; "Attach artifacts"; "List test results"
+  reason: Pipeline runs with attached build artefacts, test results, security scan results and evidence
+    — the integration/build pipeline record for a software component.
+- tag: Queue
+  spec_file: cloudbees-queue-api-openapi.yml
+  capability_id: BC-4210.10
+  capability_id_l1: BC-4210
+  capability_name: Continuous Integration Management
+  confidence: 0.72
+  evidence: GET /queue/api/json  "Get build queue"
+  reason: Exposes the CI controller's pending build queue, part of build pipeline operation; single read-only
+    operation so confidence is moderate.
+- tag: CreateItem
+  spec_file: cloudbees-createitem-api-openapi.yml
+  capability_id: BC-4210.10
+  capability_id_l1: BC-4210
+  capability_name: Continuous Integration Management
+  confidence: 0.7
+  evidence: POST /createItem postCreateItem 'Create a new job (item)' on the Jenkins/CloudBees CI controller
+  reason: Creating a Jenkins job defines a build pipeline, which is continuous integration management.

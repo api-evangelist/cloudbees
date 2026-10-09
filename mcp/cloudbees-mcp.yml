@@ -452,3 +452,21 @@ coverage:
   note: tools/list requires an OAuth bearer token, so the live inputSchema for each tool could not be
     introspected anonymously. Names, descriptions and toolset grouping are taken verbatim from the provider's
     own tool reference; input schemas require authenticated introspection.
+rfc9728:
+  endpoint: https://mcp.cloudbees.io/v1/mcp
+  metadata_url: https://mcp.cloudbees.io/.well-known/oauth-protected-resource
+  discovered_via: WWW-Authenticate resource_metadata on an anonymous POST initialize
+  fetched: '2026-09-25'
+  http_status: 200
+  content_type: application/json
+  document:
+    resource: https://mcp.cloudbees.io/v1/mcp
+    authorization_servers:
+    - https://id.cloudbees.io/realms/cloudbees
+    scopes_supported:
+    - openid
+    - profile
+    - email
+    - mcp:unify:connect
+    bearer_methods_supported:
+    - header

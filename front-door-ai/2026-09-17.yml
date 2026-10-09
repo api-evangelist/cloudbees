@@ -9,10 +9,14 @@ front_door_ai:
   final_host: www.cloudbees.com
   ownership: own
   owner: cloudbees
-  shares_host_with: null
+  shares_host_with:
+  - launchable
   inherited_from: null
+  alias_of: null
   verdict: scored
   score: 24
+  band: 6
+  band_label: dominant
   host_score: 24
   density: 26.09
   words: 920

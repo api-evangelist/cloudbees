@@ -1,0 +1,27 @@
+generated: '2026-10-14'
+method: searched
+checked:
+- https://marketplace.atlassian.com/
+marketplace_apps: []
+edges:
+- partner_name: Atlassian Marketplace
+  partner: atlassian
+  partner_match: aggregator
+  type: marketplace
+  marketplace: atlassian
+  channel: partner-built
+  relationship: platform-app
+  direction: third-party
+  evidence: https://marketplace.atlassian.com/vendors/1215828/cloudbees
+  listing_count: 5
+  apps:
+  - CloudBees Feature Management for Jira
+  - CloudBees Software Delivery Management
+  - CloudBees Bitbucket Server Plugin
+  - CloudBees DevOptics Plugin
+  - 'CloudBees Feature Management: Configuration as Code'
+  publisher_name: CloudBees
+  detected_by: sweep-devtools.py
+  detected: '2026-10-14'
+source:
+- https://marketplace.atlassian.com/

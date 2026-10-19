@@ -41,16 +41,6 @@ paths:
       x-operation-id-source: derived
 components:
   parameters:
-    Tree:
-      name: tree
-      in: query
-      description: 'Tree filter for selecting and trimming response fields.
-
-        Example: `jobs[name,url,color]`.
-
-        '
-      schema:
-        type: string
     Depth:
       name: depth
       in: query
@@ -60,6 +50,16 @@ components:
     XPath:
       name: xpath
       in: query
+      schema:
+        type: string
+    Tree:
+      name: tree
+      in: query
+      description: 'Tree filter for selecting and trimming response fields.
+
+        Example: `jobs[name,url,color]`.
+
+        '
       schema:
         type: string
   securitySchemes:

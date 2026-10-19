@@ -1,8 +1,72 @@
 openapi: 3.2.0
 info:
-  title: Cloudbees Users API
-  version: '1.0'
-  description: 'Operations tagged Users across 2 of this provider''s published API definitions: cloudbees-unify-beta-openapi.yml, cloudbees-unify-openapi.yml. Each path carries the servers of the definition it was published in.'
+  title: CloudBees Unify API (Current) Users API
+  version: 1.0.0
+  description: 'API documentation for CloudBees Unify''s current, stable endpoints. This specification covers the endpoints customers rely on today while next-generation v4 equivalents are in development. These endpoints are stable and supported, but no longer receive new features.
+
+
+    ### Unify core
+
+
+    #### Components
+
+    List components within an organization, and optionally filter by component type, such as applications or services with an associated repository.
+
+
+    #### Environments
+
+    Discover and manage environments within your organization. Use environments to maintain an up-to-date inventory for feature flag targeting, deployment scripts, and monitoring workflows.
+
+
+    #### Organizations
+
+    Define the structural and governance boundaries within a CloudBees Unify tenant. Organizations model business units or departments, support parent-child hierarchies, and inherit configuration—properties, integrations, and environments—from parent organizations. Every tenant has one root organization; all others exist beneath it.
+
+
+    #### Runs
+
+    Create, update, and retrieve CI/CD runs for a component. Attach and list test results, artifacts, security results, evidences, and deployments.
+
+
+    #### Teams
+
+    List teams within an organization. Teams group users to manage access and permissions across resources in CloudBees Unify.
+
+
+    #### Users
+
+    Invite or remove users, and define custom attributes for feature flag targeting based on application-specific criteria such as account tier, region, or subscription status.
+
+
+    ### Feature management
+
+
+    #### Flags
+
+    Control runtime feature visibility and behavior to enable gradual rollouts, A/B testing, progressive delivery, and safe deployments without redeployment.
+
+
+    #### Flag configurations
+
+    Set flag state (enabled or disabled) and targeting rules for a specific environment to determine which users or segments receive each variation.
+
+
+    #### Flag custom properties
+
+    Create, read, update, and delete custom properties used in targeting conditions and target groups.
+
+
+    #### Target groups
+
+    Define reusable sets of targeting conditions for feature flags. Specify rules once (such as matching users by role, region, or custom property) and apply them across multiple flags. Changes to a target group propagate automatically to every flag that references it.
+
+
+    #### Flag lifecycle
+
+    Track how often each flag variation is served in an environment. Use impression data to monitor adoption, validate rollouts, and see which variations your application evaluates.
+
+
+    For new integrations, prefer the CloudBees Unify API (Beta) where available.'
 servers:
 - url: https://api.cloudbees.io
   description: CloudBees Unify Production API
@@ -10,58 +74,8 @@ security:
 - BearerAuth: []
 tags:
 - name: Users
-  description: List users in a tenant.
+  description: Invite or remove users, and define custom attributes for feature flag targeting based on application-specific criteria such as account tier, region, or subscription status.
 paths:
-  /v4/users:
-    get:
-      tags:
-      - Users
-      description: Retrieves a list of users the authenticated user has access to. Supports filtering, pagination, and sorting.
-      operationId: listUsers
-      parameters:
-      - name: tenantId
-        in: query
-        description: Optional tenant_id to filter by.
-        schema:
-          type: string
-      - name: email
-        in: query
-        description: Optional email to filter by.
-        schema:
-          type: string
-      - name: orderBy
-        in: query
-        description: "Optional sort specification.\n Format: \"field [asc|desc]\" (e.g., \"name asc\", \"updated_at desc\")\n Default sort order is ascending if not specified."
-        schema:
-          type: string
-      - name: pageSize
-        in: query
-        description: "Maximum number of items to return per page.\n Default: 100, Maximum: 1000"
-        schema:
-          type: integer
-          format: int32
-      - name: pageToken
-        in: query
-        description: "Cursor token for retrieving the next page of results.\n Obtained from next_page_token of the previous response.\n Omit or use empty string for the first page."
-        schema:
-          type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/api.v4.ListUsersResponse'
-        default:
-          description: Default error response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/google.rpc.Status'
-      summary: List users
-    servers:
-    - url: https://api.cloudbees.io
-      description: CloudBees Unify Production API
   /v3/organizations/{organizationId}/invite:
     post:
       tags:
@@ -70,7 +84,7 @@ paths:
       parameters:
       - name: organizationId
         in: path
-        description: Unique identifier of the organization to which users are being invited. Required.
+        description: Unique identifier of the organization to which users are being invited. Required. Refer to [the documentation](https://cloudbees.com/r/unify-manage-organizations) for how to locate your organization ID.
         required: true
         schema:
           type: string
@@ -95,9 +109,6 @@ paths:
                 $ref: '#/components/schemas/google.rpc.Status'
       summary: Create invites for users to join an organization
       description: Creates invitations for one or more users to join the specified organization and its selected teams. Each invited user receives an email with a link to accept the invitation. Invitations expire after 5 days by default.
-    servers:
-    - url: https://api.cloudbees.io
-      description: CloudBees Unify Production API
   /v3/organizations/{organizationId}/user/{userId}:
     delete:
       tags:
@@ -106,7 +117,7 @@ paths:
       parameters:
       - name: organizationId
         in: path
-        description: Unique identifier of the organization from which the user is removed. Required.
+        description: Unique identifier of the organization from which the user is removed. Required. Refer to [the documentation](https://cloudbees.com/r/unify-manage-organizations) for how to locate your organization ID.
         required: true
         schema:
           type: string
@@ -128,113 +139,8 @@ paths:
                 $ref: '#/components/schemas/google.rpc.Status'
       summary: Remove a user from an organization
       description: Removes the specified user from all teams within the organization, revoking their access to all associated resources.
-    servers:
-    - url: https://api.cloudbees.io
-      description: CloudBees Unify Production API
 components:
   schemas:
-    api.v4.User:
-      required:
-      - email
-      type: object
-      properties:
-        id:
-          readOnly: true
-          type: string
-          description: Unique identifier for this user
-        email:
-          type: string
-          description: Primary email address for authentication and contact
-        displayName:
-          readOnly: true
-          type: string
-          description: Display name for this user
-        firstName:
-          type: string
-          description: First name of the user
-        lastName:
-          type: string
-          description: Last name of the user
-        additionalEmails:
-          type: array
-          items:
-            type: string
-          description: Additional email addresses linked to user account
-      description: A person that can access CloudBees Unify. Invite users to a tenant to grant them access to your organizations.
-    google.protobuf.Any:
-      type: object
-      properties:
-        '@type':
-          type: string
-          description: The type of the serialized message.
-      additionalProperties: true
-      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
-    api.v4.ListUsersResponse:
-      type: object
-      properties:
-        users:
-          type: array
-          items:
-            $ref: '#/components/schemas/api.v4.User'
-          description: List of users matching the request.
-        nextPageToken:
-          type: string
-          description: "Cursor token for retrieving the next page of results.\n Empty string indicates this is the last page.\n Pass this value as page_token (field 71) to fetch the next page."
-        totalSize:
-          type: integer
-          description: "Total number of items matching the query across all pages.\n Optional - may be omitted if computing the total would be expensive\n (e.g., large datasets, complex filters, cross-shard queries).\n Clients MUST NOT assume this field will always be present."
-          format: int32
-      description: Response message for ListUsers.
-    google.rpc.Status:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
-          format: int32
-        message:
-          type: string
-          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/google.protobuf.Any'
-          description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
-      description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
-    api.auth.CreateInvitesV3Response:
-      type: object
-      properties:
-        sentInvites:
-          type: array
-          items:
-            $ref: '#/components/schemas/api.auth.InviteV3'
-          description: List of invitations that were created and sent.
-    api.auth.CreateInvitesRequestV3:
-      type: object
-      properties:
-        organizationId:
-          type: string
-          description: Unique identifier of the organization to which users are being invited. Required.
-        teamIds:
-          type: array
-          items:
-            type: string
-          description: List of unique identifiers of the teams within the organization that invited users will be added to.
-        emails:
-          type: array
-          items:
-            type: string
-          description: List of email addresses to invite to the organization. Each address will receive an invitation email.
-        redirectUrl:
-          type: string
-          description: URL to redirect the user to after accepting the invitation. If omitted, users are redirected to the default sign-in page.
-        invitedBy:
-          type: string
-          description: Unique identifier of the user sending the invitations.
-        expirationDate:
-          type: string
-          description: Date and time when the invitations expire. Defaults to 5 days after creation if omitted.
-          format: date-time
     api.Audit:
       type: object
       properties:
@@ -278,11 +184,83 @@ components:
           allOf:
           - $ref: '#/components/schemas/api.Audit'
           description: Audit metadata including creation and last modification timestamps.
+    google.rpc.Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+          format: int32
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+          description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+      description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+    google.protobuf.Any:
+      type: object
+      properties:
+        '@type':
+          type: string
+          description: The type of the serialized message.
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+    api.auth.CreateInvitesRequestV3:
+      type: object
+      properties:
+        organizationId:
+          type: string
+          description: Unique identifier of the organization to which users are being invited. Required.
+        teamIds:
+          type: array
+          items:
+            type: string
+          description: List of unique identifiers of the teams within the organization that invited users will be added to.
+        emails:
+          type: array
+          items:
+            type: string
+          description: List of email addresses to invite to the organization. Each address will receive an invitation email.
+        redirectUrl:
+          type: string
+          description: URL to redirect the user to after accepting the invitation. If omitted, users are redirected to the default sign-in page.
+        invitedBy:
+          type: string
+          description: Unique identifier of the user sending the invitations.
+        expirationDate:
+          type: string
+          description: Date and time when the invitations expire. Defaults to 5 days after creation if omitted.
+          format: date-time
+    api.auth.CreateInvitesV3Response:
+      type: object
+      properties:
+        sentInvites:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.auth.InviteV3'
+          description: List of invitations that were created and sent.
   securitySchemes:
     BearerAuth:
       type: http
       scheme: bearer
       description: CloudBees Unify API access token or personal access token
-x-refined-from:
-- cloudbees-unify-beta-openapi.yml
-- cloudbees-unify-openapi.yml
+x-tagGroups:
+- name: Unify core
+  tags:
+  - Components
+  - Edge runners
+  - Environments
+  - Organizations
+  - Runs
+  - Teams
+  - Users
+- name: Feature management
+  tags:
+  - Flags
+  - Flag configurations
+  - Flag custom properties
+  - Target groups
+  - Flag lifecycle

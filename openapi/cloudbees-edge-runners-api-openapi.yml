@@ -1,0 +1,653 @@
+openapi: 3.2.0
+info:
+  title: CloudBees Unify API (Current) Edge runners API
+  version: 1.0.0
+  description: 'API documentation for CloudBees Unify''s current, stable endpoints. This specification covers the endpoints customers rely on today while next-generation v4 equivalents are in development. These endpoints are stable and supported, but no longer receive new features.
+
+
+    ### Unify core
+
+
+    #### Components
+
+    List components within an organization, and optionally filter by component type, such as applications or services with an associated repository.
+
+
+    #### Environments
+
+    Discover and manage environments within your organization. Use environments to maintain an up-to-date inventory for feature flag targeting, deployment scripts, and monitoring workflows.
+
+
+    #### Organizations
+
+    Define the structural and governance boundaries within a CloudBees Unify tenant. Organizations model business units or departments, support parent-child hierarchies, and inherit configuration—properties, integrations, and environments—from parent organizations. Every tenant has one root organization; all others exist beneath it.
+
+
+    #### Runs
+
+    Create, update, and retrieve CI/CD runs for a component. Attach and list test results, artifacts, security results, evidences, and deployments.
+
+
+    #### Teams
+
+    List teams within an organization. Teams group users to manage access and permissions across resources in CloudBees Unify.
+
+
+    #### Users
+
+    Invite or remove users, and define custom attributes for feature flag targeting based on application-specific criteria such as account tier, region, or subscription status.
+
+
+    ### Feature management
+
+
+    #### Flags
+
+    Control runtime feature visibility and behavior to enable gradual rollouts, A/B testing, progressive delivery, and safe deployments without redeployment.
+
+
+    #### Flag configurations
+
+    Set flag state (enabled or disabled) and targeting rules for a specific environment to determine which users or segments receive each variation.
+
+
+    #### Flag custom properties
+
+    Create, read, update, and delete custom properties used in targeting conditions and target groups.
+
+
+    #### Target groups
+
+    Define reusable sets of targeting conditions for feature flags. Specify rules once (such as matching users by role, region, or custom property) and apply them across multiple flags. Changes to a target group propagate automatically to every flag that references it.
+
+
+    #### Flag lifecycle
+
+    Track how often each flag variation is served in an environment. Use impression data to monitor adoption, validate rollouts, and see which variations your application evaluates.
+
+
+    For new integrations, prefer the CloudBees Unify API (Beta) where available.'
+servers:
+- url: https://api.cloudbees.io
+  description: CloudBees Unify Production API
+security:
+- BearerAuth: []
+tags:
+- name: Edge runners
+  description: 'Edge runners execute jobs on your own infrastructure rather than CloudBees-hosted systems, running builds and other work closer to private resources such as source control, artifact stores, and internal networks.
+
+    Use these endpoints to register an edge runner in an organization and to list and inspect its available edge runners, the jobs they run, and each job''s status.'
+paths:
+  /v1/organizations/{organization_id}/edge/runner-token:
+    post:
+      tags:
+      - Edge runners
+      operationId: EdgeTokensService_CreateEdgeRunnerToken
+      parameters:
+      - name: organization_id
+        in: path
+        description: Unique identifier of the organization the new runner will be registered in.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.auth.EdgeTokenResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Create an edge runner registration token
+      description: Creates a short-lived token that authorizes registering a new edge runner in the specified organization. Supply the returned token when the runner registers itself with the platform.
+  /v1/organizations/{organization_id}/edge/runners:
+    get:
+      tags:
+      - Edge runners
+      operationId: EdgeRunnerRegistry_ListEdgeRunners
+      parameters:
+      - name: organization_id
+        in: path
+        description: Unique identifier of the organization whose edge runners are listed.
+        required: true
+        schema:
+          type: string
+      - name: parents
+        in: query
+        description: When true, also include runners registered in parent organizations, traversing up the hierarchy. Defaults to false.
+        schema:
+          type: boolean
+      - name: children
+        in: query
+        description: When true, also include runners registered in child organizations, traversing down the hierarchy. Defaults to false.
+        schema:
+          type: boolean
+      - name: pagination.page
+        in: query
+        description: page (optional) indicates which page is being requested or returned (0 or 1) returns the 1st page of results
+        schema:
+          type: integer
+          format: int32
+      - name: pagination.pageLength
+        in: query
+        description: "page_length (optional) specifies the number of items per page being requested.  If the request is asking for more than an api limit\n allows, the response will indicate the new page_length that should be used for future calls."
+        schema:
+          type: integer
+          format: int32
+      - name: pagination.sort.fieldName
+        in: query
+        description: "field_name specifies the field to use for sorting a list of results.  See documentation for\n specific API endpoints to determine appropriate field names."
+        schema:
+          type: string
+      - name: pagination.sort.order
+        in: query
+        description: order specifies how to sort the results
+        schema:
+          enum:
+          - ASCENDING
+          - DESCENDING
+          type: string
+      - name: pagination.lastPage
+        in: query
+        description: 'RESPONSE ONLY: last_page is true {response} if there are no more results to be returned'
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.edge.EdgeRunnerListResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List edge runners
+      description: Returns the edge runners registered in the specified organization. Optionally include runners from parent or child organizations, and page through large result sets using the pagination parameters.
+  /v1/organizations/{organization_id}/edge/runners/{runner_id}:
+    get:
+      tags:
+      - Edge runners
+      operationId: EdgeRunnerRegistry_GetEdgeRunner
+      parameters:
+      - name: organization_id
+        in: path
+        description: Unique identifier of the organization that the runner belongs to.
+        required: true
+        schema:
+          type: string
+      - name: runner_id
+        in: path
+        description: Unique identifier of the edge runner to retrieve.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.edge.EdgeRunnerGetResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Get an edge runner
+      description: Returns a single edge runner by its identifier, including its labels, supported execution modes, and the job it is currently running, if any.
+    delete:
+      tags:
+      - Edge runners
+      operationId: EdgeRunnerRegistry_DeleteEdgeRunner
+      parameters:
+      - name: organization_id
+        in: path
+        description: Unique identifier of the organization the edge runner belongs to.
+        required: true
+        schema:
+          type: string
+      - name: runner_id
+        in: path
+        description: Unique identifier of the edge runner to delete.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content: {}
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Unregister an edge runner
+      description: Removes an edge runner from the specified organization. The runner must be idle; a runner that is currently executing a job cannot be unregistered.
+  /v1/organizations/{organization_id}/edge/jobs:
+    get:
+      tags:
+      - Edge runners
+      operationId: EdgeJobRegistry_ListEdgeJobs
+      parameters:
+      - name: organization_id
+        in: path
+        description: Unique identifier of the organization whose edge jobs are listed.
+        required: true
+        schema:
+          type: string
+      - name: filterStates
+        in: query
+        description: When provided, returns only jobs currently in one of the given states. When omitted, jobs in any state are returned.
+        schema:
+          type: array
+          items:
+            enum:
+            - EDGE_JOB_UNKNOWN
+            - EDGE_JOB_CREATED
+            - EDGE_JOB_ASSIGNED
+            - EDGE_JOB_DISPATCHED
+            - EDGE_JOB_COMPLETED
+            - EDGE_JOB_STAGED
+            type: string
+      - name: pagination.page
+        in: query
+        description: page (optional) indicates which page is being requested or returned (0 or 1) returns the 1st page of results
+        schema:
+          type: integer
+          format: int32
+      - name: pagination.pageLength
+        in: query
+        description: "page_length (optional) specifies the number of items per page being requested.  If the request is asking for more than an api limit\n allows, the response will indicate the new page_length that should be used for future calls."
+        schema:
+          type: integer
+          format: int32
+      - name: pagination.sort.fieldName
+        in: query
+        description: "field_name specifies the field to use for sorting a list of results.  See documentation for\n specific API endpoints to determine appropriate field names."
+        schema:
+          type: string
+      - name: pagination.sort.order
+        in: query
+        description: order specifies how to sort the results
+        schema:
+          enum:
+          - ASCENDING
+          - DESCENDING
+          type: string
+      - name: pagination.lastPage
+        in: query
+        description: 'RESPONSE ONLY: last_page is true {response} if there are no more results to be returned'
+        schema:
+          type: boolean
+      - name: runnerId
+        in: query
+        description: When set, returns only jobs assigned to the runner with this identifier.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.edge.EdgeJobListResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: List edge jobs
+      description: Returns the edge jobs in the specified organization. Filter the results by job state or by the runner they are assigned to, and page through large result sets using the pagination parameters.
+  /v1/organizations/{organization_id}/edge/jobs/{job_id}:
+    get:
+      tags:
+      - Edge runners
+      operationId: EdgeJobRegistry_GetEdgeJob
+      parameters:
+      - name: organization_id
+        in: path
+        description: Unique identifier of the organization that the job belongs to.
+        required: true
+        schema:
+          type: string
+      - name: job_id
+        in: path
+        description: Unique identifier of the edge job to retrieve.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.edge.EdgeJobGetResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
+      summary: Get an edge job
+      description: Returns a single edge job by its identifier, including its current state, result, per-step progress, and the runner it was assigned to.
+components:
+  schemas:
+    api.edge.EdgeJobStepInfo:
+      type: object
+      properties:
+        state:
+          enum:
+          - EDGE_JOB_STEP_UNKNOWN
+          - EDGE_JOB_STEP_PENDING
+          - EDGE_JOB_STEP_RUNNING
+          - EDGE_JOB_STEP_COMPLETED
+          type: string
+          description: Current progress state of the step.
+        result:
+          enum:
+          - RESULT_UNKNOWN
+          - RESULT_SUCCESS
+          - RESULT_FAILURE
+          - RESULT_ABORTED
+          - RESULT_SKIPPED
+          - RESULT_TIMED_OUT
+          - RESULT_ERRORED
+          type: string
+          description: Outcome of the step. Meaningful only once the step has completed.
+        started_at:
+          type: string
+          description: Time at which the step started running. Empty until the step starts.
+          format: date-time
+        completed_at:
+          type: string
+          description: Time at which the step completed. Empty until the step completes.
+          format: date-time
+        timeout:
+          pattern: ^-?(?:0|[1-9][0-9]{0,11})(?:\.[0-9]{1,9})?s$
+          type: string
+          description: Maximum time the step was allowed to run before being timed out.
+      description: EdgeJobStepInfo reports the progress and outcome of a single job step.
+    api.edge.EdgeJob:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the edge job.
+        organization_id:
+          type: string
+          description: Unique identifier of the organization that created the job.
+        service_id:
+          type: string
+          description: Identifier of the component or application this job is associated with. Empty when the job is not tied to a specific component.
+        labels:
+          type: array
+          items:
+            type: string
+          description: Labels the job requires. The job is assigned only to a runner whose labels satisfy these requirements.
+        state:
+          enum:
+          - EDGE_JOB_UNKNOWN
+          - EDGE_JOB_CREATED
+          - EDGE_JOB_ASSIGNED
+          - EDGE_JOB_DISPATCHED
+          - EDGE_JOB_COMPLETED
+          - EDGE_JOB_STAGED
+          type: string
+          description: Current lifecycle state of the job.
+        runner_id:
+          type: string
+          description: Identifier of the runner assigned to the job. Populated once the job reaches the ASSIGNED state, empty before then.
+        result:
+          enum:
+          - RESULT_UNKNOWN
+          - RESULT_SUCCESS
+          - RESULT_FAILURE
+          - RESULT_ABORTED
+          - RESULT_SKIPPED
+          - RESULT_TIMED_OUT
+          - RESULT_ERRORED
+          type: string
+          description: Final result of the job. Meaningful only once the job has completed.
+        steps_info:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.edge.EdgeJobStepInfo'
+          description: Per-step progress and result for the job, in step order.
+        created_at:
+          type: string
+          description: Time at which the job was created.
+          format: date-time
+        assigned_at:
+          type: string
+          description: Time at which the job was assigned to a runner. Empty until the job is assigned.
+          format: date-time
+        dispatched_at:
+          type: string
+          description: Time at which the job was dispatched to its assigned runner. Empty until the job is dispatched.
+          format: date-time
+        completed_at:
+          type: string
+          description: Time at which the job completed. Empty until the job completes.
+          format: date-time
+        required_execution_mode:
+          enum:
+          - MODE_UNKNOWN
+          - NATIVE
+          - CONTAINER
+          type: string
+          description: Execution mode a runner must support to run the job.
+        execution_mode_flags:
+          type: object
+          additionalProperties:
+            type: string
+          description: Additional flags that tune how the required execution mode is applied on the runner.
+        staged_at:
+          type: string
+          description: Time at which the job entered the STAGED state and became eligible for assignment. Empty until the job is staged.
+          format: date-time
+        runner_org_id:
+          type: string
+          description: Identifier of the organization that owns the assigned runner. This can differ from organizationId when a job is run by a runner in a parent or child organization. Use it as the organization ID when retrieving the assigned runner.
+        origin:
+          enum:
+          - EDGE_JOB_ORIGIN_OTHER
+          - EDGE_JOB_ORIGIN_WORKFLOW_JOB
+          - EDGE_JOB_ORIGIN_SCM_OPERATION
+          - EDGE_JOB_ORIGIN_WORKFLOW_FETCH
+          - EDGE_JOB_ORIGIN_JIRA_OPERATION
+          - EDGE_JOB_ORIGIN_WEBHOOK_OPERATION
+          type: string
+          description: What triggered the creation of the job.
+        completion_message:
+          type: string
+          description: Explains why a job completed exceptionally, for example when result is ERRORED or TIMED_OUT and the cause is not the job itself. Empty for jobs that completed normally.
+        name:
+          type: string
+          description: Human-readable name of the job.
+        url:
+          type: string
+          description: Fully-formed Unify UI URL for this job's log page.
+    google.rpc.Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+          format: int32
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+          description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+      description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+    api.auth.EdgeTokenResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+          description: The issued access token. Present it as a bearer token on the requests it authorizes.
+    google.protobuf.Any:
+      type: object
+      properties:
+        '@type':
+          type: string
+          description: The type of the serialized message.
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+    api.edge.EdgeRunnerGetResponse:
+      type: object
+      properties:
+        runner:
+          allOf:
+          - $ref: '#/components/schemas/api.edge.EdgeRunner'
+          description: The requested edge runner.
+    api.edge.EdgeRunnerListResponse:
+      type: object
+      properties:
+        runners:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.edge.EdgeRunner'
+          description: The edge runners matching the request, subject to pagination.
+        pagination:
+          allOf:
+          - $ref: '#/components/schemas/api.Pagination'
+          description: Pagination state for the response, including whether this is the last page.
+    api.edge.EdgeRunner:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the edge runner.
+        organization_id:
+          type: string
+          description: Unique identifier of the organization the runner is registered in.
+        name:
+          type: string
+          description: Human-readable name of the runner, chosen when the runner is registered.
+        public_key:
+          type: string
+          description: Public key of the keypair the runner uses to authenticate its requests to the platform.
+        labels:
+          type: array
+          items:
+            type: string
+          description: Labels assigned to the runner. Jobs are matched to runners whose labels satisfy the job's label requirements.
+        created_at:
+          type: string
+          description: Time at which the runner was registered.
+          format: date-time
+        last_connected_at:
+          type: string
+          description: Last time the runner polled. Updated at most every few minutes to reduce write pressure.
+          format: date-time
+        last_job_dispatched_at:
+          type: string
+          description: Time at which the runner was most recently dispatched a job. Empty if the runner has never been dispatched a job.
+          format: date-time
+        current_job_id:
+          type: string
+          description: Identifier of the job currently assigned to the runner. Empty when the runner is idle.
+        execution_modes:
+          type: array
+          items:
+            type: string
+          description: Execution modes the runner supports, for example NATIVE for shell steps or CONTAINER for containerized steps.
+        state:
+          enum:
+          - EDGE_RUNNER_STATE_UNDEFINED
+          - EDGE_RUNNER_STATE_IDLE
+          - EDGE_RUNNER_STATE_BUSY
+          - EDGE_RUNNER_STATE_OFFLINE
+          - EDGE_RUNNER_STATE_STALLED
+          type: string
+          description: state is a computed field derived from current_job_id and last_connected_at. Not persisted.
+    api.Sort:
+      type: object
+      properties:
+        fieldName:
+          type: string
+          description: "field_name specifies the field to use for sorting a list of results.  See documentation for\n specific API endpoints to determine appropriate field names."
+        order:
+          enum:
+          - ASCENDING
+          - DESCENDING
+          type: string
+          description: order specifies how to sort the results
+      description: Sort describes which field to sort the results on and the order in which to sort them
+    api.Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+          description: page (optional) indicates which page is being requested or returned (0 or 1) returns the 1st page of results
+          format: int32
+        pageLength:
+          type: integer
+          description: "page_length (optional) specifies the number of items per page being requested.  If the request is asking for more than an api limit\n allows, the response will indicate the new page_length that should be used for future calls."
+          format: int32
+        sort:
+          allOf:
+          - $ref: '#/components/schemas/api.Sort'
+          description: sort (optional) specifies how the results should be sorted {request} or how they are actually sorted {response}.
+        lastPage:
+          type: boolean
+          description: 'RESPONSE ONLY: last_page is true {response} if there are no more results to be returned'
+      description: Pagination is sent as part of a request to specify handling for paginated results, and returned with paginated results=
+    api.edge.EdgeJobGetResponse:
+      type: object
+      properties:
+        job:
+          allOf:
+          - $ref: '#/components/schemas/api.edge.EdgeJob'
+          description: The requested edge job.
+    api.edge.EdgeJobListResponse:
+      type: object
+      properties:
+        jobs:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.edge.EdgeJob'
+          description: The edge jobs matching the request, subject to pagination.
+        pagination:
+          allOf:
+          - $ref: '#/components/schemas/api.Pagination'
+          description: Pagination state for the response, including whether this is the last page.
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: CloudBees Unify API access token or personal access token
+x-tagGroups:
+- name: Unify core
+  tags:
+  - Components
+  - Edge runners
+  - Environments
+  - Organizations
+  - Runs
+  - Teams
+  - Users
+- name: Feature management
+  tags:
+  - Flags
+  - Flag configurations
+  - Flag custom properties
+  - Target groups
+  - Flag lifecycle

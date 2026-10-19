@@ -2,7 +2,71 @@ openapi: 3.2.0
 info:
   title: CloudBees Unify API (Current) Environments API
   version: 1.0.0
-  description: API documentation for CloudBees Unify's current, stable endpoints.
+  description: 'API documentation for CloudBees Unify''s current, stable endpoints. This specification covers the endpoints customers rely on today while next-generation v4 equivalents are in development. These endpoints are stable and supported, but no longer receive new features.
+
+
+    ### Unify core
+
+
+    #### Components
+
+    List components within an organization, and optionally filter by component type, such as applications or services with an associated repository.
+
+
+    #### Environments
+
+    Discover and manage environments within your organization. Use environments to maintain an up-to-date inventory for feature flag targeting, deployment scripts, and monitoring workflows.
+
+
+    #### Organizations
+
+    Define the structural and governance boundaries within a CloudBees Unify tenant. Organizations model business units or departments, support parent-child hierarchies, and inherit configuration—properties, integrations, and environments—from parent organizations. Every tenant has one root organization; all others exist beneath it.
+
+
+    #### Runs
+
+    Create, update, and retrieve CI/CD runs for a component. Attach and list test results, artifacts, security results, evidences, and deployments.
+
+
+    #### Teams
+
+    List teams within an organization. Teams group users to manage access and permissions across resources in CloudBees Unify.
+
+
+    #### Users
+
+    Invite or remove users, and define custom attributes for feature flag targeting based on application-specific criteria such as account tier, region, or subscription status.
+
+
+    ### Feature management
+
+
+    #### Flags
+
+    Control runtime feature visibility and behavior to enable gradual rollouts, A/B testing, progressive delivery, and safe deployments without redeployment.
+
+
+    #### Flag configurations
+
+    Set flag state (enabled or disabled) and targeting rules for a specific environment to determine which users or segments receive each variation.
+
+
+    #### Flag custom properties
+
+    Create, read, update, and delete custom properties used in targeting conditions and target groups.
+
+
+    #### Target groups
+
+    Define reusable sets of targeting conditions for feature flags. Specify rules once (such as matching users by role, region, or custom property) and apply them across multiple flags. Changes to a target group propagate automatically to every flag that references it.
+
+
+    #### Flag lifecycle
+
+    Track how often each flag variation is served in an environment. Use impression data to monitor adoption, validate rollouts, and see which variations your application evaluates.
+
+
+    For new integrations, prefer the CloudBees Unify API (Beta) where available.'
 servers:
 - url: https://api.cloudbees.io
   description: CloudBees Unify Production API
@@ -20,13 +84,13 @@ paths:
       parameters:
       - name: orgId
         in: path
-        description: Unique identifier of the organization whose environments are to be listed.
+        description: Unique identifier of the organization whose environments are to be listed. Refer to [the documentation](https://cloudbees.com/r/unify-manage-organizations) for how to locate your organization ID.
         required: true
         schema:
           type: string
       - name: subOrgId
         in: query
-        description: sub_org_id should not be used, use suborg ids as org_id in the query
+        description: sub_org_id should not be used, use suborg ids as org_id in the query Refer to [the documentation](https://cloudbees.com/r/unify-manage-organizations) for how to locate your organization ID.
         schema:
           type: string
       - name: name
@@ -56,21 +120,6 @@ paths:
       description: Returns a list of environments within the specified organization. Use the name query parameter to filter results by environment name.
 components:
   schemas:
-    api.vsm.report.Environment:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier of the environment.
-        name:
-          type: string
-          description: Display name of the environment.
-        resourceId:
-          type: string
-          description: Identifier of the resource associated with this environment.
-        isDisabled:
-          type: boolean
-          description: Indicates whether the environment is currently disabled.
     google.rpc.Status:
       type: object
       properties:
@@ -87,14 +136,6 @@ components:
             $ref: '#/components/schemas/google.protobuf.Any'
           description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
       description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
-    google.protobuf.Any:
-      type: object
-      properties:
-        '@type':
-          type: string
-          description: The type of the serialized message.
-      additionalProperties: true
-      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
     api.vsm.report.EnvironmentResponse:
       type: object
       properties:
@@ -103,6 +144,29 @@ components:
           items:
             $ref: '#/components/schemas/api.vsm.report.Environment'
           description: List of environments within the organization.
+    api.vsm.report.Environment:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the environment.
+        name:
+          type: string
+          description: Display name of the environment.
+        resourceId:
+          type: string
+          description: Identifier of the resource associated with this environment.
+        isDisabled:
+          type: boolean
+          description: Indicates whether the environment is currently disabled.
+    google.protobuf.Any:
+      type: object
+      properties:
+        '@type':
+          type: string
+          description: The type of the serialized message.
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
   securitySchemes:
     BearerAuth:
       type: http
@@ -112,8 +176,10 @@ x-tagGroups:
 - name: Unify core
   tags:
   - Components
+  - Edge runners
   - Environments
   - Organizations
+  - Runs
   - Teams
   - Users
 - name: Feature management

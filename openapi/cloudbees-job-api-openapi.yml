@@ -192,24 +192,26 @@ paths:
       operationId: postJobByNameDoDelete
       x-operation-id-source: derived
 components:
-  parameters:
-    Depth:
-      name: depth
-      in: query
-      schema:
-        type: integer
-        default: 0
-    Tree:
-      name: tree
-      in: query
-      description: 'Tree filter for selecting and trimming response fields.
-
-        Example: `jobs[name,url,color]`.
-
-        '
-      schema:
-        type: string
   schemas:
+    Job:
+      type: object
+      properties:
+        _class:
+          type: string
+        name:
+          type: string
+        url:
+          type: string
+        builds:
+          type: array
+          items:
+            $ref: '#/components/schemas/BuildSummary'
+        lastBuild:
+          $ref: '#/components/schemas/BuildSummary'
+        lastSuccessfulBuild:
+          $ref: '#/components/schemas/BuildSummary'
+        buildable:
+          type: boolean
     Build:
       type: object
       properties:
@@ -232,25 +234,23 @@ components:
           type: integer
         url:
           type: string
-    Job:
-      type: object
-      properties:
-        _class:
-          type: string
-        name:
-          type: string
-        url:
-          type: string
-        builds:
-          type: array
-          items:
-            $ref: '#/components/schemas/BuildSummary'
-        lastBuild:
-          $ref: '#/components/schemas/BuildSummary'
-        lastSuccessfulBuild:
-          $ref: '#/components/schemas/BuildSummary'
-        buildable:
-          type: boolean
+  parameters:
+    Tree:
+      name: tree
+      in: query
+      description: 'Tree filter for selecting and trimming response fields.
+
+        Example: `jobs[name,url,color]`.
+
+        '
+      schema:
+        type: string
+    Depth:
+      name: depth
+      in: query
+      schema:
+        type: integer
+        default: 0
   securitySchemes:
     basicAuth:
       type: http

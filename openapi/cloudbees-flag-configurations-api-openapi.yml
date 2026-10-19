@@ -2,7 +2,71 @@ openapi: 3.2.0
 info:
   title: CloudBees Unify API (Current) Flag configurations API
   version: 1.0.0
-  description: API documentation for CloudBees Unify's current, stable endpoints.
+  description: 'API documentation for CloudBees Unify''s current, stable endpoints. This specification covers the endpoints customers rely on today while next-generation v4 equivalents are in development. These endpoints are stable and supported, but no longer receive new features.
+
+
+    ### Unify core
+
+
+    #### Components
+
+    List components within an organization, and optionally filter by component type, such as applications or services with an associated repository.
+
+
+    #### Environments
+
+    Discover and manage environments within your organization. Use environments to maintain an up-to-date inventory for feature flag targeting, deployment scripts, and monitoring workflows.
+
+
+    #### Organizations
+
+    Define the structural and governance boundaries within a CloudBees Unify tenant. Organizations model business units or departments, support parent-child hierarchies, and inherit configuration—properties, integrations, and environments—from parent organizations. Every tenant has one root organization; all others exist beneath it.
+
+
+    #### Runs
+
+    Create, update, and retrieve CI/CD runs for a component. Attach and list test results, artifacts, security results, evidences, and deployments.
+
+
+    #### Teams
+
+    List teams within an organization. Teams group users to manage access and permissions across resources in CloudBees Unify.
+
+
+    #### Users
+
+    Invite or remove users, and define custom attributes for feature flag targeting based on application-specific criteria such as account tier, region, or subscription status.
+
+
+    ### Feature management
+
+
+    #### Flags
+
+    Control runtime feature visibility and behavior to enable gradual rollouts, A/B testing, progressive delivery, and safe deployments without redeployment.
+
+
+    #### Flag configurations
+
+    Set flag state (enabled or disabled) and targeting rules for a specific environment to determine which users or segments receive each variation.
+
+
+    #### Flag custom properties
+
+    Create, read, update, and delete custom properties used in targeting conditions and target groups.
+
+
+    #### Target groups
+
+    Define reusable sets of targeting conditions for feature flags. Specify rules once (such as matching users by role, region, or custom property) and apply them across multiple flags. Changes to a target group propagate automatically to every flag that references it.
+
+
+    #### Flag lifecycle
+
+    Track how often each flag variation is served in an environment. Use impression data to monitor adoption, validate rollouts, and see which variations your application evaluates.
+
+
+    For new integrations, prefer the CloudBees Unify API (Beta) where available.'
 servers:
 - url: https://api.cloudbees.io
   description: CloudBees Unify Production API
@@ -252,16 +316,12 @@ paths:
       description: Copies the feature flag configuration from a source environment to one or more target environments.
 components:
   schemas:
+    google.protobuf.Value:
+      description: Represents a dynamically typed value which can be either null, a number, a string, a boolean, a recursive struct value, or a list of values.
     google.protobuf.ListValue:
       description: "`ListValue` is a wrapper around a repeated field of values.\n\n The JSON representation for `ListValue` is JSON array."
       type: array
       items: {}
-    api.flag.FlagConfigState:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-          description: Whether the feature flag is enabled. Set to true to enable the flag, or false to disable it.
     api.flag.GetFlagConfigurationResponse:
       type: object
       properties:
@@ -285,6 +345,14 @@ components:
             $ref: '#/components/schemas/google.protobuf.Any'
           description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
       description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+    api.flag.ListFlagConfigurationsResponse:
+      type: object
+      properties:
+        configurations:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.flag.FlagConfigurationEnvironment'
+          description: The list of feature flag configurations for the specified environment.
     google.protobuf.Any:
       type: object
       properties:
@@ -293,8 +361,41 @@ components:
           description: The type of the serialized message.
       additionalProperties: true
       description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
-    google.protobuf.Value:
-      description: Represents a dynamically typed value which can be either null, a number, a string, a boolean, a recursive struct value, or a list of values.
+    api.flag.FlagConfigurationEnvironment:
+      type: object
+      properties:
+        flagId:
+          type: string
+          description: Unique identifier of the feature flag this configuration belongs to.
+        flagName:
+          type: string
+          description: Name of the feature flag.
+        description:
+          type: string
+          description: Description of the feature flag.
+        labels:
+          type: array
+          items:
+            type: string
+          description: Labels assigned to the feature flag for organization and filtering.
+        created:
+          type: string
+          description: The date and time when the flag configuration was created.
+          format: date-time
+        updated:
+          type: string
+          description: The date and time when the flag configuration was last updated.
+          format: date-time
+        configuration:
+          allOf:
+          - $ref: '#/components/schemas/api.flag.FlagConfiguration'
+          description: The feature flag configuration data for this environment.
+    api.flag.FlagConfigState:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: Whether the feature flag is enabled. Set to true to enable the flag, or false to disable it.
     api.flag.FlagConfiguration:
       type: object
       properties:
@@ -352,43 +453,6 @@ components:
         variantsEnabled:
           type: boolean
           description: Whether multivariate variants are enabled. Omit to leave the current value unchanged.
-    api.flag.ListFlagConfigurationsResponse:
-      type: object
-      properties:
-        configurations:
-          type: array
-          items:
-            $ref: '#/components/schemas/api.flag.FlagConfigurationEnvironment'
-          description: The list of feature flag configurations for the specified environment.
-    api.flag.FlagConfigurationEnvironment:
-      type: object
-      properties:
-        flagId:
-          type: string
-          description: Unique identifier of the feature flag this configuration belongs to.
-        flagName:
-          type: string
-          description: Name of the feature flag.
-        description:
-          type: string
-          description: Description of the feature flag.
-        labels:
-          type: array
-          items:
-            type: string
-          description: Labels assigned to the feature flag for organization and filtering.
-        created:
-          type: string
-          description: The date and time when the flag configuration was created.
-          format: date-time
-        updated:
-          type: string
-          description: The date and time when the flag configuration was last updated.
-          format: date-time
-        configuration:
-          allOf:
-          - $ref: '#/components/schemas/api.flag.FlagConfiguration'
-          description: The feature flag configuration data for this environment.
   securitySchemes:
     BearerAuth:
       type: http
@@ -398,8 +462,10 @@ x-tagGroups:
 - name: Unify core
   tags:
   - Components
+  - Edge runners
   - Environments
   - Organizations
+  - Runs
   - Teams
   - Users
 - name: Feature management

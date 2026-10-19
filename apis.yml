@@ -178,16 +178,19 @@ apis:
   - Pipelines
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://example.cloudbees.com
-  humanURL: https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
+  humanURL: >-
+    https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
   properties:
-  - url: https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
+  - url: >-
+      https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
     type: Documentation
   - url: https://docs.cloudbees.com/docs/release-notes/latest/cloudbees-ci/
     type: ReleaseNotes
-  description: CloudBees CI is a hardened, enterprise distribution of Jenkins. The REST API is the Jenkins
-    remote access API exposed at /api on every controller and on individual jobs, runs, queues and nodes.
-    Callers authenticate with a username and API token in HTTP basic auth and can list/create jobs, trigger
-    builds, fetch build status and console logs, manage credentials, and inspect operations centers. Responses
+  description: >-
+    CloudBees CI is a hardened, enterprise distribution of Jenkins. The REST API is the Jenkins remote
+    access API exposed at /api on every controller and on individual jobs, runs, queues and nodes. Callers
+    authenticate with a username and API token in HTTP basic auth and can list/create jobs, trigger builds,
+    fetch build status and console logs, manage credentials, and inspect operations centers. Responses
     are available as JSON, XML, or Python.
 - aid: cloudbees:cd-ro
   name: CloudBees CD/RO REST API
@@ -204,10 +207,11 @@ apis:
     type: Documentation
   - url: https://docs.cloudbees.com/plugins/cd/ec-jenkins
     type: Jenkins Plugin
-  description: The CloudBees CD/RO (Continuous Delivery / Release Orchestration) REST API exposes resources
-    for pipelines, releases, environments, applications, deployments, projects and resources. Operations
-    cover modelling deployment pipelines, launching releases, tracking stages, managing environments and
-    inventories, and integrating with Jenkins and other CI tools.
+  description: >-
+    The CloudBees CD/RO (Continuous Delivery / Release Orchestration) REST API exposes resources for pipelines,
+    releases, environments, applications, deployments, projects and resources. Operations cover modelling
+    deployment pipelines, launching releases, tracking stages, managing environments and inventories,
+    and integrating with Jenkins and other CI tools.
 - aid: cloudbees:feature-management
   name: CloudBees Feature Management REST API
   tags:
@@ -216,18 +220,22 @@ apis:
   - Feature Management
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://x-api.rollout.io/public-api
-  humanURL: https://docs.cloudbees.com/docs/cloudbees-feature-management-rest-api/latest/introduction
+  humanURL: >-
+    https://docs.cloudbees.com/docs/cloudbees-feature-management-rest-api/latest/introduction
   properties:
-  - url: https://docs.cloudbees.com/docs/cloudbees-feature-management-rest-api/latest/introduction
+  - url: >-
+      https://docs.cloudbees.com/docs/cloudbees-feature-management-rest-api/latest/introduction
     type: Documentation
-  - url: https://docs.cloudbees.com/docs/cloudbees-feature-management-rest-api/latest/environments
+  - url: >-
+      https://docs.cloudbees.com/docs/cloudbees-feature-management-rest-api/latest/environments
     type: Environments
   - url: https://docs.cloudbees.com/docs/cloudbees-feature-management/latest/rest-api
     type: Reference
-  description: The CloudBees Feature Management REST API (formerly Rollout) provides programmatic access
-    to applications, environments, feature flags, experiments, target groups, audit logs, and users. Authentication
-    uses a bearer token in the Authorization header. The API enforces a one request per second rate limit
-    per IP, returning HTTP 555 when exceeded.
+  description: >-
+    The CloudBees Feature Management REST API (formerly Rollout) provides programmatic access to applications,
+    environments, feature flags, experiments, target groups, audit logs, and users. Authentication uses
+    a bearer token in the Authorization header. The API enforces a one request per second rate limit per
+    IP, returning HTTP 555 when exceeded.
 - aid: cloudbees:jenkins-plugin
   name: CloudBees CD/RO Jenkins Plugin Steps
   tags:
@@ -245,13 +253,15 @@ apis:
     type: Documentation
   - url: https://plugins.jenkins.io/electricflow
     type: Plugin
-  description: The CloudBees CD plugin for Jenkins exposes Jenkins pipeline steps that call CloudBees
-    CD/RO REST endpoints — triggering pipelines, running releases, deploying applications, and pulling
-    artifacts from Jenkins build outputs into CD/RO release flows.
+  description: >-
+    The CloudBees CD plugin for Jenkins exposes Jenkins pipeline steps that call CloudBees CD/RO REST
+    endpoints — triggering pipelines, running releases, deploying applications, and pulling artifacts
+    from Jenkins build outputs into CD/RO release flows.
 - aid: cloudbees:cloudbees-computer-api
   name: CloudBees Computer API
   description: The Computer API from CloudBees — 1 operation(s) for computer.
-  humanURL: https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
+  humanURL: >-
+    https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
   baseURL: https://example.cloudbees.com
   tags:
   - Computer
@@ -263,7 +273,8 @@ apis:
 - aid: cloudbees:cloudbees-createitem-api
   name: CloudBees CreateItem API
   description: The CreateItem API from CloudBees — 1 operation(s) for createitem.
-  humanURL: https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
+  humanURL: >-
+    https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
   baseURL: https://example.cloudbees.com
   tags:
   - CreateItem
@@ -273,7 +284,8 @@ apis:
 - aid: cloudbees:cloudbees-job-api
   name: CloudBees Job API
   description: The Job API from CloudBees — 7 operation(s) for job.
-  humanURL: https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
+  humanURL: >-
+    https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
   baseURL: https://example.cloudbees.com
   tags:
   - Job
@@ -287,7 +299,8 @@ apis:
 - aid: cloudbees:cloudbees-json-api
   name: CloudBees Json API
   description: The Json API from CloudBees — 1 operation(s) for json.
-  humanURL: https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
+  humanURL: >-
+    https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
   baseURL: https://example.cloudbees.com
   tags:
   - JSON
@@ -301,7 +314,8 @@ apis:
 - aid: cloudbees:cloudbees-python-api
   name: CloudBees Python API
   description: The Python API from CloudBees — 1 operation(s) for python.
-  humanURL: https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
+  humanURL: >-
+    https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
   baseURL: https://example.cloudbees.com
   tags:
   - Python
@@ -311,7 +325,8 @@ apis:
 - aid: cloudbees:cloudbees-queue-api
   name: CloudBees Queue API
   description: The Queue API from CloudBees — 1 operation(s) for queue.
-  humanURL: https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
+  humanURL: >-
+    https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
   baseURL: https://example.cloudbees.com
   tags:
   - Queues
@@ -325,7 +340,8 @@ apis:
 - aid: cloudbees:cloudbees-xml-api
   name: CloudBees Xml API
   description: The Xml API from CloudBees — 1 operation(s) for xml.
-  humanURL: https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
+  humanURL: >-
+    https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
   baseURL: https://example.cloudbees.com
   tags:
   - XML
@@ -336,12 +352,14 @@ apis:
     url: openapi/cloudbees-xml-api-openapi.yml
 - aid: cloudbees:cloudbees-components-api
   name: CloudBees Components API
-  description: 'Create and manage the components in an organization. A component represents a source code
-    repository that CloudBees Unify tracks.
+  description: >-
+    Create and manage the components in an organization. A component represents a source code repository
+    that CloudBees Unify tracks.
 
     Components can be onboarded with or without an SCM integration, and an existing component can be connected
-    to an integration later.'
-  humanURL: https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
+    to an integration later.
+  humanURL: >-
+    https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
   baseURL: https://example.cloudbees.com
   tags:
   - Components
@@ -357,7 +375,8 @@ apis:
   - type: Documentation
     url: https://docs.cloudbees.com/docs/cloudbees-unify/latest/api-references/
   - type: Authentication
-    url: https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
+    url: >-
+      https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
   - type: JSONSchema
     url: json-schema/cloudbees-api-v4-component-schema.json
   - type: JSONSchema
@@ -368,9 +387,11 @@ apis:
     url: json-schema/cloudbees-api-service-list-services-response-schema.json
 - aid: cloudbees:cloudbees-environments-api
   name: CloudBees Environments API
-  description: Discover and manage environments within your organization. Use environments to maintain
-    an up-to-date inventory for feature flag targeting, deployment scripts, and monitoring workflows.
-  humanURL: https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
+  description: >-
+    Discover and manage environments within your organization. Use environments to maintain an up-to-date
+    inventory for feature flag targeting, deployment scripts, and monitoring workflows.
+  humanURL: >-
+    https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
   baseURL: https://example.cloudbees.com
   tags:
   - Environment
@@ -388,14 +409,17 @@ apis:
   - type: Documentation
     url: https://docs.cloudbees.com/docs/cloudbees-unify/latest/api-references/
   - type: Authentication
-    url: https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
+    url: >-
+      https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
   - type: JSONSchema
     url: json-schema/cloudbees-api-vsm-report-environment-response-schema.json
 - aid: cloudbees:cloudbees-flag-configurations-api
   name: CloudBees Flag configurations API
-  description: Set flag state (enabled or disabled) and targeting rules for a specific environment to
-    determine which users or segments receive each variation.
-  humanURL: https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
+  description: >-
+    Set flag state (enabled or disabled) and targeting rules for a specific environment to determine which
+    users or segments receive each variation.
+  humanURL: >-
+    https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
   baseURL: https://example.cloudbees.com
   tags:
   - Flag configurations
@@ -411,7 +435,8 @@ apis:
   - type: Documentation
     url: https://docs.cloudbees.com/docs/cloudbees-unify/latest/api-references/
   - type: Authentication
-    url: https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
+    url: >-
+      https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
   - type: JSONSchema
     url: json-schema/cloudbees-api-flag-flag-configuration-schema.json
   - type: JSONSchema
@@ -424,9 +449,10 @@ apis:
     url: json-schema/cloudbees-api-flag-flag-config-state-schema.json
 - aid: cloudbees:cloudbees-flag-custom-properties-api
   name: CloudBees Flag custom properties API
-  description: Create, read, update, and delete custom properties used in targeting conditions and target
-    groups.
-  humanURL: https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
+  description: >-
+    Create, read, update, and delete custom properties used in targeting conditions and target groups.
+  humanURL: >-
+    https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
   baseURL: https://example.cloudbees.com
   tags:
   - Flag custom properties
@@ -442,13 +468,16 @@ apis:
   - type: Documentation
     url: https://docs.cloudbees.com/docs/cloudbees-unify/latest/api-references/
   - type: Authentication
-    url: https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
+    url: >-
+      https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
   - type: JSONSchema
     url: json-schema/cloudbees-api-custom-property-custom-property-schema.json
   - type: JSONSchema
-    url: json-schema/cloudbees-api-custom-property-get-custom-property-flags-usage-per-environment-response-schema.json
+    url: >-
+      json-schema/cloudbees-api-custom-property-get-custom-property-flags-usage-per-environment-response-schema.json
   - type: JSONSchema
-    url: json-schema/cloudbees-api-custom-property-get-custom-property-target-group-usage-response-schema.json
+    url: >-
+      json-schema/cloudbees-api-custom-property-get-custom-property-target-group-usage-response-schema.json
   - type: JSONSchema
     url: json-schema/cloudbees-api-custom-property-list-custom-properties-response-schema.json
   - type: JSONSchema
@@ -457,13 +486,15 @@ apis:
     url: json-schema/cloudbees-api-custom-property-get-custom-property-response-schema.json
 - aid: cloudbees:cloudbees-flag-lifecycle-api
   name: CloudBees Flag lifecycle API
-  description: 'Track how often each feature flag variation is served within an environment.
+  description: >-
+    Track how often each feature flag variation is served within an environment.
 
     Use impression data to monitor flag adoption, validate rollout progress, and analyze which variations
     are being evaluated by your application.
 
-    Results can be aggregated by hour or day and filtered to a specific time range and set of flags.'
-  humanURL: https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
+    Results can be aggregated by hour or day and filtered to a specific time range and set of flags.
+  humanURL: >-
+    https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
   baseURL: https://example.cloudbees.com
   tags:
   - Flag lifecycle
@@ -479,7 +510,8 @@ apis:
   - type: Documentation
     url: https://docs.cloudbees.com/docs/cloudbees-unify/latest/api-references/
   - type: Authentication
-    url: https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
+    url: >-
+      https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
   - type: JSONSchema
     url: json-schema/cloudbees-api-fmimpressions-impression-params-schema.json
   - type: JSONSchema
@@ -488,9 +520,11 @@ apis:
     url: json-schema/cloudbees-api-fmimpressions-get-flags-status-response-schema.json
 - aid: cloudbees:cloudbees-flags-api
   name: CloudBees Flags API
-  description: Control runtime feature visibility and behavior to enable gradual rollouts, A/B testing,
-    progressive delivery, and safe deployments without redeployment.
-  humanURL: https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
+  description: >-
+    Control runtime feature visibility and behavior to enable gradual rollouts, A/B testing, progressive
+    delivery, and safe deployments without redeployment.
+  humanURL: >-
+    https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
   baseURL: https://example.cloudbees.com
   tags:
   - Flags
@@ -506,7 +540,8 @@ apis:
   - type: Documentation
     url: https://docs.cloudbees.com/docs/cloudbees-unify/latest/api-references/
   - type: Authentication
-    url: https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
+    url: >-
+      https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
   - type: JSONSchema
     url: json-schema/cloudbees-api-flag-flag-schema.json
   - type: JSONSchema
@@ -521,13 +556,15 @@ apis:
     url: json-schema/cloudbees-api-flag-get-flag-response-schema.json
 - aid: cloudbees:cloudbees-organizations-api
   name: CloudBees Organizations API
-  description: 'Define the structural and governance boundaries within a CloudBees Unify tenant.
+  description: >-
+    Define the structural and governance boundaries within a CloudBees Unify tenant.
 
     Organizations model business units or departments, support parent-child hierarchies, and inherit configuration—properties,
     integrations, and environments—from parent organizations.
 
-    Every tenant has one root organization; all others exist beneath it.'
-  humanURL: https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
+    Every tenant has one root organization; all others exist beneath it.
+  humanURL: >-
+    https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
   baseURL: https://example.cloudbees.com
   tags:
   - Organization
@@ -545,16 +582,19 @@ apis:
   - type: Documentation
     url: https://docs.cloudbees.com/docs/cloudbees-unify/latest/api-references/
   - type: Authentication
-    url: https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
+    url: >-
+      https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
   - type: JSONSchema
     url: json-schema/cloudbees-api-auth-get-organizations-response-schema.json
   - type: JSONSchema
     url: json-schema/cloudbees-api-auth-get-organization-by-name-response-schema.json
 - aid: cloudbees:cloudbees-runs-api
   name: CloudBees Runs API
-  description: Create, update, and retrieve CI/CD runs for a component. Attach and list test results,
-    artifacts, security results, evidences, and deployments.
-  humanURL: https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
+  description: >-
+    Create, update, and retrieve CI/CD runs for a component. Attach and list test results, artifacts,
+    security results, evidences, and deployments.
+  humanURL: >-
+    https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
   baseURL: https://example.cloudbees.com
   tags:
   - Runs
@@ -570,7 +610,8 @@ apis:
   - type: Documentation
     url: https://docs.cloudbees.com/docs/cloudbees-unify/latest/api-references/
   - type: Authentication
-    url: https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
+    url: >-
+      https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
   - type: JSONSchema
     url: json-schema/cloudbees-api-v4-run-schema.json
   - type: JSONSchema
@@ -585,11 +626,13 @@ apis:
     url: json-schema/cloudbees-api-v4-create-deployment-artifacts-response-schema.json
 - aid: cloudbees:cloudbees-target-groups-api
   name: CloudBees Target groups API
-  description: 'Define reusable sets of targeting conditions for feature flags. Specify rules once (such
-    as matching users by role, region, or custom property) and apply them across multiple flags.
+  description: >-
+    Define reusable sets of targeting conditions for feature flags. Specify rules once (such as matching
+    users by role, region, or custom property) and apply them across multiple flags.
 
-    Changes to a target group propagate automatically to every flag that references it.'
-  humanURL: https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
+    Changes to a target group propagate automatically to every flag that references it.
+  humanURL: >-
+    https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
   baseURL: https://example.cloudbees.com
   tags:
   - Target Groups
@@ -607,51 +650,27 @@ apis:
   - type: Documentation
     url: https://docs.cloudbees.com/docs/cloudbees-unify/latest/api-references/
   - type: Authentication
-    url: https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
+    url: >-
+      https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
   - type: JSONSchema
     url: json-schema/cloudbees-api-target-group-target-group-schema.json
   - type: JSONSchema
-    url: json-schema/cloudbees-api-target-group-list-target-groups-with-flags-usage-response-schema.json
+    url: >-
+      json-schema/cloudbees-api-target-group-list-target-groups-with-flags-usage-response-schema.json
   - type: JSONSchema
-    url: json-schema/cloudbees-api-target-group-get-target-group-flags-usage-per-environment-response-schema.json
+    url: >-
+      json-schema/cloudbees-api-target-group-get-target-group-flags-usage-per-environment-response-schema.json
   - type: JSONSchema
     url: json-schema/cloudbees-api-target-group-list-target-groups-response-schema.json
   - type: JSONSchema
     url: json-schema/cloudbees-api-target-group-get-target-group-response-schema.json
   - type: JSONSchema
     url: json-schema/cloudbees-api-target-group-add-target-group-response-schema.json
-- aid: cloudbees:cloudbees-team-memberships-api
-  name: CloudBees Team Memberships API
-  description: The Team Memberships API from CloudBees — 2 operation(s) for team memberships.
-  humanURL: https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
-  baseURL: https://example.cloudbees.com
-  tags:
-  - Team Memberships
-  properties:
-  - type: OpenAPI
-    url: openapi/cloudbees-team-memberships-api-openapi.yml
-  - type: ToolCrosswalk
-    url: mcp/cloudbees-tool-crosswalk.yml
-  - type: DataModel
-    url: data-model/cloudbees-data-model.yml
-  - type: APIReference
-    url: https://apidocs.cloudbees.io/
-  - type: Documentation
-    url: https://docs.cloudbees.com/docs/cloudbees-unify/latest/api-references/
-  - type: Authentication
-    url: https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
-  - type: JSONSchema
-    url: json-schema/cloudbees-api-v4-team-member-schema.json
-  - type: JSONSchema
-    url: json-schema/cloudbees-api-v4-list-team-memberships-response-schema.json
-  - type: JSONSchema
-    url: json-schema/cloudbees-api-v4-create-team-membership-request-schema.json
-  - type: JSONSchema
-    url: json-schema/cloudbees-api-v4-delete-team-membership-response-schema.json
 - aid: cloudbees:cloudbees-teams-api
   name: CloudBees Teams API
   description: List teams, and get a specific team with optional user expansion.
-  humanURL: https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
+  humanURL: >-
+    https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
   baseURL: https://example.cloudbees.com
   tags:
   - Team
@@ -669,7 +688,8 @@ apis:
   - type: Documentation
     url: https://docs.cloudbees.com/docs/cloudbees-unify/latest/api-references/
   - type: Authentication
-    url: https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
+    url: >-
+      https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
   - type: JSONSchema
     url: json-schema/cloudbees-api-v4-team-with-expansions-schema.json
   - type: JSONSchema
@@ -679,7 +699,8 @@ apis:
 - aid: cloudbees:cloudbees-users-api
   name: CloudBees Users API
   description: List users in a tenant.
-  humanURL: https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
+  humanURL: >-
+    https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
   baseURL: https://example.cloudbees.com
   tags:
   - User
@@ -697,13 +718,50 @@ apis:
   - type: Documentation
     url: https://docs.cloudbees.com/docs/cloudbees-unify/latest/api-references/
   - type: Authentication
-    url: https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
+    url: >-
+      https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
   - type: JSONSchema
     url: json-schema/cloudbees-api-auth-create-invites-request-v3-schema.json
   - type: JSONSchema
     url: json-schema/cloudbees-api-v4-list-users-response-schema.json
   - type: JSONSchema
     url: json-schema/cloudbees-api-auth-create-invites-v3-response-schema.json
+- aid: cloudbees:cloudbees-edge-runners-api
+  name: CloudBees Edge runners API
+  description: >-
+    Edge runners execute jobs on your own infrastructure rather than CloudBees-hosted systems, running
+    builds and other work closer to private resources such as source control, artifact stores, and internal
+    networks.
+
+    Use these endpoints to register an edge runner in an organization and to list and inspect its available
+    edge runners, the jobs they run, and each job's status.
+  humanURL: >-
+    https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api
+  baseURL: https://example.cloudbees.com
+  tags:
+  - Edge runners
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudbees-edge-runners-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/cloudbees-tool-crosswalk.yml
+  - type: DataModel
+    url: data-model/cloudbees-data-model.yml
+  - type: APIReference
+    url: https://apidocs.cloudbees.io/
+  - type: Documentation
+    url: https://docs.cloudbees.com/docs/cloudbees-unify/latest/api-references/
+  - type: Authentication
+    url: >-
+      https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token
+  - type: JSONSchema
+    url: json-schema/cloudbees-api-v4-team-member-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudbees-api-v4-list-team-memberships-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudbees-api-v4-create-team-membership-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudbees-api-v4-delete-team-membership-response-schema.json
 integrations:
 - name: View all regional partners
 - name: View all technology partners

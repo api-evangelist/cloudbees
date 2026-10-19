@@ -39,23 +39,6 @@ paths:
       operationId: getComputerApiJson
       x-operation-id-source: derived
 components:
-  parameters:
-    Tree:
-      name: tree
-      in: query
-      description: 'Tree filter for selecting and trimming response fields.
-
-        Example: `jobs[name,url,color]`.
-
-        '
-      schema:
-        type: string
-    Depth:
-      name: depth
-      in: query
-      schema:
-        type: integer
-        default: 0
   schemas:
     Computer:
       type: object
@@ -66,6 +49,23 @@ components:
           type: array
           items:
             type: object
+  parameters:
+    Depth:
+      name: depth
+      in: query
+      schema:
+        type: integer
+        default: 0
+    Tree:
+      name: tree
+      in: query
+      description: 'Tree filter for selecting and trimming response fields.
+
+        Example: `jobs[name,url,color]`.
+
+        '
+      schema:
+        type: string
   securitySchemes:
     basicAuth:
       type: http

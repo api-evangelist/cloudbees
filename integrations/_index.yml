@@ -78,3 +78,16 @@
     detected: '2026-10-20'
   status: not-a-workflow
   arazzo: null
+- slug: cloudbees-jetbrains-jetbrains-marketplace
+  label: JetBrains (jetbrains-marketplace)
+  partner: jetbrains
+  partner_name: JetBrains (jetbrains-marketplace)
+  category: IDE / developer extension marketplace listing
+  type: marketplace
+  marketplace: jetbrains-marketplace
+  channel: partner-built
+  evidence: https://plugins.jetbrains.com/vendor/cloudbees
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null

@@ -12,6 +12,10 @@ checked:
 - https://catalog.redhat.com/api/containers/v1/repositories?page_size=100
 - https://catalog.redhat.com/api/containers/v1/vendors/label/
 - https://catalog.redhat.com/software/partners
+- https://landscape.cd.foundation/data/full.json
+- https://plugins.jenkins.io/api/plugin/
+- https://plugins.jenkins.io/api/plugins
+- jenkins/integrations/jenkins-integration-edges.yml
 marketplace_apps: []
 edges:
 - partner_name: Atlassian Marketplace
@@ -95,25 +99,6 @@ edges:
     detected: '2026-10-20'
   detected_by: sweep-compliance-assurance.py
   first_seen: '2026-10-20'
-- partner_name: JetBrains (jetbrains-marketplace)
-  partner: jetbrains
-  partner_match: mirror
-  mirror_match: domain+name-among-holders
-  type: marketplace
-  relationship: platform-app
-  direction: third-party
-  channel: partner-built
-  marketplace: jetbrains-marketplace
-  evidence: https://plugins.jetbrains.com/vendor/cloudbees
-  mirror_of: jetbrains/integrations/jetbrains-integration-edges.yml
-  apps:
-  - CloudBees CD/RO
-  listing_count: 1
-  detected: '2026-10-20'
-  detected_by: mirror-platform-listings.py
-  category: IDE / developer extension marketplace listing
-  badges:
-  - Verified vendor
 - partner_name: Red Hat Ecosystem Catalog (certified partners)
   partner: red-hat
   partner_match: register
@@ -162,5 +147,75 @@ edges:
     detected: '2026-10-22'
   detected_by: sweep-red-hat-certified-ecosystem.py
   first_seen: '2026-10-22'
+- partner_name: CD Foundation (Continuous Delivery Foundation landscape)
+  partner: continuous-delivery-foundation
+  partner_match: register
+  type: register
+  channel: standard-directory
+  relationship: standard-participant
+  direction: partner-built
+  category: Continuous delivery foundation membership / landscape
+  evidence: https://landscape.cd.foundation/
+  contract_reference:
+    register: CD Foundation landscape (landscape.cd.foundation/data/full.json)
+    spec_file: null
+    standard: Continuous Delivery Foundation
+    role: cdf-member (Premier)
+    registered_name: CloudBees
+    registered_names:
+    - CloudBees
+    - Cloudbees
+    website: https://www.cloudbees.com/
+    matched_domain: cloudbees.com
+    matched_by: domain+name-among-holders
+    member_tier: Premier
+    landscape_categories:
+    - CI & Pipeline Orchestration / Pipeline Orchestration
+    cdf_projects: []
+    signal_note: 'participation only: CDF membership or a landscape listing is standard-participant evidence, never
+      depth; tier, categories and entries are context, never counted'
+    detected_by: sweep-jenkins-cd-foundation-plugins.py
+    detected: '2026-10-22'
+  detected_by: sweep-jenkins-cd-foundation-plugins.py
+  first_seen: '2026-10-22'
+- partner_name: JetBrains (jetbrains-marketplace)
+  partner: jetbrains
+  partner_match: mirror
+  mirror_match: domain+name-among-holders
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: jetbrains-marketplace
+  evidence: https://plugins.jetbrains.com/vendor/cloudbees
+  mirror_of: jetbrains/integrations/jetbrains-integration-edges.yml
+  apps:
+  - CloudBees CD/RO
+  listing_count: 1
+  detected: '2026-10-20'
+  detected_by: mirror-platform-listings.py
+  category: IDE / developer extension marketplace listing
+  badges:
+  - Verified vendor
+- partner_name: Jenkins (own)
+  partner: jenkins
+  partner_match: mirror
+  mirror_match: domain+name-among-holders
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://plugins.jenkins.io/docker-custom-build-environment/
+  mirror_of: jenkins/integrations/jenkins-integration-edges.yml
+  apps:
+  - CloudBees Docker Custom Build Environment
+  - CloudBees Docker Custom Build Environment (docker-custom-build-environment)
+  - CloudBees Credentials (cloudbees-credentials)
+  - CloudBees File Leak Detector (file-leak-detector)
+  listing_count: 1
+  detected: '2026-10-22'
+  detected_by: mirror-platform-listings.py
+  category: Jenkins plugin
 source:
 - https://marketplace.atlassian.com/

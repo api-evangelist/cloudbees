@@ -12,6 +12,9 @@ artifacts:
   authentication/cloudbees-authentication.yml:
     method: searched
     evidence: declared in the artifact
+  capabilities/cloudbees-capability-edges.yml:
+    method: unknown
+    evidence: no authorship recorded
   changelog/cloudbees-changelog.yml:
     method: searched
     evidence: declared in the artifact
@@ -84,130 +87,181 @@ artifacts:
   front-door-ai/2026-09-17.yml:
     method: unknown
     evidence: no authorship recorded
+  hosts/cloudbees-hosts.yml:
+    method: derived
+    evidence: declared in the artifact
+  integrations/_index.yml:
+    method: generated
+    evidence: carries an API Evangelist house phrase
+  integrations/cloudbees-integration-edges.yml:
+    method: searched
+    evidence: declared in the artifact
   json-ld/cloudbees-context.jsonld:
     method: unknown
     evidence: no authorship recorded
-  kin/checks-2026-09-24T161608.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-25T125852.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-25T133943.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-25T143147.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-25T154045.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-26T215308.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T094438.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T103455.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T123021.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T132314.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T140727.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-28T221322.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-29T213958.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-29T230545.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-30T203505.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-30T220315.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-31T223420.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-01T063623.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-01T210448.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-01T222808.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-02T211804.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-02T224043.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-03T161828.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-03T174231.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-04T062714.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-04T212454.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-04T224856.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T055819.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T072335.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T144739.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T195450.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T211839.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-06T011047.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-06T211804.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-06T224210.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-07T200636.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-07T213054.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-08T214843.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-08T232836.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-10T204815.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-10T222408.yml:
+  json-schema/cloudbees-api-auth-create-invites-request-v3-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-auth-create-invites-v3-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-auth-get-organization-by-name-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-auth-get-organizations-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-auth-get-teams-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-custom-property-add-custom-property-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-custom-property-custom-property-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-custom-property-get-custom-property-flags-usage-per-environment-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-custom-property-get-custom-property-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-custom-property-get-custom-property-target-group-usage-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-custom-property-list-custom-properties-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-flag-add-flag-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-flag-flag-config-state-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-flag-flag-configuration-optional-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-flag-flag-configuration-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-flag-flag-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-flag-get-flag-configuration-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-flag-get-flag-configuration-state-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-flag-get-flag-flags-usage-per-environment-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-flag-get-flag-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-flag-list-flag-configurations-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-flag-list-flags-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-fmimpressions-get-flags-status-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-fmimpressions-get-impressions-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-fmimpressions-impression-params-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-service-list-services-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-target-group-add-target-group-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-target-group-get-target-group-flags-usage-per-environment-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-target-group-get-target-group-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-target-group-list-target-groups-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-target-group-list-target-groups-with-flags-usage-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-target-group-target-group-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-v4-component-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-v4-create-deployment-artifacts-body-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-v4-create-deployment-artifacts-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-v4-create-run-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-v4-create-team-membership-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-v4-delete-component-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-v4-delete-team-membership-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-v4-list-components-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-v4-list-team-memberships-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-v4-list-teams-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-v4-list-users-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-v4-run-for-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-v4-run-for-update-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-v4-run-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-v4-team-member-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-v4-team-with-expansions-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-api-vsm-report-environment-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-build-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-computer-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-jenkins-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-job-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudbees-queue-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  kin/checks-2026-10-11T110117.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-09-12T062655.yml:
@@ -291,9 +345,27 @@ artifacts:
   kin/score-2026-09-24T161608.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-25T210408.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-25T232841.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-03T000835.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-03T024842.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-11T110117.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
   lifecycle/cloudbees-lifecycle.yml:
     method: searched
     evidence: declared in the artifact
+  llms/cloudbees-llms-provenance.yml:
+    method: searched
+    evidence: 'derive-llms-provenance.py: harvested'
   llms/cloudbees-llms.txt:
     method: searched
     evidence: 'derive-llms-provenance.py: harvested'
@@ -303,23 +375,11 @@ artifacts:
   mcp/cloudbees-tool-crosswalk.yml:
     method: derived
     evidence: declared in the artifact
+  openapi/_original/cloudbees-cloudbees-unify-api-current-openapi.yml:
+    method: harvested
+    evidence: byte-identical to https://apidocs.cloudbees.io/openapi-classic.yaml (sha256 c8e9cf5011fb,
+      fetched 2026-10-19)
   openapi/_original/cloudbees-openapi.yml:
-    method: harvested
-    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
-      to the provider's source is unverified
-  openapi/_original/cloudbees-unify-beta-openapi.yml:
-    method: harvested
-    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
-      to the provider's source is unverified
-  openapi/_original/cloudbees-unify-beta-openapi_2.yml:
-    method: harvested
-    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
-      to the provider's source is unverified
-  openapi/_original/cloudbees-unify-openapi.yml:
-    method: harvested
-    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
-      to the provider's source is unverified
-  openapi/_original/cloudbees-unify-openapi_2.yml:
     method: harvested
     evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
       to the provider's source is unverified
@@ -330,6 +390,9 @@ artifacts:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/cloudbees-createitem-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/cloudbees-edge-runners-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/cloudbees-environments-api-openapi.yml:
@@ -368,9 +431,6 @@ artifacts:
   openapi/cloudbees-target-groups-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/cloudbees-team-memberships-api-openapi.yml:
-    method: derived
-    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/cloudbees-teams-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
@@ -380,15 +440,72 @@ artifacts:
   openapi/cloudbees-xml-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  overlays/cloudbees-unify-beta-overlay.yaml:
+  overlays/cloudbees-components-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
+  overlays/cloudbees-computer-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudbees-createitem-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudbees-environments-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudbees-flag-configurations-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudbees-flag-custom-properties-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudbees-flag-lifecycle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudbees-flags-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudbees-job-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudbees-json-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudbees-organizations-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudbees-python-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudbees-queue-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudbees-runs-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudbees-target-groups-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudbees-team-memberships-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudbees-teams-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudbees-unify-beta-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
   overlays/cloudbees-unify-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/cloudbees-users-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudbees-xml-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   packages/cloudbees-packages.yml:
-    method: searched
-    evidence: declared in the artifact
+    method: unknown
+    evidence: no authorship recorded
   plans/cloudbees-plans-pricing.yml:
     method: searched
     evidence: declared in the artifact
@@ -421,6 +538,12 @@ artifacts:
     evidence: declared in the artifact
   skills/cloudbees-roll-out-a-feature-flag.md:
     method: generated
+    evidence: declared in the artifact
+  vendors/cloudbees-vendors.yml:
+    method: unknown
+    evidence: no authorship recorded
+  vocabulary/cloudbees-vocabulary.yml:
+    method: derived
     evidence: declared in the artifact
   well-known/cloudbees-api-openid-configuration.json:
     method: unknown

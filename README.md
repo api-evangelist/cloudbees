@@ -1,4 +1,4 @@
-# CloudBees (cloudbees)
+# CloudBees
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,147 +66,245 @@
 
 CloudBees provides software delivery automation across continuous integration, continuous deployment, release orchestration, and feature management. Their developer surface includes the CloudBees CI REST API (an extension of the Jenkins REST API), the CloudBees CD/RO REST API for release orchestration, the CloudBees Feature Management REST API (formerly Rollout) for feature flags and environments, and the CloudBees Unify Platform API for the modern unified delivery platform. APIs are generally JSON, token-authenticated, and follow REST conventions.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/cloudbees/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/cloudbees/refs/heads/main/apis.yml)
+**Areas:** CI/CD · Continuous Delivery · Continuous Integration · Developer Tools · DevOps · Feature Flags · Feature Management · Jenkins · Release Orchestration · Software Delivery
 
-## Scope
+## CloudBees on APIs.io
 
-- **Type:** Index
-- **Position:** Consumer
-- **Access:** 3rd-Party
+Everything profiled for CloudBees is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/cloudbees/](https://apis.io/providers/cloudbees/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (23)
 
-- CI/CD
-- Continuous Delivery
-- Continuous Integration
-- DevOps
-- Feature Flags
-- Feature Management
-- Jenkins
-- Release Orchestration
-- Software Delivery
+- [CloudBees CI REST API](https://apis.io/apis/cloudbees/ci/) — CloudBees CI is a hardened, enterprise distribution of Jenkins. The REST API is the Jenkins remote access API exposed at /api on every controller and on…
+- [CloudBees CD/RO REST API](https://apis.io/apis/cloudbees/cd-ro/) — The CloudBees CD/RO (Continuous Delivery / Release Orchestration) REST API exposes resources for pipelines, releases, environments, applications,…
+- [CloudBees Feature Management REST API](https://apis.io/apis/cloudbees/feature-management/) — The CloudBees Feature Management REST API (formerly Rollout) provides programmatic access to applications, environments, feature flags, experiments, target…
+- [CloudBees CD/RO Jenkins Plugin Steps](https://apis.io/apis/cloudbees/jenkins-plugin/) — The CloudBees CD plugin for Jenkins exposes Jenkins pipeline steps that call CloudBees CD/RO REST endpoints — triggering pipelines, running releases,…
+- [CloudBees Computer API](https://apis.io/apis/cloudbees/cloudbees-computer-api/) — The Computer API from CloudBees — 1 operation(s) for computer.
+- [CloudBees CreateItem API](https://apis.io/apis/cloudbees/cloudbees-createitem-api/) — The CreateItem API from CloudBees — 1 operation(s) for createitem.
+- [CloudBees Job API](https://apis.io/apis/cloudbees/cloudbees-job-api/) — The Job API from CloudBees — 7 operation(s) for job.
+- [CloudBees Json API](https://apis.io/apis/cloudbees/cloudbees-json-api/) — The Json API from CloudBees — 1 operation(s) for json.
+- [CloudBees Python API](https://apis.io/apis/cloudbees/cloudbees-python-api/) — The Python API from CloudBees — 1 operation(s) for python.
+- [CloudBees Queue API](https://apis.io/apis/cloudbees/cloudbees-queue-api/) — The Queue API from CloudBees — 1 operation(s) for queue.
+- [CloudBees Xml API](https://apis.io/apis/cloudbees/cloudbees-xml-api/) — The Xml API from CloudBees — 1 operation(s) for xml.
+- [CloudBees Components API](https://apis.io/apis/cloudbees/cloudbees-components-api/) — Create and manage the components in an organization. A component represents a source code repository that CloudBees Unify tracks. Components can be…
+- [CloudBees Environments API](https://apis.io/apis/cloudbees/cloudbees-environments-api/) — Discover and manage environments within your organization. Use environments to maintain an up-to-date inventory for feature flag targeting, deployment…
+- [CloudBees Flag configurations API](https://apis.io/apis/cloudbees/cloudbees-flag-configurations-api/) — Set flag state (enabled or disabled) and targeting rules for a specific environment to determine which users or segments receive each variation.
+- [CloudBees Flag custom properties API](https://apis.io/apis/cloudbees/cloudbees-flag-custom-properties-api/) — Create, read, update, and delete custom properties used in targeting conditions and target groups.
+- [CloudBees Flag lifecycle API](https://apis.io/apis/cloudbees/cloudbees-flag-lifecycle-api/) — Track how often each feature flag variation is served within an environment. Use impression data to monitor flag adoption, validate rollout progress, and…
+- [CloudBees Flags API](https://apis.io/apis/cloudbees/cloudbees-flags-api/) — Control runtime feature visibility and behavior to enable gradual rollouts, A/B testing, progressive delivery, and safe deployments without redeployment.
+- [CloudBees Organizations API](https://apis.io/apis/cloudbees/cloudbees-organizations-api/) — Define the structural and governance boundaries within a CloudBees Unify tenant. Organizations model business units or departments, support parent-child…
+- [CloudBees Runs API](https://apis.io/apis/cloudbees/cloudbees-runs-api/) — Create, update, and retrieve CI/CD runs for a component. Attach and list test results, artifacts, security results, evidences, and deployments.
+- [CloudBees Target groups API](https://apis.io/apis/cloudbees/cloudbees-target-groups-api/) — Define reusable sets of targeting conditions for feature flags. Specify rules once (such as matching users by role, region, or custom property) and apply…
+- [CloudBees Team Memberships API](https://apis.io/apis/cloudbees/cloudbees-team-memberships-api/) — The Team Memberships API from CloudBees — 2 operation(s) for team memberships.
+- [CloudBees Teams API](https://apis.io/apis/cloudbees/cloudbees-teams-api/) — List teams, and get a specific team with optional user expansion.
+- [CloudBees Users API](https://apis.io/apis/cloudbees/cloudbees-users-api/) — List users in a tenant.
 
-## Timestamps
+### Published properties
 
-- **Created:** 2025-01-08
-- **Modified:** 2026-04-23
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### AsyncAPI (1)
 
-### CloudBees CI REST API
+Event-driven and webhook contracts.
 
-CloudBees CI is a hardened, enterprise distribution of Jenkins. The REST API is the Jenkins remote access API exposed at /api on every controller and on individual jobs, runs, queues and nodes. Callers authenticate with a username and API token in HTTP basic auth and can list/create jobs, trigger builds, fetch build status and console logs, manage credentials, and inspect operations centers. Responses are available as JSON, XML, or Python.
+- [Cloudbees Webhooks](https://apis.io/asyncapis/cloudbees/cloudbees-webhooks/)
 
-- **Human URL:** [https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api](https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api)
-- **Base URL:** `https://example.cloudbees.com`
+#### MCP servers (1)
 
-#### Tags
+Model Context Protocol servers that expose the API to agents.
 
-- CI/CD
-- Continuous Integration
-- Jenkins
-- Pipelines
+- [CloudBees Unify MCP Server](https://apis.io/servers/cloudbees/cloudbees-unify-mcp-server/)
 
-#### Properties
+#### Agentic access (1)
 
-- [Documentation](https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/best-practices/best-practice-for-using-jenkins-rest-api)
-- [Release Notes](https://docs.cloudbees.com/docs/release-notes/latest/cloudbees-ci/)
-- [Postman Collection](collections/cloudbees.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cloudbees.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Which operations an agent can call, which act, and which need a human in the loop.
 
-### CloudBees CD/RO REST API
+- [Cloudbees Agentic Access](https://apis.io/agentic-access/cloudbees/cloudbees-agentic-access/)
 
-The CloudBees CD/RO (Continuous Delivery / Release Orchestration) REST API exposes resources for pipelines, releases, environments, applications, deployments, projects and resources. Operations cover modelling deployment pipelines, launching releases, tracking stages, managing environments and inventories, and integrating with Jenkins and other CI tools.
+#### JSON Schema (54)
 
-- **Human URL:** [https://docs.cloudbees.com/docs/cloudbees-cd/latest/api/](https://docs.cloudbees.com/docs/cloudbees-cd/latest/api/)
-- **Base URL:** `https://example-cd.cloudbees.com/rest/v1.0`
+The data models the API reads and writes.
 
-#### Tags
+- [api.auth.CreateInvitesRequestV3](https://apis.io/schemas/cloudbees/cloudbees-api-auth-create-invites-request-v3/)
+- [api.auth.CreateInvitesV3Response](https://apis.io/schemas/cloudbees/cloudbees-api-auth-create-invites-v3-response/)
+- [api.auth.GetOrganizationByNameResponse](https://apis.io/schemas/cloudbees/cloudbees-api-auth-get-organization-by-name-response/)
+- [api.auth.GetOrganizationsResponse](https://apis.io/schemas/cloudbees/cloudbees-api-auth-get-organizations-response/)
+- [api.auth.GetTeamsResponse](https://apis.io/schemas/cloudbees/cloudbees-api-auth-get-teams-response/)
+- [api.CustomProperty.AddCustomPropertyResponse](https://apis.io/schemas/cloudbees/cloudbees-api-custom-property-add-custom-property-response/)
+- [api.CustomProperty.CustomProperty](https://apis.io/schemas/cloudbees/cloudbees-api-custom-property-custom-property/)
+- [api.CustomProperty.GetCustomPropertyFlagsUsagePerEnvironmentResponse](https://apis.io/schemas/cloudbees/cloudbees-api-custom-property-get-custom-property-flags-usage-per-environment-response/)
+- [api.CustomProperty.GetCustomPropertyResponse](https://apis.io/schemas/cloudbees/cloudbees-api-custom-property-get-custom-property-response/)
+- [api.CustomProperty.GetCustomPropertyTargetGroupUsageResponse](https://apis.io/schemas/cloudbees/cloudbees-api-custom-property-get-custom-property-target-group-usage-response/)
+- [api.CustomProperty.ListCustomPropertiesResponse](https://apis.io/schemas/cloudbees/cloudbees-api-custom-property-list-custom-properties-response/)
+- [api.flag.AddFlagResponse](https://apis.io/schemas/cloudbees/cloudbees-api-flag-add-flag-response/)
+- [api.flag.Flag](https://apis.io/schemas/cloudbees/cloudbees-api-flag-flag/)
+- [api.flag.FlagConfigState](https://apis.io/schemas/cloudbees/cloudbees-api-flag-flag-config-state/)
+- [api.flag.FlagConfiguration](https://apis.io/schemas/cloudbees/cloudbees-api-flag-flag-configuration/)
+- [api.flag.FlagConfigurationOptional](https://apis.io/schemas/cloudbees/cloudbees-api-flag-flag-configuration-optional/)
+- [api.flag.GetFlagConfigurationResponse](https://apis.io/schemas/cloudbees/cloudbees-api-flag-get-flag-configuration-response/)
+- [api.flag.GetFlagConfigurationStateResponse](https://apis.io/schemas/cloudbees/cloudbees-api-flag-get-flag-configuration-state-response/)
+- [api.flag.GetFlagFlagsUsagePerEnvironmentResponse](https://apis.io/schemas/cloudbees/cloudbees-api-flag-get-flag-flags-usage-per-environment-response/)
+- [api.flag.GetFlagResponse](https://apis.io/schemas/cloudbees/cloudbees-api-flag-get-flag-response/)
+- [api.flag.ListFlagConfigurationsResponse](https://apis.io/schemas/cloudbees/cloudbees-api-flag-list-flag-configurations-response/)
+- [api.flag.ListFlagsResponse](https://apis.io/schemas/cloudbees/cloudbees-api-flag-list-flags-response/)
+- [api.fmimpressions.GetFlagsStatusResponse](https://apis.io/schemas/cloudbees/cloudbees-api-fmimpressions-get-flags-status-response/)
+- [api.fmimpressions.GetImpressionsResponse](https://apis.io/schemas/cloudbees/cloudbees-api-fmimpressions-get-impressions-response/)
+- [api.fmimpressions.ImpressionParams](https://apis.io/schemas/cloudbees/cloudbees-api-fmimpressions-impression-params/)
+- …and 29 more published on APIs.io
 
-- Continuous Delivery
-- DevOps
-- Pipelines
-- Release Orchestration
+#### JSON-LD (1)
 
-#### Properties
+Linked-data contexts for the provider's vocabulary.
 
-- [Documentation](https://docs.cloudbees.com/docs/cloudbees-cd/latest/api/)
-- [Jenkins  Plugin](https://docs.cloudbees.com/plugins/cd/ec-jenkins)
-- [Postman Collection](collections/cloudbees.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cloudbees.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Cloudbees Context](https://apis.io/jsonld/cloudbees/cloudbees-context/)
 
-### CloudBees Feature Management REST API
+#### Collections (8)
 
-The CloudBees Feature Management REST API (formerly Rollout) provides programmatic access to applications, environments, feature flags, experiments, target groups, audit logs, and users. Authentication uses a bearer token in the Authorization header. The API enforces a one request per second rate limit per IP, returning HTTP 555 when exceeded.
+Postman and Open Collection request collections.
 
-- **Human URL:** [https://docs.cloudbees.com/docs/cloudbees-feature-management-rest-api/latest/introduction](https://docs.cloudbees.com/docs/cloudbees-feature-management-rest-api/latest/introduction)
-- **Base URL:** `https://x-api.rollout.io/public-api`
+- [CloudBees CI REST API (Jenkins-compatible)](https://apis.io/collections/cloudbees/open-cloudbees/)
+- [CloudBees CI REST API (Jenkins-compatible) Computer API](https://apis.io/collections/cloudbees/open-cloudbees-computer-api/)
+- [CloudBees CI REST API (Jenkins-compatible) Computer CreateItem API](https://apis.io/collections/cloudbees/open-cloudbees-createitem-api/)
+- [CloudBees CI REST API (Jenkins-compatible) Computer Job API](https://apis.io/collections/cloudbees/open-cloudbees-job-api/)
+- [CloudBees CI REST API (Jenkins-compatible) Computer Json API](https://apis.io/collections/cloudbees/open-cloudbees-json-api/)
+- [CloudBees CI REST API (Jenkins-compatible) Computer Python API](https://apis.io/collections/cloudbees/open-cloudbees-python-api/)
+- [CloudBees CI REST API (Jenkins-compatible) Computer Queue API](https://apis.io/collections/cloudbees/open-cloudbees-queue-api/)
+- [CloudBees CI REST API (Jenkins-compatible) Computer Xml API](https://apis.io/collections/cloudbees/open-cloudbees-xml-api/)
 
-#### Tags
+#### Overlays (21)
 
-- Experimentation
-- Feature Flags
-- Feature Management
+OpenAPI overlays, including conversational phrasing for each operation.
 
-#### Properties
+- [Cloudbees Components Api Phrasing Overlay](https://apis.io/overlays/cloudbees/cloudbees-components-api-phrasing-overlay/)
+- [Cloudbees Computer Api Phrasing Overlay](https://apis.io/overlays/cloudbees/cloudbees-computer-api-phrasing-overlay/)
+- [Cloudbees Createitem Api Phrasing Overlay](https://apis.io/overlays/cloudbees/cloudbees-createitem-api-phrasing-overlay/)
+- [Cloudbees Environments Api Phrasing Overlay](https://apis.io/overlays/cloudbees/cloudbees-environments-api-phrasing-overlay/)
+- [Cloudbees Flag Configurations Api Phrasing Overlay](https://apis.io/overlays/cloudbees/cloudbees-flag-configurations-api-phrasing-overlay/)
+- [Cloudbees Flag Custom Properties Api Phrasing Overlay](https://apis.io/overlays/cloudbees/cloudbees-flag-custom-properties-api-phrasing-overlay/)
+- [Cloudbees Flag Lifecycle Api Phrasing Overlay](https://apis.io/overlays/cloudbees/cloudbees-flag-lifecycle-api-phrasing-overlay/)
+- [Cloudbees Flags Api Phrasing Overlay](https://apis.io/overlays/cloudbees/cloudbees-flags-api-phrasing-overlay/)
+- [Cloudbees Job Api Phrasing Overlay](https://apis.io/overlays/cloudbees/cloudbees-job-api-phrasing-overlay/)
+- [Cloudbees Json Api Phrasing Overlay](https://apis.io/overlays/cloudbees/cloudbees-json-api-phrasing-overlay/)
+- [Cloudbees Organizations Api Phrasing Overlay](https://apis.io/overlays/cloudbees/cloudbees-organizations-api-phrasing-overlay/)
+- [Cloudbees Python Api Phrasing Overlay](https://apis.io/overlays/cloudbees/cloudbees-python-api-phrasing-overlay/)
+- [Cloudbees Queue Api Phrasing Overlay](https://apis.io/overlays/cloudbees/cloudbees-queue-api-phrasing-overlay/)
+- [Cloudbees Runs Api Phrasing Overlay](https://apis.io/overlays/cloudbees/cloudbees-runs-api-phrasing-overlay/)
+- [Cloudbees Target Groups Api Phrasing Overlay](https://apis.io/overlays/cloudbees/cloudbees-target-groups-api-phrasing-overlay/)
+- [Cloudbees Team Memberships Api Phrasing Overlay](https://apis.io/overlays/cloudbees/cloudbees-team-memberships-api-phrasing-overlay/)
+- [Cloudbees Teams Api Phrasing Overlay](https://apis.io/overlays/cloudbees/cloudbees-teams-api-phrasing-overlay/)
+- [Cloudbees Unify Beta Overlay](https://apis.io/overlays/cloudbees/cloudbees-unify-beta-overlay/)
+- [Cloudbees Unify Overlay](https://apis.io/overlays/cloudbees/cloudbees-unify-overlay/)
+- [Cloudbees Users Api Phrasing Overlay](https://apis.io/overlays/cloudbees/cloudbees-users-api-phrasing-overlay/)
+- [Cloudbees Xml Api Phrasing Overlay](https://apis.io/overlays/cloudbees/cloudbees-xml-api-phrasing-overlay/)
 
-- [Documentation](https://docs.cloudbees.com/docs/cloudbees-feature-management-rest-api/latest/introduction)
-- [Environments](https://docs.cloudbees.com/docs/cloudbees-feature-management-rest-api/latest/environments)
-- [Reference](https://docs.cloudbees.com/docs/cloudbees-feature-management/latest/rest-api)
-- [Postman Collection](collections/cloudbees.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cloudbees.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Governance rules (1)
 
-### CloudBees Unify Platform API
+Spectral rulesets for the provider's contracts.
 
-CloudBees Unify is the modern, opinionated software delivery platform that unifies CI, CD, feature management, analytics, and security into a single workflow. The platform exposes APIs for managing organizations, components, workflows, environments, feature flags, and analytics; authentication is via personal access tokens and the surface is the recommended target for new integrations.
+- [CloudBees API Rules](https://apis.io/rules/cloudbees/cloudbees-rules/)
 
-- **Human URL:** [https://docs.cloudbees.com/](https://docs.cloudbees.com/)
+#### Security (4)
 
-#### Tags
+Authentication, trust centre, and vulnerability disclosure.
 
-- DevOps
-- Platform
-- Software Delivery
+- [Cloudbees Authentication](https://apis.io/security/cloudbees/cloudbees-authentication/)
+- [Cloudbees Domain Security](https://apis.io/security/cloudbees/cloudbees-domain-security/)
+- [Cloudbees Trust Center](https://apis.io/security/cloudbees/cloudbees-trust-center/)
+- [Cloudbees Vulnerability Disclosure](https://apis.io/security/cloudbees/cloudbees-vulnerability-disclosure/)
 
-#### Properties
+#### OAuth scopes (1)
 
-- [Documentation](https://docs.cloudbees.com/)
-- [Postman Collection](collections/cloudbees.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cloudbees.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+The permissions the API asks for.
 
-### CloudBees CD/RO Jenkins Plugin Steps
+- [Cloudbees Scopes](https://apis.io/scopes/cloudbees/cloudbees-scopes/)
 
-The CloudBees CD plugin for Jenkins exposes Jenkins pipeline steps that call CloudBees CD/RO REST endpoints — triggering pipelines, running releases, deploying applications, and pulling artifacts from Jenkins build outputs into CD/RO release flows.
+#### Plans and pricing (1)
 
-- **Human URL:** [https://www.jenkins.io/doc/pipeline/steps/electricflow/](https://www.jenkins.io/doc/pipeline/steps/electricflow/)
+Published plans, tiers and prices.
 
-#### Tags
+- [Cloudbees Plans Pricing](https://apis.io/plans/cloudbees/cloudbees-plans-pricing/)
 
-- Continuous Delivery
-- Jenkins
-- Plugin
+#### Rate limits (1)
 
-#### Properties
+Published request limits.
 
-- [Documentation](https://www.jenkins.io/doc/pipeline/steps/electricflow/)
-- [Plugin](https://plugins.jenkins.io/electricflow)
-- [Postman Collection](collections/cloudbees.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cloudbees.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Cloudbees Rate Limits](https://apis.io/rate-limits/cloudbees/cloudbees-rate-limits/)
 
-## Common Properties
+#### FinOps (1)
 
-- [GitHub Organization](https://github.com/cloudbees)
-- [LinkedIn](https://www.linkedin.com/company/cloudbees)
+What the API costs to run, by operation.
+
+- [Cloudbees Finops](https://apis.io/finops/cloudbees/cloudbees-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
 - [Website](https://www.cloudbees.com/)
 - [Documentation](https://docs.cloudbees.com/)
+- [Getting started](https://docs.cloudbees.com/docs/cloudbees-unify/latest/getting-started/)
+- [API reference](https://apidocs.cloudbees.io/)
+- [Pricing](https://www.cloudbees.com/pricing)
 - [Support](https://support.cloudbees.com/)
-- [Privacy Policy](https://www.cloudbees.com/privacy)
-- [Plugins](https://docs.cloudbees.com/plugins/ci)
-- [JSON-LD](json-ld/cloudbees-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
-- [Spectral Rules](rules/cloudbees-rules.yml) — [Spectral](https://docs.stoplight.io/docs/spectral)
-- [Integrations](https://www.cloudbees.com/partners)
+- [Changelog](https://docs.cloudbees.com/docs/cloudbees-unify-changelog/latest/)
+- [Blog](https://www.cloudbees.com/blog/rss.xml)
+- [Security](https://www.cloudbees.com/legal/security-policy)
+- [Compliance](https://www.cloudbees.com/company/trust-center)
+- [Terms of service](https://www.cloudbees.com/company/terms-of-service)
+- [Privacy policy](https://www.cloudbees.com/legal/privacy-policy)
+- [GitHub](https://github.com/cloudbees)
+- [Status](https://status.cloudbees.io/)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 66.7** — exemplar · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 68.3 |
+| Contract quality | 66.3 |
+| Contract governance | 35.6 |
+| Operational transparency | 81.6 |
+| Developer ergonomics | 75.6 |
+| Access clarity | 47.4 |
+
+**Agent readiness 41.7** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | verified |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | — |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 45.1** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/cloudbees/](https://apis.io/providers/cloudbees/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for CloudBees: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/cloudbees/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
